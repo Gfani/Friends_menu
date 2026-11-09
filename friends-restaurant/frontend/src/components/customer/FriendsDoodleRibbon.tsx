@@ -43,7 +43,7 @@ export const FriendsDoodleRibbon: React.FC = () => {
               <span className="w-2 h-2 rounded-full bg-[#FFBD18] shadow-[0_0_6px_#FFBD18]" />
             </div>
             <span className="text-[9px] font-body text-[#8e8e96]">
-              Addis Ababa bistro edition
+              Mereba garden edition
             </span>
           </div>
 
@@ -90,3 +90,4 @@ export const FriendsDoodleRibbon: React.FC = () => {
     </div>
   );
 };
+

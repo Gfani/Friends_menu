@@ -7,6 +7,8 @@ import {
   Search,
   Lock,
   ArrowUp,
+  ExternalLink,
+  Phone,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useMenu } from '../hooks/useMenu';
@@ -607,25 +609,86 @@ export const CustomerMenu: React.FC = () => {
             </div>
 
             {/* Phone Lines & Socials */}
-            <div className="bg-[#161619] border border-[#2b2b31] rounded-xl p-6 text-center space-y-3">
-              <div className="w-12 h-12 rounded-full bg-[#F32636]/15 flex items-center justify-center text-[#F32636] mx-auto">
+            <div className="bg-[#161619] border border-[#2b2b31] rounded-xl p-6 text-center space-y-3.5">
+              <div className="w-12 h-12 rounded-full bg-[#F32636]/15 flex items-center justify-center text-[#F32636] mx-auto shadow-[0_0_15px_rgba(243,38,54,0.25)]">
                 <span className="material-symbols-outlined text-[24px]">call</span>
               </div>
               <h3 className="font-headline text-lg font-bold text-white">Contact &amp; Social</h3>
-              <div className="flex flex-col gap-1 text-xs">
+
+              <div className="flex flex-col gap-2 text-xs">
+                {/* Direct Dial Phone Links */}
                 <div className="flex items-center justify-center gap-2">
-                  <a href="tel:0970700488" className="text-[#FFBD18] hover:underline font-mono font-bold">
-                    0970700488
+                  <a
+                    href="tel:0970700488"
+                    className="inline-flex items-center gap-1 text-[#FFBD18] hover:text-white hover:underline font-mono font-bold transition-colors py-0.5"
+                    title="Call 0970700488"
+                  >
+                    <span>0970700488</span>
                   </a>
                   <span className="text-zinc-600">&bull;</span>
-                  <a href="tel:0945986349" className="text-[#FFBD18] hover:underline font-mono font-bold">
-                    0945986349
+                  <a
+                    href="tel:0945986349"
+                    className="inline-flex items-center gap-1 text-[#FFBD18] hover:text-white hover:underline font-mono font-bold transition-colors py-0.5"
+                    title="Call 0945986349"
+                  >
+                    <span>0945986349</span>
                   </a>
                 </div>
-                <div className="pt-1.5 flex flex-col gap-0.5 text-[11px] text-[#9d8f78]">
-                  <span>IG: @MEREBA_FRIENDS_GARDEN</span>
-                  <span>TikTok: @FRIENDS_GARDEN</span>
-                  <span>FB: FRIENDS GARDEN - መረባ ፍሬንድስ</span>
+
+                {/* Clickable Social Media Links: Instagram, TikTok, Facebook */}
+                <div className="pt-1.5 flex flex-col gap-1.5 text-xs text-[#a1a1aa]">
+                  {/* Instagram Link */}
+                  <a
+                    href="https://www.instagram.com/mereba_friends_garden/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-[#1a1a1f] hover:bg-[#23232a] border border-[#2d2d35] hover:border-[#E1306C]/70 text-zinc-300 hover:text-white transition-all text-[11px] font-medium"
+                    title="Visit our Instagram @MEREBA_FRIENDS_GARDEN"
+                  >
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4 text-[#E1306C] group-hover:scale-110 transition-transform shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                      </svg>
+                      <span>IG: @MEREBA_FRIENDS_GARDEN</span>
+                    </div>
+                    <ExternalLink className="w-3 h-3 text-zinc-500 group-hover:text-[#E1306C] transition-colors shrink-0" />
+                  </a>
+
+                  {/* TikTok Link */}
+                  <a
+                    href="https://www.tiktok.com/@friends_garden"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-[#1a1a1f] hover:bg-[#23232a] border border-[#2d2d35] hover:border-[#16B9E8]/70 text-zinc-300 hover:text-white transition-all text-[11px] font-medium"
+                    title="Visit our TikTok @FRIENDS_GARDEN"
+                  >
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4 text-[#16B9E8] group-hover:scale-110 transition-transform shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/>
+                      </svg>
+                      <span>TikTok: @FRIENDS_GARDEN</span>
+                    </div>
+                    <ExternalLink className="w-3 h-3 text-zinc-500 group-hover:text-[#16B9E8] transition-colors shrink-0" />
+                  </a>
+
+                  {/* Facebook Link */}
+                  <a
+                    href="https://www.facebook.com/search/top?q=FRIENDS%20GARDEN%20-%20%E1%88%98%E1%88%A8%E1%89%A3%20%E1%87%8D%E1%88%AC%E1%8A%95%E1%8B%95%E1%88%B5"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-[#1a1a1f] hover:bg-[#23232a] border border-[#2d2d35] hover:border-[#1877F2]/70 text-zinc-300 hover:text-white transition-all text-[11px] font-medium"
+                    title="Visit our Facebook Page: FRIENDS GARDEN - መረባ ፍሬንድስ"
+                  >
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4 text-[#1877F2] group-hover:scale-110 transition-transform shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                      </svg>
+                      <span className="truncate">FB: FRIENDS GARDEN - መረባ ፍሬንድስ</span>
+                    </div>
+                    <ExternalLink className="w-3 h-3 text-zinc-500 group-hover:text-[#1877F2] transition-colors shrink-0" />
+                  </a>
                 </div>
               </div>
             </div>
@@ -647,6 +710,55 @@ export const CustomerMenu: React.FC = () => {
             <p className="font-body text-xs text-[#a1a1aa] max-w-md mb-6">
               Intimate garden dining, artisan kitchen recipes, and timeless nostalgia.
             </p>
+
+            {/* Clickable Social Bar in Footer */}
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <a
+                href="https://www.instagram.com/mereba_friends_garden/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-[#18181d] border border-[#2b2b34] hover:border-[#E1306C] flex items-center justify-center text-[#E1306C] hover:bg-[#E1306C]/10 transition-all hover:scale-110"
+                title="Instagram @MEREBA_FRIENDS_GARDEN"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+
+              <a
+                href="https://www.tiktok.com/@friends_garden"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-[#18181d] border border-[#2b2b34] hover:border-[#16B9E8] flex items-center justify-center text-[#16B9E8] hover:bg-[#16B9E8]/10 transition-all hover:scale-110"
+                title="TikTok @FRIENDS_GARDEN"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/>
+                </svg>
+              </a>
+
+              <a
+                href="https://www.facebook.com/search/top?q=FRIENDS%20GARDEN%20-%20%E1%88%98%E1%88%A8%E1%89%A3%20%E1%87%8D%E1%88%AC%E1%8A%95%E1%8B%95%E1%88%B5"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-[#18181d] border border-[#2b2b34] hover:border-[#1877F2] flex items-center justify-center text-[#1877F2] hover:bg-[#1877F2]/10 transition-all hover:scale-110"
+                title="Facebook FRIENDS GARDEN - መረባ ፍሬንድስ"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+
+              <a
+                href="tel:0970700488"
+                className="w-9 h-9 rounded-full bg-[#18181d] border border-[#2b2b34] hover:border-[#FFBD18] flex items-center justify-center text-[#FFBD18] hover:bg-[#FFBD18]/10 transition-all hover:scale-110"
+                title="Call 0970700488"
+              >
+                <span className="material-symbols-outlined text-[18px]">call</span>
+              </a>
+            </div>
 
             <nav className="flex flex-wrap items-center justify-center gap-6 mb-6 font-headline text-xs uppercase tracking-widest font-semibold">
               <a href="#hero" className="text-[#ffe0aa] hover:text-white transition-colors">
