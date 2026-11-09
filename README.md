@@ -123,3 +123,4 @@ Visit **`http://localhost:5173`** in your browser or on mobile via your local ne
 
 ## 📜 License
 MIT License. Created for **Mereba Friends Garden** Bistro & Lounge.
+

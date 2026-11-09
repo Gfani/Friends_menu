@@ -34,21 +34,21 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, index }) => {
   const categoryName = item.category?.name || 'Kitchen Special';
   const categoryLower = categoryName.toLowerCase();
 
-  // Modern background-tinted pill badge styling based on category
+  // Modern background-tinted pill badge styling based on category with high text visibility
   const getCategoryBadgeStyle = () => {
     if (categoryLower.includes('pasta')) {
-      return 'bg-[#F32636]/10 text-[#ff808b] border-[#F32636]/25';
+      return 'bg-[#F32636]/15 text-[#FFA4AB] border-[#F32636]/35';
     }
     if (categoryLower.includes('rice')) {
-      return 'bg-[#16B9E8]/10 text-[#5cd5fa] border-[#16B9E8]/25';
+      return 'bg-[#16B9E8]/15 text-[#7CE0FF] border-[#16B9E8]/35';
     }
     if (categoryLower.includes('salad')) {
-      return 'bg-[#10b981]/10 text-[#6ee7b7] border-[#10b981]/25';
+      return 'bg-[#10b981]/15 text-[#86EFAC] border-[#10b981]/35';
     }
     if (categoryLower.includes('soup')) {
-      return 'bg-[#FFBD18]/10 text-[#FFBD18] border-[#FFBD18]/25';
+      return 'bg-[#FFBD18]/15 text-[#FFE07D] border-[#FFBD18]/35';
     }
-    return 'bg-[#26262e]/70 text-[#d4c4ac] border-white/10';
+    return 'bg-[#26262e]/80 text-[#e4e1e6] border-white/10';
   };
 
   return (
@@ -179,19 +179,19 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, index }) => {
               {categoryName}
             </span>
 
-            {/* In-stock status pill */}
+            {/* In-stock status pill with high contrast */}
             <span
-              className={`px-2 py-0.5 rounded-full text-[10px] font-sans uppercase tracking-[0.1em] font-medium border ${
+              className={`px-2.5 py-0.5 rounded-full text-[10px] font-sans uppercase tracking-[0.1em] font-semibold border ${
                 item.isAvailable
-                  ? 'bg-[#16B9E8]/10 text-[#6ad4f5] border-[#16B9E8]/20'
-                  : 'bg-[#F32636]/10 text-[#ff808b] border-[#F32636]/20'
+                  ? 'bg-[#10b981]/15 text-[#86EFAC] border-[#10b981]/30'
+                  : 'bg-[#F32636]/15 text-[#FFA4AB] border-[#F32636]/30'
               }`}
             >
               {item.isAvailable ? 'Fresh Today' : 'Sold Out'}
             </span>
           </div>
 
-          <span className="font-sans text-[10px] uppercase tracking-[0.12em] text-[#63636b]">
+          <span className="font-sans text-[10px] uppercase tracking-[0.15em] text-[#9a9aa2] font-medium">
             Mereba Bistro
           </span>
         </div>

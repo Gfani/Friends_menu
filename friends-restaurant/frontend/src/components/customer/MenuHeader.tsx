@@ -171,52 +171,77 @@ export const MenuHeader: React.FC = () => {
         )}
       </header>
 
-      {/* Modal: Free Wi-Fi Details */}
+      {/* Modal: Free Wi-Fi Details with High-Contrast Text */}
       <Modal
         isOpen={isWifiModalOpen}
         onClose={() => setIsWifiModalOpen(false)}
         title={
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-tertiary-container shadow-glow-blue inline-block" />
-            <span>Complimentary High-Speed Wi-Fi</span>
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-full bg-[#16B9E8]/20 border border-[#16B9E8]/40 flex items-center justify-center text-[#16B9E8]">
+              <Wifi className="w-3.5 h-3.5" />
+            </div>
+            <span className="font-headline text-base sm:text-lg uppercase tracking-wider text-white font-bold">
+              Complimentary High-Speed Wi-Fi
+            </span>
           </div>
         }
         subtitle="Enjoy uninterrupted connection in our garden & lounge"
       >
         <div className="space-y-4">
-          <div className="bg-surface-container border border-outline-variant/30 rounded p-4 space-y-3">
+          <div className="bg-[#1a1a20] border border-[#2c2c36] rounded-xl p-4 sm:p-5 space-y-3.5 shadow-sm">
             <div>
-              <span className="font-headline text-[10px] text-outline uppercase tracking-wider block">Network (SSID)</span>
-              <p className="font-headline text-body-lg font-bold text-on-surface tracking-wide">Mereba_Friends_Garden_5G</p>
+              <span className="font-sans text-[10px] text-[#8e8e96] uppercase tracking-[0.15em] font-semibold block">
+                Network (SSID)
+              </span>
+              <p className="font-headline text-base sm:text-lg font-bold text-white tracking-wide mt-0.5">
+                Mereba_Friends_Garden_5G
+              </p>
             </div>
 
-            <div className="pt-2 border-t border-outline-variant/20 flex items-center justify-between">
-              <div>
-                <span className="font-headline text-[10px] text-outline uppercase tracking-wider block">Password</span>
-                <p className="font-mono text-body-lg font-bold text-tertiary-container tracking-widest">centralperkcoffee</p>
+            <div className="pt-3 border-t border-[#26262e] flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <span className="font-sans text-[10px] text-[#8e8e96] uppercase tracking-[0.15em] font-semibold block">
+                  Password
+                </span>
+                <p className="font-mono text-sm sm:text-base font-bold text-[#FFBD18] tracking-widest bg-[#121215] px-3 py-1.5 rounded-lg border border-[#2b2b34] mt-0.5 inline-block select-all">
+                  centralperkcoffee
+                </p>
               </div>
 
-              <Button
-                variant={copiedWifi ? 'secondary' : 'blue'}
-                size="sm"
+              <button
+                type="button"
                 onClick={handleCopyWifi}
-                leftIcon={copiedWifi ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#FFBD18] hover:bg-[#ffca36] text-black font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-sm shrink-0"
               >
-                {copiedWifi ? 'Copied!' : 'Copy'}
-              </Button>
+                {copiedWifi ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-black" />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5 text-black" />
+                    <span>Copy</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
 
-          <div className="p-3 bg-tertiary-container/10 border border-tertiary-container/30 rounded flex items-start gap-2.5">
-            <Wifi className="w-4 h-4 text-tertiary-container shrink-0 mt-0.5" />
-            <p className="text-body-sm text-on-surface-variant">
-              Select <strong>Mereba_Friends_Garden_5G</strong> in your Wi-Fi settings and paste the password above.
+          <div className="p-3.5 bg-[#16B9E8]/10 border border-[#16B9E8]/25 rounded-xl flex items-start gap-2.5">
+            <Wifi className="w-4 h-4 text-[#16B9E8] shrink-0 mt-0.5" />
+            <p className="text-xs text-[#a0e8fd] leading-relaxed">
+              Select <strong className="text-white font-bold">Mereba_Friends_Garden_5G</strong> in your Wi-Fi settings and paste the password above.
             </p>
           </div>
 
-          <Button variant="secondary" className="w-full" onClick={() => setIsWifiModalOpen(false)}>
+          <button
+            type="button"
+            className="w-full py-2.5 rounded-lg bg-[#222227] hover:bg-[#2c2c33] text-white font-headline uppercase tracking-wider text-xs font-bold border border-white/10 transition-colors"
+            onClick={() => setIsWifiModalOpen(false)}
+          >
             Close
-          </Button>
+          </button>
         </div>
       </Modal>
     </>

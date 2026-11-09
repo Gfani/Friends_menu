@@ -41,43 +41,50 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in duration-200">
-      {/* Backdrop */}
+      {/* High-opacity dark backdrop - completely blocks background yellow bleeding */}
       <div
-        className="fixed inset-0 bg-surface-container-lowest/85 backdrop-blur-md transition-opacity"
+        className="fixed inset-0 bg-black/85 backdrop-blur-md transition-opacity"
         onClick={onClose}
       />
 
-      {/* Modal Dialog */}
+      {/* Solid Opaque Modal Dialog */}
       <div
-        className={`relative w-full ${maxWidthClasses[maxWidth]} bg-surface-container-low border border-outline-variant/35 rounded-t-3xl sm:rounded-xl shadow-[0_20px_48px_rgba(0,0,0,0.85)] overflow-hidden z-10 max-h-[90vh] flex flex-col transition-all duration-300 transform translate-y-0`}
+        className={`relative w-full ${maxWidthClasses[maxWidth]} bg-[#151518] border border-[#2b2b33] rounded-t-3xl sm:rounded-2xl shadow-[0_24px_56px_rgba(0,0,0,0.95)] overflow-hidden z-10 max-h-[90vh] flex flex-col transition-all duration-300 transform translate-y-0`}
       >
         {/* Top visual grabber for mobile */}
-        <div className="sm:hidden flex justify-center pt-3 pb-1">
-          <div className="w-12 h-1 bg-outline-variant/50 rounded-full" />
+        <div className="sm:hidden flex justify-center pt-3 pb-1 bg-[#121215]">
+          <div className="w-12 h-1 bg-[#35353d] rounded-full" />
         </div>
 
-        {/* Header */}
-        <div className="flex items-start justify-between p-5 pb-4 border-b border-outline-variant/20 bg-surface-container-lowest/50">
+        {/* Solid Opaque Header: High Contrast, Sharp White Text */}
+        <div className="flex items-start justify-between p-5 pb-4 border-b border-[#24242c] bg-[#121215]">
           <div>
             {typeof title === 'string' ? (
-              <h3 className="font-headline text-headline-sm uppercase tracking-wider text-primary font-bold">
+              <h3 className="font-headline text-lg sm:text-xl uppercase tracking-wider text-white font-bold leading-tight">
                 {title}
               </h3>
             ) : (
               title
             )}
-            {subtitle && <p className="text-body-sm text-on-surface-variant mt-0.5">{subtitle}</p>}
+            {subtitle && (
+              <p className="font-body text-xs text-[#a1a1aa] mt-1 leading-normal">
+                {subtitle}
+              </p>
+            )}
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded text-on-surface-variant hover:text-white hover:bg-surface-container-high transition-colors"
+            className="p-1.5 rounded-lg text-[#9ca3af] hover:text-white hover:bg-[#202026] transition-colors shrink-0 ml-3"
+            title="Close dialog"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Content */}
-        <div className="p-5 overflow-y-auto">{children}</div>
+        {/* Content Area (Opaque Dark Background) */}
+        <div className="p-5 overflow-y-auto bg-[#151518] text-[#e4e1e6]">
+          {children}
+        </div>
       </div>
     </div>
   );
