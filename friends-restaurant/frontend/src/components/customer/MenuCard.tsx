@@ -179,16 +179,12 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, index }) => {
               {categoryName}
             </span>
 
-            {/* In-stock status pill with high contrast */}
-            <span
-              className={`px-2.5 py-0.5 rounded-full text-[10px] font-sans uppercase tracking-[0.1em] font-semibold border ${
-                item.isAvailable
-                  ? 'bg-[#10b981]/15 text-[#86EFAC] border-[#10b981]/30'
-                  : 'bg-[#F32636]/15 text-[#FFA4AB] border-[#F32636]/30'
-              }`}
-            >
-              {item.isAvailable ? 'Fresh Today' : 'Sold Out'}
-            </span>
+            {/* Sold Out badge only if item is unavailable */}
+            {!item.isAvailable && (
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-sans uppercase tracking-[0.1em] font-semibold border bg-[#F32636]/15 text-[#FFA4AB] border-[#F32636]/30">
+                Sold Out
+              </span>
+            )}
           </div>
 
           <span className="font-sans text-[10px] uppercase tracking-[0.15em] text-[#9a9aa2] font-medium">
