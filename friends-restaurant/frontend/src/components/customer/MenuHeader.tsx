@@ -42,17 +42,41 @@ export const MenuHeader: React.FC = () => {
       {/* FIXED NAVIGATION BAR */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_20px_48px_rgba(0,0,0,0.65)] border-b border-outline-variant/20">
         <div className="h-20 max-w-[1320px] mx-auto px-4 lg:px-8 flex items-center justify-between gap-4">
-          {/* Logo & Brand Title */}
+          {/* Official Logo Lockup from Restaurant Poster */}
           <div className="flex items-center gap-3">
-            <a href="#" className="flex items-center gap-2.5 group">
-              <img
-                src="/assets/friends-logo-white.png"
-                alt="F.R.I.E.N.D.S Restaurant Logo"
-                className="h-10 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"
-              />
-              <span className="font-headline text-lg sm:text-xl uppercase tracking-wider text-white group-hover:text-[#FFBD18] transition-colors hidden sm:inline-block font-extrabold">
-                F.R.I.E.N.D.S
-              </span>
+            <a href="#" className="flex items-center gap-3 group">
+              {/* Couch with መረባ Thought Bubble */}
+              <div className="relative flex-shrink-0">
+                <span className="absolute -top-2 left-1/2 -translate-x-1/2 px-1.5 py-0.2 text-[8px] font-sans font-bold text-white bg-black/90 border border-white/70 rounded-full shadow-sm leading-tight">
+                  መረባ
+                </span>
+                <img
+                  src="/assets/friends-logo-white.png"
+                  alt="መረባ ፍሬንድስ"
+                  className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"
+                />
+              </div>
+
+              {/* F·R·I·E·N·D·S with colored dots + ፍሬንድስ */}
+              <div className="flex flex-col">
+                <div className="flex items-center gap-0.5 sm:gap-1 text-white font-headline text-base sm:text-lg font-black tracking-widest leading-none">
+                  <span>F</span><span className="w-1.5 h-1.5 rounded-full bg-[#F32636] mx-0.5" />
+                  <span>R</span><span className="w-1.5 h-1.5 rounded-full bg-[#16B9E8] mx-0.5" />
+                  <span>I</span><span className="w-1.5 h-1.5 rounded-full bg-[#FFBD18] mx-0.5" />
+                  <span>E</span><span className="w-1.5 h-1.5 rounded-full bg-[#F32636] mx-0.5" />
+                  <span>N</span><span className="w-1.5 h-1.5 rounded-full bg-[#FFBD18] mx-0.5" />
+                  <span>D</span><span className="w-1.5 h-1.5 rounded-full bg-[#16B9E8] mx-0.5" />
+                  <span>S</span>
+                </div>
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span className="text-[#FFBD18] font-bold text-xs sm:text-sm tracking-wider leading-none">
+                    ፍሬንድስ
+                  </span>
+                  <span className="text-[#8e8e96] text-[8px] sm:text-[9px] uppercase tracking-[0.18em] font-medium hidden sm:inline leading-none">
+                    &bull; WE&apos;LL BE THERE FOR YOU
+                  </span>
+                </div>
+              </div>
             </a>
 
             {/* Table Badge (If scanned via QR) */}

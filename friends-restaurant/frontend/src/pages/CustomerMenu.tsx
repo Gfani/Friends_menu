@@ -150,26 +150,47 @@ export const CustomerMenu: React.FC = () => {
             </span>
           </div>
 
-          {/* Main Theatrical Friends Title */}
-          <div className="flex flex-col items-center mb-3">
-            <h1 className="font-headline text-3xl sm:text-5xl md:text-6xl tracking-widest uppercase font-extrabold text-center leading-tight text-white">
-              THE ONE
-              <span className="inline-flex items-center mx-2.5 align-middle">
-                <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-[#F32636] shadow-[0_0_12px_rgba(243,38,54,0.8)] mx-1" />
-                <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-[#16B9E8] shadow-[0_0_12px_rgba(22,185,232,0.8)] mx-1" />
-                <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-[#FFBD18] shadow-[0_0_12px_rgba(255,189,24,0.8)] mx-1" />
+          {/* Official Restaurant Logo Lockup Matching Menu Poster */}
+          <div className="flex flex-col items-center mb-5 text-center">
+            {/* Couch with መረባ Thought Bubble */}
+            <div className="relative mb-2">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 text-[10px] font-sans font-bold text-white bg-black/90 border border-white/80 rounded-full shadow-md leading-tight">
+                መረባ
               </span>
-              WITH THE FOOD
-            </h1>
+              <img
+                src="/assets/friends-logo-white.png"
+                alt="መረባ ፍሬንድስ"
+                className="h-20 sm:h-24 w-auto object-contain mx-auto transition-transform hover:scale-105 duration-300 drop-shadow-[0_4px_20px_rgba(255,189,24,0.2)]"
+              />
+            </div>
+
+            {/* F·R·I·E·N·D·S with colored dots */}
+            <div className="flex items-center justify-center gap-1 sm:gap-2 text-2xl sm:text-4xl md:text-5xl font-headline font-black text-white tracking-widest my-1">
+              <span>F</span><span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#F32636] shadow-[0_0_8px_#F32636] mx-0.5" />
+              <span>R</span><span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#16B9E8] shadow-[0_0_8px_#16B9E8] mx-0.5" />
+              <span>I</span><span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#FFBD18] shadow-[0_0_8px_#FFBD18] mx-0.5" />
+              <span>E</span><span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#F32636] shadow-[0_0_8px_#F32636] mx-0.5" />
+              <span>N</span><span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#FFBD18] shadow-[0_0_8px_#FFBD18] mx-0.5" />
+              <span>D</span><span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#16B9E8] shadow-[0_0_8px_#16B9E8] mx-0.5" />
+              <span>S</span>
+            </div>
+
+            {/* Official Amharic Script */}
+            <div className="font-sans font-black text-2xl sm:text-3xl text-white tracking-widest my-0.5">
+              ፍሬንድስ
+            </div>
+
+            {/* Tagline */}
+            <div className="font-headline text-xs sm:text-sm text-[#FFBD18] uppercase tracking-[0.25em] font-semibold mt-1">
+              WE &apos;LL BE THERE FOR YOU
+            </div>
           </div>
 
-          {/* Official Central Perk Couch Logo Illustration */}
-          <div className="flex items-center justify-center mb-4">
-            <img
-              src="/assets/friends-logo-white.png"
-              alt="F.R.I.E.N.D.S Official Logo"
-              className="h-20 sm:h-24 w-auto object-contain transition-transform hover:scale-105 duration-300 drop-shadow-[0_4px_16px_rgba(255,189,24,0.15)]"
-            />
+          {/* THE ONE WITH THE FOOD - Exact Title from Poster */}
+          <div className="flex flex-col items-center mb-5">
+            <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl tracking-[0.16em] uppercase font-bold text-center leading-tight text-white border-y border-[#303038] py-3.5 px-6 sm:px-12">
+              THE ONE WITH THE FOOD
+            </h1>
           </div>
 
           <p className="font-body text-sm sm:text-base text-[#a1a1aa] max-w-2xl mx-auto mb-8 tracking-wide leading-relaxed">
@@ -560,11 +581,11 @@ export const CustomerMenu: React.FC = () => {
               <div className="w-12 h-12 rounded-full bg-[#FFBD18]/15 flex items-center justify-center text-[#FFBD18] mx-auto">
                 <span className="material-symbols-outlined text-[24px]">location_on</span>
               </div>
-              <h3 className="font-headline text-lg font-bold text-white">Our Location</h3>
+              <h3 className="font-headline text-lg font-bold text-white">Our Address</h3>
               <p className="font-body text-xs text-[#a1a1aa] leading-relaxed">
-                Mereba Friends Garden<br />
-                Addis Ababa, Ethiopia<br />
-                <span className="text-[#9d8f78]">Valet &amp; private parking available on site</span>
+                <strong className="text-white">17 ቀበሌ፣ ፊትለፊት በሰበርደ</strong><br />
+                ናይቀደም ገዛ ተጋሩ<br />
+                <span className="text-[#9d8f78]">Addis Ababa, Ethiopia</span>
               </p>
             </div>
 
@@ -581,22 +602,27 @@ export const CustomerMenu: React.FC = () => {
               </p>
             </div>
 
-            {/* Phone Lines */}
+            {/* Phone Lines & Socials */}
             <div className="bg-[#161619] border border-[#2b2b31] rounded-xl p-6 text-center space-y-3">
               <div className="w-12 h-12 rounded-full bg-[#F32636]/15 flex items-center justify-center text-[#F32636] mx-auto">
                 <span className="material-symbols-outlined text-[24px]">call</span>
               </div>
-              <h3 className="font-headline text-lg font-bold text-white">Concierge</h3>
+              <h3 className="font-headline text-lg font-bold text-white">Contact &amp; Social</h3>
               <div className="flex flex-col gap-1 text-xs">
-                <a href="tel:0970700488" className="text-[#ffe0aa] hover:underline font-mono font-bold">
-                  0970700488
-                </a>
-                <a href="tel:0945986349" className="text-[#ffe0aa] hover:underline font-mono font-bold">
-                  0945986349
-                </a>
-                <span className="text-[11px] text-[#9d8f78] mt-1 font-mono">
-                  IG: @mereba_friends_garden
-                </span>
+                <div className="flex items-center justify-center gap-2">
+                  <a href="tel:0970700488" className="text-[#FFBD18] hover:underline font-mono font-bold">
+                    0970700488
+                  </a>
+                  <span className="text-zinc-600">&bull;</span>
+                  <a href="tel:0945986349" className="text-[#FFBD18] hover:underline font-mono font-bold">
+                    0945986349
+                  </a>
+                </div>
+                <div className="pt-1.5 flex flex-col gap-0.5 text-[11px] text-[#9d8f78]">
+                  <span>IG: @MEREBA_FRIENDS_GARDEN</span>
+                  <span>TikTok: @FRIENDS_GARDEN</span>
+                  <span>FB: FRIENDS GARDEN - መረባ ፍሬንድስ</span>
+                </div>
               </div>
             </div>
           </div>

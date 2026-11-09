@@ -65,6 +65,7 @@ export default {
         display: ['Outfit', 'sans-serif'],
         body: ['"Plus Jakarta Sans"', 'sans-serif'],
         sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        serif: ['Cinzel', 'Georgia', 'serif'],
       },
       boxShadow: {
         'glow-yellow': '0 0 20px rgba(255, 189, 24, 0.45)',
