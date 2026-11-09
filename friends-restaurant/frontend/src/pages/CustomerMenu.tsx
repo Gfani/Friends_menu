@@ -14,6 +14,7 @@ import { MenuHeader } from '../components/customer/MenuHeader';
 import { CategoryTabs } from '../components/customer/CategoryTabs';
 import { MenuCard } from '../components/customer/MenuCard';
 import { MenuItem } from '../types/menu';
+import { MerebaLogo } from '../components/common/MerebaLogo';
 
 export const CustomerMenu: React.FC = () => {
   const { data: categories = [], isLoading, error, refetch } = useMenu();
@@ -152,14 +153,7 @@ export const CustomerMenu: React.FC = () => {
 
           {/* Official Restaurant Master Emblem Matching Menu Poster */}
           <div className="relative flex flex-col items-center justify-center mb-6 text-center w-full max-w-sm sm:max-w-md mx-auto">
-            {/* Ambient Warm Cinema Glow Behind Emblem */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,189,24,0.18)_0%,rgba(243,38,54,0.06)_45%,transparent_70%)] blur-2xl pointer-events-none scale-125" />
-
-            <img
-              src="/assets/friends-logo-white.png"
-              alt="F·R·I·E·N·D·S - መረባ ፍሬንድስ - We'll Be There For You"
-              className="relative z-10 w-64 sm:w-80 md:w-96 h-auto object-contain mx-auto drop-shadow-[0_12px_40px_rgba(0,0,0,0.85)] drop-shadow-[0_0_24px_rgba(255,189,24,0.22)] transition-transform hover:scale-[1.02] duration-300"
-            />
+            <MerebaLogo variant="full" />
           </div>
 
           {/* THE ONE WITH THE FOOD - Exact Title from Poster */}
@@ -610,12 +604,7 @@ export const CustomerMenu: React.FC = () => {
         <div className="max-w-[1320px] mx-auto px-4 lg:px-8 py-14">
           <div className="flex flex-col items-center text-center">
             <div className="mb-6 relative">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,189,24,0.12)_0%,transparent_70%)] blur-xl pointer-events-none" />
-              <img
-                src="/assets/friends-logo-white.png"
-                alt="F·R·I·E·N·D·S - መረባ ፍሬንድስ"
-                className="relative z-10 w-44 sm:w-56 h-auto object-contain mx-auto drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]"
-              />
+              <MerebaLogo variant="full" className="w-44 sm:w-56" />
             </div>
 
             <p className="font-body text-xs text-[#a1a1aa] max-w-md mb-6">

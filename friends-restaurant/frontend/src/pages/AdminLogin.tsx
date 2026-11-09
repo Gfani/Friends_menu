@@ -4,6 +4,7 @@ import { Lock, Mail, ArrowRight, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
+import { MerebaLogo } from '../components/common/MerebaLogo';
 
 export const AdminLogin: React.FC = () => {
   const [email, setEmail] = useState('admin@friends.com');
@@ -48,14 +49,7 @@ export const AdminLogin: React.FC = () => {
 
         {/* Brand Logo & Heading */}
         <div className="text-center space-y-3 mb-6">
-          <div className="relative">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,189,24,0.15)_0%,transparent_70%)] blur-xl pointer-events-none" />
-            <img
-              src="/assets/friends-logo-white.png"
-              alt="F.R.I.E.N.D.S - መረባ ፍሬንድስ"
-              className="relative z-10 w-44 sm:w-52 h-auto object-contain mx-auto drop-shadow-[0_4px_20px_rgba(0,0,0,0.7)]"
-            />
-          </div>
+          <MerebaLogo variant="full" className="w-44 sm:w-52" />
 
           <h1 className="font-headline text-lg font-bold text-on-surface uppercase tracking-wider">
             Staff &amp; Manager Console

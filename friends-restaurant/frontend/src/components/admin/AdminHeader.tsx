@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { useServiceRequests } from '../../hooks/useMenu';
 import { TableQRModal } from './TableQRModal';
+import { MerebaLogo } from '../common/MerebaLogo';
 
 interface AdminHeaderProps {
   onOpenServiceRequests?: () => void;
@@ -23,11 +24,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ onOpenServiceRequests 
           {/* Left: Brand / Title */}
           <div className="flex items-center gap-3">
             <Link to="/admin" className="flex items-center gap-3 group" title="Mereba Friends Garden - Admin Console">
-              <img
-                src="/assets/friends-logo-wide-white.png"
-                alt="F.R.I.E.N.D.S Mereba Garden"
-                className="h-10 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-[0_2px_10px_rgba(255,189,24,0.15)]"
-              />
+              <MerebaLogo variant="wide" glow={false} className="h-10 w-auto group-hover:scale-105" />
               <span className="hidden md:inline-block px-2 py-0.5 rounded bg-[#1e1e24] border border-[#303038] font-headline text-[9px] text-[#FFBD18] uppercase tracking-widest font-bold">
                 Admin Console
               </span>

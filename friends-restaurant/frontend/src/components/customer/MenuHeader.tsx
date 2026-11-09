@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
+import { MerebaLogo } from '../common/MerebaLogo';
 
 export const MenuHeader: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -45,11 +46,7 @@ export const MenuHeader: React.FC = () => {
           {/* Official Logo Lockup from Restaurant Poster */}
           <div className="flex items-center gap-3">
             <a href="#" className="flex items-center group" title="Mereba Friends Garden - Addis Ababa">
-              <img
-                src="/assets/friends-logo-wide-white.png"
-                alt="F·R·I·E·N·D·S - መረባ ፍሬንድስ"
-                className="h-11 sm:h-12 md:h-13 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-[0_2px_12px_rgba(255,189,24,0.18)]"
-              />
+              <MerebaLogo variant="wide" glow={false} className="group-hover:scale-105" />
             </a>
 
             {/* Table Badge (If scanned via QR) */}
