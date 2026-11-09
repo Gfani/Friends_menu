@@ -113,35 +113,14 @@ export const TableQRModal: React.FC<TableQRModalProps> = ({ isOpen, onClose }) =
             ref={printCardRef}
             className="w-full max-w-xs bg-white text-black p-5 rounded-3xl shadow-2xl border-4 border-[#121212] text-center space-y-3"
           >
-            {/* Friends Official Logo on Table Card */}
-            <div className="flex justify-center pt-1">
+            {/* Friends Official Master Logo on Table Card */}
+            <div className="flex justify-center pt-2 pb-1">
               <img
                 src="/assets/friends-logo.png"
-                alt="F.R.I.E.N.D.S Logo"
-                className="h-12 w-auto object-contain mx-auto"
+                alt="F·R·I·E·N·D·S - መረባ ፍሬንድስ"
+                className="w-44 sm:w-48 h-auto object-contain mx-auto"
               />
             </div>
-
-            {/* Friends Brand Header on Card */}
-            <div className="flex items-center justify-center gap-1">
-              <span className="text-xl font-extrabold tracking-widest text-black">F</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#F32636] inline-block" />
-              <span className="text-xl font-extrabold tracking-widest text-black">R</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#16B9E8] inline-block" />
-              <span className="text-xl font-extrabold tracking-widest text-black">I</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FFBD18] inline-block" />
-              <span className="text-xl font-extrabold tracking-widest text-black">E</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#F32636] inline-block" />
-              <span className="text-xl font-extrabold tracking-widest text-black">N</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FFBD18] inline-block" />
-              <span className="text-xl font-extrabold tracking-widest text-black">D</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#16B9E8] inline-block" />
-              <span className="text-xl font-extrabold tracking-widest text-black">S</span>
-            </div>
-
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-600">
-              Mereba Friends Garden
-            </p>
 
             <div className="py-1">
               <span className="inline-block px-3 py-1 rounded-full bg-black text-white text-xs font-mono font-bold tracking-wider">

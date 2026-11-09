@@ -22,25 +22,15 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ onOpenServiceRequests 
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           {/* Left: Brand / Title */}
           <div className="flex items-center gap-3">
-            <Link to="/admin" className="flex items-center gap-2 group">
+            <Link to="/admin" className="flex items-center gap-3 group" title="Mereba Friends Garden - Admin Console">
               <img
-                src="/assets/friends-logo-white.png"
-                alt="F.R.I.E.N.D.S Logo"
-                className="h-9 w-auto object-contain"
+                src="/assets/friends-logo-wide-white.png"
+                alt="F.R.I.E.N.D.S Mereba Garden"
+                className="h-10 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-[0_2px_10px_rgba(255,189,24,0.15)]"
               />
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-headline font-bold text-primary text-base tracking-wider">
-                    F.R.I.E.N.D.S
-                  </span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary-container" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-tertiary-container" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary-container" />
-                </div>
-                <span className="font-headline text-[9px] text-outline uppercase tracking-widest block">
-                  Mereba Garden &bull; Admin Console
-                </span>
-              </div>
+              <span className="hidden md:inline-block px-2 py-0.5 rounded bg-[#1e1e24] border border-[#303038] font-headline text-[9px] text-[#FFBD18] uppercase tracking-widest font-bold">
+                Admin Console
+              </span>
             </Link>
           </div>
 

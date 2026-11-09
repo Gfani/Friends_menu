@@ -150,45 +150,21 @@ export const CustomerMenu: React.FC = () => {
             </span>
           </div>
 
-          {/* Official Restaurant Logo Lockup Matching Menu Poster */}
-          <div className="flex flex-col items-center mb-5 text-center">
-            {/* Couch with መረባ Thought Bubble */}
-            <div className="relative mb-2">
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 text-[10px] font-sans font-bold text-white bg-black/90 border border-white/80 rounded-full shadow-md leading-tight">
-                መረባ
-              </span>
-              <img
-                src="/assets/friends-logo-white.png"
-                alt="መረባ ፍሬንድስ"
-                className="h-20 sm:h-24 w-auto object-contain mx-auto transition-transform hover:scale-105 duration-300 drop-shadow-[0_4px_20px_rgba(255,189,24,0.2)]"
-              />
-            </div>
+          {/* Official Restaurant Master Emblem Matching Menu Poster */}
+          <div className="relative flex flex-col items-center justify-center mb-6 text-center w-full max-w-sm sm:max-w-md mx-auto">
+            {/* Ambient Warm Cinema Glow Behind Emblem */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,189,24,0.18)_0%,rgba(243,38,54,0.06)_45%,transparent_70%)] blur-2xl pointer-events-none scale-125" />
 
-            {/* F·R·I·E·N·D·S with colored dots */}
-            <div className="flex items-center justify-center gap-1 sm:gap-2 text-2xl sm:text-4xl md:text-5xl font-headline font-black text-white tracking-widest my-1">
-              <span>F</span><span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#F32636] shadow-[0_0_8px_#F32636] mx-0.5" />
-              <span>R</span><span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#16B9E8] shadow-[0_0_8px_#16B9E8] mx-0.5" />
-              <span>I</span><span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#FFBD18] shadow-[0_0_8px_#FFBD18] mx-0.5" />
-              <span>E</span><span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#F32636] shadow-[0_0_8px_#F32636] mx-0.5" />
-              <span>N</span><span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#FFBD18] shadow-[0_0_8px_#FFBD18] mx-0.5" />
-              <span>D</span><span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#16B9E8] shadow-[0_0_8px_#16B9E8] mx-0.5" />
-              <span>S</span>
-            </div>
-
-            {/* Official Amharic Script */}
-            <div className="font-sans font-black text-2xl sm:text-3xl text-white tracking-widest my-0.5">
-              ፍሬንድስ
-            </div>
-
-            {/* Tagline */}
-            <div className="font-headline text-xs sm:text-sm text-[#FFBD18] uppercase tracking-[0.25em] font-semibold mt-1">
-              WE &apos;LL BE THERE FOR YOU
-            </div>
+            <img
+              src="/assets/friends-logo-white.png"
+              alt="F·R·I·E·N·D·S - መረባ ፍሬንድስ - We'll Be There For You"
+              className="relative z-10 w-64 sm:w-80 md:w-96 h-auto object-contain mx-auto drop-shadow-[0_12px_40px_rgba(0,0,0,0.85)] drop-shadow-[0_0_24px_rgba(255,189,24,0.22)] transition-transform hover:scale-[1.02] duration-300"
+            />
           </div>
 
           {/* THE ONE WITH THE FOOD - Exact Title from Poster */}
           <div className="flex flex-col items-center mb-5">
-            <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl tracking-[0.16em] uppercase font-bold text-center leading-tight text-white border-y border-[#303038] py-3.5 px-6 sm:px-12">
+            <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl tracking-[0.16em] uppercase font-bold text-center leading-tight text-white border-y border-[#303038] py-3.5 px-6 sm:px-12 bg-black/40 backdrop-blur-sm rounded-sm">
               THE ONE WITH THE FOOD
             </h1>
           </div>
@@ -633,25 +609,17 @@ export const CustomerMenu: React.FC = () => {
       <footer className="w-full bg-[#0e0e11] border-t border-[#26262d]">
         <div className="max-w-[1320px] mx-auto px-4 lg:px-8 py-14">
           <div className="flex flex-col items-center text-center">
-            <div className="mb-4">
+            <div className="mb-6 relative">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,189,24,0.12)_0%,transparent_70%)] blur-xl pointer-events-none" />
               <img
                 src="/assets/friends-logo-white.png"
-                alt="F.R.I.E.N.D.S Restaurant Logo"
-                className="h-16 w-auto object-contain mx-auto"
+                alt="F·R·I·E·N·D·S - መረባ ፍሬንድስ"
+                className="relative z-10 w-44 sm:w-56 h-auto object-contain mx-auto drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]"
               />
             </div>
 
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <span className="w-2 h-2 rounded-full bg-[#F32636] shadow-[0_0_8px_#F32636]" />
-              <span className="font-headline text-lg sm:text-xl text-[#FFBD18] tracking-widest uppercase font-extrabold">
-                &ldquo;WE&apos;LL BE THERE FOR YOU.&rdquo;
-              </span>
-              <span className="w-2 h-2 rounded-full bg-[#16B9E8] shadow-[0_0_8px_#16B9E8]" />
-              <span className="w-2 h-2 rounded-full bg-[#FFBD18] shadow-[0_0_8px_#FFBD18]" />
-            </div>
-
             <p className="font-body text-xs text-[#a1a1aa] max-w-md mb-6">
-              Intimate metropolitan dining, artisan kitchen recipes, and tactile nostalgia in dark luxury.
+              Intimate garden dining, artisan kitchen recipes, and timeless nostalgia in Addis Ababa.
             </p>
 
             <nav className="flex flex-wrap items-center justify-center gap-6 mb-6 font-headline text-xs uppercase tracking-widest font-semibold">

@@ -47,27 +47,14 @@ export const AdminLogin: React.FC = () => {
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary-container via-tertiary-container to-primary-container" />
 
         {/* Brand Logo & Heading */}
-        <div className="text-center space-y-2 mb-6">
-          <img
-            src="/assets/friends-logo-white.png"
-            alt="F.R.I.E.N.D.S Logo"
-            className="h-16 w-auto object-contain mx-auto mb-2"
-          />
-
-          <div className="flex items-center justify-center gap-1">
-            <span className="font-headline text-2xl font-bold tracking-widest text-primary">F</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-secondary-container" />
-            <span className="font-headline text-2xl font-bold tracking-widest text-primary">R</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-tertiary-container" />
-            <span className="font-headline text-2xl font-bold tracking-widest text-primary">I</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-primary-container" />
-            <span className="font-headline text-2xl font-bold tracking-widest text-primary">E</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-secondary-container" />
-            <span className="font-headline text-2xl font-bold tracking-widest text-primary">N</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-primary-container" />
-            <span className="font-headline text-2xl font-bold tracking-widest text-primary">D</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-tertiary-container" />
-            <span className="font-headline text-2xl font-bold tracking-widest text-primary">S</span>
+        <div className="text-center space-y-3 mb-6">
+          <div className="relative">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,189,24,0.15)_0%,transparent_70%)] blur-xl pointer-events-none" />
+            <img
+              src="/assets/friends-logo-white.png"
+              alt="F.R.I.E.N.D.S - መረባ ፍሬንድስ"
+              className="relative z-10 w-44 sm:w-52 h-auto object-contain mx-auto drop-shadow-[0_4px_20px_rgba(0,0,0,0.7)]"
+            />
           </div>
 
           <h1 className="font-headline text-lg font-bold text-on-surface uppercase tracking-wider">
