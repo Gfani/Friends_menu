@@ -1,0 +1,148 @@
+import { MenuItem, Category, AdminUser, ServiceRequest } from '../types/menu';
+
+const API_BASE = import.meta.env.VITE_API_URL || '';
+
+class ApiClient {
+  private getAuthToken(): string | null {
+    return localStorage.getItem('friends_admin_token');
+  }
+
+  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    const token = this.getAuthToken();
+    const headers: Record<string, string> = {
+      ...(options.headers as Record<string, string> || {}),
+    };
+
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    // Only set Content-Type to application/json if body is not FormData
+    if (options.body && !(options.body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    const url = endpoint.startsWith('http') ? endpoint : `${API_BASE}${endpoint}`;
+
+    const res = await fetch(url, {
+      ...options,
+      headers,
+    });
+
+    const data = await res.json().catch(() => null);
+
+    if (!res.ok) {
+      const errorMsg = data?.error || data?.message || `Request failed with status ${res.status}`;
+      throw new Error(errorMsg);
+    }
+
+    return data;
+  }
+
+  // --- Auth ---
+  async login(email: string, password: string): Promise<{ success: boolean; token: string; admin: AdminUser }> {
+    return this.request('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    });
+  }
+
+  async getMe(): Promise<{ success: boolean; admin: AdminUser }> {
+    return this.request('/api/auth/me');
+  }
+
+  // --- Menu & Items ---
+  async getMenu(): Promise<{ success: boolean; data: Category[] }> {
+    return this.request('/api/menu');
+  }
+
+  async getItems(search?: string, categoryId?: string): Promise<{ success: boolean; data: MenuItem[] }> {
+    const params = new URLSearchParams();
+    if (search) params.append('search', search);
+    if (categoryId && categoryId !== 'all') params.append('categoryId', categoryId);
+    const queryString = params.toString() ? `?${params.toString()}` : '';
+    return this.request(`/api/menu/items${queryString}`);
+  }
+
+  async createItem(formData: FormData | Record<string, any>): Promise<{ success: boolean; data: MenuItem }> {
+    const isForm = formData instanceof FormData;
+    return this.request('/api/menu/items', {
+      method: 'POST',
+      body: isForm ? formData : JSON.stringify(formData),
+    });
+  }
+
+  async updateItem(id: string, formData: FormData | Record<string, any>): Promise<{ success: boolean; data: MenuItem }> {
+    const isForm = formData instanceof FormData;
+    return this.request(`/api/menu/items/${id}`, {
+      method: 'PUT',
+      body: isForm ? formData : JSON.stringify(formData),
+    });
+  }
+
+  async deleteItem(id: string): Promise<{ success: boolean; message: string }> {
+    return this.request(`/api/menu/items/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async toggleItemStatus(id: string, isAvailable?: boolean): Promise<{ success: boolean; data: MenuItem }> {
+    return this.request(`/api/menu/items/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ isAvailable }),
+    });
+  }
+
+  // --- Categories ---
+  async getCategories(): Promise<{ success: boolean; data: Category[] }> {
+    return this.request('/api/categories');
+  }
+
+  async createCategory(data: { name: string; description?: string; icon?: string }): Promise<{ success: boolean; data: Category }> {
+    return this.request('/api/categories', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateCategory(id: string, data: { name?: string; description?: string; icon?: string; sortOrder?: number }): Promise<{ success: boolean; data: Category }> {
+    return this.request(`/api/categories/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteCategory(id: string): Promise<{ success: boolean; message: string }> {
+    return this.request(`/api/categories/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async reorderCategories(categoryIds: string[]): Promise<{ success: boolean; message: string }> {
+    return this.request('/api/categories/reorder', {
+      method: 'PUT',
+      body: JSON.stringify({ categoryIds }),
+    });
+  }
+
+  // --- Service Requests (Call Waiter / Bill) ---
+  async submitServiceCall(data: { tableNumber: string; type: 'CALL_WAITER' | 'REQUEST_BILL'; paymentMethod?: string; notes?: string }): Promise<{ success: boolean; message: string; data: ServiceRequest }> {
+    return this.request('/api/service/call', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getServiceRequests(): Promise<{ success: boolean; data: ServiceRequest[] }> {
+    return this.request('/api/service/requests');
+  }
+
+  async resolveServiceRequest(id: string): Promise<{ success: boolean; message: string }> {
+    return this.request(`/api/service/requests/${id}/resolve`, {
+      method: 'PATCH',
+    });
+  }
+}
+
+export const api = new ApiClient();
+

@@ -1,0 +1,36 @@
+# Node modules
+node_modules/
+**/node_modules/
+
+# Build artifacts
+dist/
+build/
+**/dist/
+**/build/
+
+# SQLite databases & temp files
+*.db
+*.db-journal
+*.sqlite
+dev.db
+**/dev.db
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+!*.env.example
+
+# Uploaded images (dynamic media)
+uploads/
+**/uploads/*
+!**/uploads/.gitkeep
+
+# System & logs
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.system_generated/
