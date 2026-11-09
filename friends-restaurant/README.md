@@ -1,7 +1,7 @@
 # F.R.I.E.N.D.S (Mereba Friends Garden) — Mobile QR Menu & Admin System
 
 > **"WE'LL BE THERE FOR YOU."**  
-> Modern luxury dark theme inspired by Central Perk meets upscale Addis Ababa garden dining.
+> Modern luxury dark theme inspired by Central Perk meets upscale garden bistro dining.
 
 ---
 

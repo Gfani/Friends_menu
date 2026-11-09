@@ -34,12 +34,12 @@ export const MerebaLogo: React.FC<MerebaLogoProps> = ({
   const getDefaultClasses = () => {
     switch (variant) {
       case 'wide':
-        return 'h-11 sm:h-12 md:h-13 w-auto object-contain';
+        return 'h-10 sm:h-11 md:h-12 w-auto object-contain';
       case 'couch':
-        return 'h-14 sm:h-16 w-auto object-contain';
+        return 'h-12 sm:h-14 w-auto object-contain';
       case 'full':
       default:
-        return 'w-64 sm:w-80 md:w-96 h-auto object-contain mx-auto';
+        return 'w-32 sm:w-40 md:w-44 h-auto object-contain mx-auto';
     }
   };
 
@@ -63,3 +63,4 @@ export const MerebaLogo: React.FC<MerebaLogoProps> = ({
     </div>
   );
 };
+

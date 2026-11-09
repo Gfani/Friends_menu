@@ -45,7 +45,7 @@ export const MenuHeader: React.FC = () => {
         <div className="h-20 max-w-[1320px] mx-auto px-4 lg:px-8 flex items-center justify-between gap-4">
           {/* Official Logo Lockup from Restaurant Poster */}
           <div className="flex items-center gap-3">
-            <a href="#" className="flex items-center group" title="Mereba Friends Garden - Addis Ababa">
+            <a href="#" className="flex items-center group" title="Mereba Friends Garden">
               <MerebaLogo variant="wide" glow={false} className="group-hover:scale-105" />
             </a>
 

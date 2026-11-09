@@ -15,6 +15,7 @@ import { CategoryTabs } from '../components/customer/CategoryTabs';
 import { MenuCard } from '../components/customer/MenuCard';
 import { MenuItem } from '../types/menu';
 import { MerebaLogo } from '../components/common/MerebaLogo';
+import { FriendsDoodleRibbon } from '../components/customer/FriendsDoodleRibbon';
 
 export const CustomerMenu: React.FC = () => {
   const { data: categories = [], isLoading, error, refetch } = useMenu();
@@ -147,20 +148,54 @@ export const CustomerMenu: React.FC = () => {
             <span className="w-2 h-2 rounded-full bg-[#16B9E8] shadow-[0_0_8px_#16B9E8]" />
             <span className="w-2 h-2 rounded-full bg-[#FFBD18] shadow-[0_0_8px_#FFBD18]" />
             <span className="font-headline text-[11px] uppercase tracking-[0.25em] text-[#d4c4ac] font-bold pl-1">
-              BISTRO &bull; GARDEN &bull; EST. ADDIS ABABA
+              BISTRO &bull; GARDEN &bull; CASUAL LUXURY
             </span>
           </div>
 
-          {/* Official Restaurant Master Emblem Matching Menu Poster */}
-          <div className="relative flex flex-col items-center justify-center mb-6 text-center w-full max-w-sm sm:max-w-md mx-auto">
-            <MerebaLogo variant="full" />
+          {/* Official Restaurant Master Emblem - Compact & Elegant */}
+          <div className="relative flex flex-col items-center justify-center mb-6 text-center w-full max-w-xs mx-auto">
+            <MerebaLogo variant="full" className="w-28 sm:w-36 md:w-40 max-w-[160px]" />
           </div>
 
-          {/* THE ONE WITH THE FOOD - Exact Title from Poster */}
-          <div className="flex flex-col items-center mb-5">
-            <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl tracking-[0.16em] uppercase font-bold text-center leading-tight text-white border-y border-[#303038] py-3.5 px-6 sm:px-12 bg-black/40 backdrop-blur-sm rounded-sm">
-              THE ONE WITH THE FOOD
+          {/* THE ONE ... WITH THE FOOD - Exact Match to Screenshot */}
+          <div className="flex flex-col items-center mb-6">
+            <h1 className="flex flex-col items-center text-center font-headline font-black uppercase text-[#FFF2D6] drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+              {/* Line 1: THE ONE [Red dot] [Blue dot] [Yellow dot] WITH */}
+              <span className="flex items-center justify-center gap-2 sm:gap-3 text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-[0.18em] sm:tracking-[0.24em] leading-tight">
+                <span>THE ONE</span>
+                <span className="inline-flex items-center gap-1.5 sm:gap-2 px-1">
+                  <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#F32636] shadow-[0_0_8px_#F32636]" />
+                  <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#16B9E8] shadow-[0_0_8px_#16B9E8]" />
+                  <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#FFBD18] shadow-[0_0_10px_#FFBD18]" />
+                </span>
+                <span>WITH</span>
+              </span>
+
+              {/* Line 2: THE FOOD */}
+              <span className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[0.22em] sm:tracking-[0.28em] mt-1 sm:mt-2 leading-none text-[#FFF2D6]">
+                THE FOOD
+              </span>
             </h1>
+
+            {/* Line 3: Tiny Golden Central Perk Couch Outline */}
+            <div className="mt-3 text-[#FFBD18] opacity-90 hover:opacity-100 transition-opacity">
+              <svg
+                className="w-7 h-4 sm:w-8 sm:h-5 text-[#FFBD18]"
+                viewBox="0 0 32 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M6 12V6a3 3 0 0 1 6-1h8a3 3 0 0 1 6 1v6" />
+                <path d="M11 8h.01M16 8h.01M21 8h.01" />
+                <path d="M3 10c0-1.5 1.5-2 3-2v4c-1.5 0-3-.5-3-2z" />
+                <path d="M29 10c0-1.5-1.5-2-3-2v4c1.5 0 3-.5 3-2z" />
+                <path d="M5 12h22v3a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-3z" />
+                <path d="M6 16v2M26 16v2" />
+              </svg>
+            </div>
           </div>
 
           <p className="font-body text-sm sm:text-base text-[#a1a1aa] max-w-2xl mx-auto mb-8 tracking-wide leading-relaxed">
@@ -376,7 +411,7 @@ export const CustomerMenu: React.FC = () => {
                 <span className="text-[#FFBD18]">IT’S ABOUT FRIENDSHIP.</span>
               </h2>
               <p className="font-body text-sm sm:text-base text-[#a1a1aa] leading-relaxed mb-4">
-                Central Perk meets modern gastronomy. Designed as a sanctuary for heartfelt conversations, spontaneous laughter, and unforgettable comfort food in Addis Ababa.
+                Central Perk meets modern gastronomy. Designed as a sanctuary for heartfelt conversations, spontaneous laughter, and unforgettable comfort food in our garden.
               </p>
 
               <div className="p-4 rounded-lg bg-[#161619] border border-[#2b2b31] w-full mb-4">
@@ -535,7 +570,7 @@ export const CustomerMenu: React.FC = () => {
         <div className="max-w-[1320px] mx-auto px-4 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <div className="inline-flex items-center gap-2 font-headline text-xs text-[#FFBD18] tracking-widest uppercase mb-1 font-bold">
-              <span>Mereba Friends Garden &bull; Addis Ababa</span>
+              <span>Mereba Friends Garden</span>
             </div>
             <h2 className="font-headline text-2xl sm:text-4xl text-white uppercase font-extrabold tracking-wide">
               THE ONE WHERE YOU VISIT US
@@ -554,8 +589,7 @@ export const CustomerMenu: React.FC = () => {
               <h3 className="font-headline text-lg font-bold text-white">Our Address</h3>
               <p className="font-body text-xs text-[#a1a1aa] leading-relaxed">
                 <strong className="text-white">17 ቀበሌ፣ ፊትለፊት በሰበርደ</strong><br />
-                ናይቀደም ገዛ ተጋሩ<br />
-                <span className="text-[#9d8f78]">Addis Ababa, Ethiopia</span>
+                <span className="text-[#d4c4ac]">ናይቀደም ገዛ ተጋሩ</span>
               </p>
             </div>
 
@@ -599,7 +633,10 @@ export const CustomerMenu: React.FC = () => {
         </div>
       </section>
 
-      {/* 8. FOOTER */}
+      {/* 8. AUTHENTIC FRIENDS DOODLE RIBBON (MATCHING RESTAURANT POSTER) */}
+      <FriendsDoodleRibbon />
+
+      {/* 9. FOOTER */}
       <footer className="w-full bg-[#0e0e11] border-t border-[#26262d]">
         <div className="max-w-[1320px] mx-auto px-4 lg:px-8 py-14">
           <div className="flex flex-col items-center text-center">
@@ -608,7 +645,7 @@ export const CustomerMenu: React.FC = () => {
             </div>
 
             <p className="font-body text-xs text-[#a1a1aa] max-w-md mb-6">
-              Intimate garden dining, artisan kitchen recipes, and timeless nostalgia in Addis Ababa.
+              Intimate garden dining, artisan kitchen recipes, and timeless nostalgia.
             </p>
 
             <nav className="flex flex-wrap items-center justify-center gap-6 mb-6 font-headline text-xs uppercase tracking-widest font-semibold">
