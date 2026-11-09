@@ -44,21 +44,21 @@ export const MenuHeader: React.FC = () => {
         <div className="h-20 max-w-[1320px] mx-auto px-4 lg:px-8 flex items-center justify-between gap-4">
           {/* Logo & Brand Title */}
           <div className="flex items-center gap-3">
-            <a href="#" className="flex items-center gap-2 group">
+            <a href="#" className="flex items-center gap-2.5 group">
               <img
-                src="https://lh3.googleusercontent.com/aida/ALJJyrDUr9Msf7Rqm_xrgJk3zZrkdpeOrE-c1lC2_A-j4OKxzMBp6I4bibtzvT_w1OqHHkn-0lziRaVWAxMZgxaB3oVgXL6k1LeiYXmNt9o6Hr_h032NTfUS2xfu3t3LdZqIY3S3ekiA1pgztls8hPtxmdMphFdw0Z51dI3Ge8rPUtHLT5qrnGDjRtNDhxVL_KzURJVH4eTEwkt_zStL7ldsBaW2F2KK4Kvq3tOkF65Xzbtq"
-                alt="F.R.I.E.N.D.S Restaurant Logo Dark"
-                className="h-8 w-auto object-contain"
+                src="/assets/friends-logo-white.png"
+                alt="F.R.I.E.N.D.S Restaurant Logo"
+                className="h-10 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"
               />
-              <span className="font-headline text-headline-sm uppercase tracking-wider text-primary group-hover:text-primary-fixed transition-colors hidden sm:inline-block font-semibold">
+              <span className="font-headline text-lg sm:text-xl uppercase tracking-wider text-white group-hover:text-[#FFBD18] transition-colors hidden sm:inline-block font-extrabold">
                 F.R.I.E.N.D.S
               </span>
             </a>
 
             {/* Table Badge (If scanned via QR) */}
             {tableNumber && (
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-high border border-primary-container/30 text-[11px] font-headline uppercase font-bold tracking-wider text-primary-container">
-                <MapPin className="w-3 h-3 text-primary-container" />
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#1e1e24] border border-[#FFBD18]/30 text-[11px] font-headline uppercase font-bold tracking-wider text-[#FFBD18]">
+                <MapPin className="w-3 h-3 text-[#FFBD18]" />
                 <span>Table #{tableNumber}</span>
               </div>
             )}

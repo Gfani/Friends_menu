@@ -163,11 +163,13 @@ export const CustomerMenu: React.FC = () => {
             </h1>
           </div>
 
-          {/* Velvet Couch Motif */}
-          <div className="flex items-center justify-center gap-2 mb-4 text-[#FFBD18]">
-            <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M20 10V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v3a4 4 0 0 0-2 3.44V18a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1h14v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-4.56A4 4 0 0 0 20 10zM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v3H6V7zm14 8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1.5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2V15z" />
-            </svg>
+          {/* Official Central Perk Couch Logo Illustration */}
+          <div className="flex items-center justify-center mb-4">
+            <img
+              src="/assets/friends-logo-white.png"
+              alt="F.R.I.E.N.D.S Official Logo"
+              className="h-20 sm:h-24 w-auto object-contain transition-transform hover:scale-105 duration-300 drop-shadow-[0_4px_16px_rgba(255,189,24,0.15)]"
+            />
           </div>
 
           <p className="font-body text-sm sm:text-base text-[#a1a1aa] max-w-2xl mx-auto mb-8 tracking-wide leading-relaxed">
@@ -607,9 +609,9 @@ export const CustomerMenu: React.FC = () => {
           <div className="flex flex-col items-center text-center">
             <div className="mb-4">
               <img
-                src="https://lh3.googleusercontent.com/aida/ALJJyrDUr9Msf7Rqm_xrgJk3zZrkdpeOrE-c1lC2_A-j4OKxzMBp6I4bibtzvT_w1OqHHkn-0lziRaVWAxMZgxaB3oVgXL6k1LeiYXmNt9o6Hr_h032NTfUS2xfu3t3LdZqIY3S3ekiA1pgztls8hPtxmdMphFdw0Z51dI3Ge8rPUtHLT5qrnGDjRtNDhxVL_KzURJVH4eTEwkt_zStL7ldsBaW2F2KK4Kvq3tOkF65Xzbtq"
-                alt="F.R.I.E.N.D.S Restaurant Logo Dark"
-                className="h-10 w-auto object-contain mx-auto"
+                src="/assets/friends-logo-white.png"
+                alt="F.R.I.E.N.D.S Restaurant Logo"
+                className="h-16 w-auto object-contain mx-auto"
               />
             </div>
 

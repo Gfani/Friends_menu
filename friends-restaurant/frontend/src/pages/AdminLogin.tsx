@@ -49,9 +49,9 @@ export const AdminLogin: React.FC = () => {
         {/* Brand Logo & Heading */}
         <div className="text-center space-y-2 mb-6">
           <img
-            src="https://lh3.googleusercontent.com/aida/ALJJyrDUr9Msf7Rqm_xrgJk3zZrkdpeOrE-c1lC2_A-j4OKxzMBp6I4bibtzvT_w1OqHHkn-0lziRaVWAxMZgxaB3oVgXL6k1LeiYXmNt9o6Hr_h032NTfUS2xfu3t3LdZqIY3S3ekiA1pgztls8hPtxmdMphFdw0Z51dI3Ge8rPUtHLT5qrnGDjRtNDhxVL_KzURJVH4eTEwkt_zStL7ldsBaW2F2KK4Kvq3tOkF65Xzbtq"
+            src="/assets/friends-logo-white.png"
             alt="F.R.I.E.N.D.S Logo"
-            className="h-10 w-auto object-contain mx-auto mb-2"
+            className="h-16 w-auto object-contain mx-auto mb-2"
           />
 
           <div className="flex items-center justify-center gap-1">

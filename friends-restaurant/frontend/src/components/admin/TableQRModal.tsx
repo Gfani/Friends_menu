@@ -113,6 +113,15 @@ export const TableQRModal: React.FC<TableQRModalProps> = ({ isOpen, onClose }) =
             ref={printCardRef}
             className="w-full max-w-xs bg-white text-black p-5 rounded-3xl shadow-2xl border-4 border-[#121212] text-center space-y-3"
           >
+            {/* Friends Official Logo on Table Card */}
+            <div className="flex justify-center pt-1">
+              <img
+                src="/assets/friends-logo.png"
+                alt="F.R.I.E.N.D.S Logo"
+                className="h-12 w-auto object-contain mx-auto"
+              />
+            </div>
+
             {/* Friends Brand Header on Card */}
             <div className="flex items-center justify-center gap-1">
               <span className="text-xl font-extrabold tracking-widest text-black">F</span>
