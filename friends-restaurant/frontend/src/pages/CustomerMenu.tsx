@@ -213,7 +213,7 @@ export const CustomerMenu: React.FC = () => {
       <section id="menu-section" className="w-full py-10 bg-[#131316] relative">
         <div className="max-w-[1320px] mx-auto px-4 lg:px-8">
           {/* Section Header */}
-          <div className="text-center max-w-3xl mx-auto mb-8">
+          <div className="text-center max-w-3xl mx-auto mb-6">
             <div className="inline-flex items-center gap-2 font-headline text-xs uppercase tracking-widest text-[#FFBD18] mb-1 font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#F32636]" />
               <span>Mereba Friends Garden &bull; Artisanal Kitchen</span>
@@ -227,40 +227,45 @@ export const CustomerMenu: React.FC = () => {
                   )}
             </h2>
             <p className="font-body text-xs sm:text-sm text-[#a1a1aa] mt-1.5">
-              Tap any dish card or the <span className="font-mono text-[#FFBD18] font-bold">^</span> icon to view photo, full description, and fresh ingredients.
+              Explore our chef-curated dishes. Tap any card to view full photography and preparation details.
             </p>
+          </div>
 
-            {/* SCREENSHOT 2: SEARCH BAR */}
-            <div className="mt-6 relative max-w-xl mx-auto">
-              <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#71717a] text-[20px] pointer-events-none">
-                search
-              </span>
-              <input
-                type="text"
-                placeholder="Search pasta, rice, salad, soup..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 pr-10 py-3 rounded-md bg-[#19191d] text-white text-sm placeholder:text-[#71717a] border border-[#2b2b31] focus:border-[#FFBD18] focus:outline-none focus:ring-1 focus:ring-[#FFBD18]/50 transition-colors shadow-inner font-body"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#71717a] hover:text-white transition-colors"
-                  title="Clear search"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
-            </div>
+          {/* STICKY FILTER & SEARCH BAR (Locks to top of viewport on scroll) */}
+          <div className="sticky top-20 z-40 bg-[#131316]/95 backdrop-blur-xl py-3.5 -mx-4 px-4 sm:-mx-8 sm:px-8 border-y border-[#24242b]/90 shadow-[0_12px_28px_rgba(0,0,0,0.6)] mb-8 transition-all">
+            <div className="max-w-xl mx-auto space-y-3">
+              {/* Search Bar */}
+              <div className="relative">
+                <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#71717a] text-[20px] pointer-events-none">
+                  search
+                </span>
+                <input
+                  type="text"
+                  placeholder="Search pasta, rice, salad, soup..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-11 pr-10 py-2.5 sm:py-3 rounded-lg bg-[#19191d] text-white text-sm placeholder:text-[#71717a] border border-[#2b2b31] focus:border-[#FFBD18] focus:outline-none focus:ring-1 focus:ring-[#FFBD18]/50 transition-colors shadow-inner font-body"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#71717a] hover:text-white transition-colors"
+                    title="Clear search"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
 
-            {/* SCREENSHOT 2: RECTANGULAR CATEGORY BUTTONS DIRECTLY UNDERNEATH */}
-            <div className="mt-4 flex justify-center">
-              <CategoryTabs
-                categories={categories}
-                activeCategory={activeCategory}
-                onSelectCategory={setActiveCategory}
-                totalItemCount={totalItemCount}
-              />
+              {/* Category Buttons Directly Underneath */}
+              <div className="flex justify-center">
+                <CategoryTabs
+                  categories={categories}
+                  activeCategory={activeCategory}
+                  onSelectCategory={setActiveCategory}
+                  totalItemCount={totalItemCount}
+                />
+              </div>
             </div>
           </div>
 
