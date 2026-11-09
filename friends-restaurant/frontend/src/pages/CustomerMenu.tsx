@@ -330,22 +330,16 @@ export const CustomerMenu: React.FC = () => {
             </div>
           )}
 
-          {/* SCREENSHOT 1: 3-COLUMN BENTO MENU CARDS GRID */}
+          {/* 3-COLUMN LUXURY BENTO MENU CARDS GRID */}
           {!isLoading && !error && displayedItems.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
-              {displayedItems.map((item, index) => {
-                // Top row items (first 3 when on 'all' view and no search) get featured styling
-                const isFeatured = activeCategory === 'all' && !searchQuery && index < 3;
-
-                return (
-                  <MenuCard
-                    key={item.id}
-                    item={item}
-                    index={index}
-                    isFeaturedTopRow={isFeatured}
-                  />
-                );
-              })}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+              {displayedItems.map((item, index) => (
+                <MenuCard
+                  key={item.id}
+                  item={item}
+                  index={index}
+                />
+              ))}
             </div>
           )}
         </div>
