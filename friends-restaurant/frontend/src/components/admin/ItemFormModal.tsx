@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Upload, Link as LinkIcon, Image as ImageIcon, X } from 'lucide-react';
+import { Upload, Link as LinkIcon, Eye, EyeOff, X } from 'lucide-react';
 import { Category, MenuItem } from '../../types/menu';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
@@ -105,7 +105,7 @@ export const ItemFormModal: React.FC<ItemFormModalProps> = ({
       isOpen={isOpen}
       onClose={onClose}
       title={itemToEdit ? `Edit Dish: ${itemToEdit.name}` : 'Add New Dish'}
-      subtitle="Configure dish presentation, pricing, and garden ingredients"
+      subtitle="Configure dish details, section, pricing, and photo for the digital menu"
       maxWidth="lg"
     >
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -121,17 +121,17 @@ export const ItemFormModal: React.FC<ItemFormModalProps> = ({
         {/* Category & Availability */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="space-y-1.5">
-            <label className="block font-headline text-[11px] uppercase tracking-wider font-semibold text-on-surface-variant">
-              Category
+            <label className="block font-headline text-[11px] uppercase tracking-wider font-bold text-zinc-200">
+              Menu Section
             </label>
             <select
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
-              className="w-full bg-surface-container text-on-surface text-body-sm rounded border border-outline-variant/30 px-3.5 py-2.5 focus:outline-none focus:border-primary-container"
+              className="w-full bg-[#18181f] text-white text-sm rounded-lg border border-[#383844] px-3.5 py-2.5 focus:outline-none focus:border-[#FFBD18] cursor-pointer"
               required
             >
               {categories.map((c) => (
-                <option key={c.id} value={c.id} className="bg-surface-container">
+                <option key={c.id} value={c.id} className="bg-[#18181f] text-white">
                   {c.name}
                 </option>
               ))}
@@ -139,22 +139,34 @@ export const ItemFormModal: React.FC<ItemFormModalProps> = ({
           </div>
 
           <div className="space-y-1.5">
-            <label className="block font-headline text-[11px] uppercase tracking-wider font-semibold text-on-surface-variant">
-              Menu Status
+            <label className="block font-headline text-[11px] uppercase tracking-wider font-bold text-zinc-200">
+              Customer Visibility
             </label>
             <button
               type="button"
               onClick={() => setIsAvailable(!isAvailable)}
-              className={`w-full py-2.5 px-3.5 rounded border text-body-sm font-headline uppercase font-semibold flex items-center justify-between transition-all ${
+              className={`w-full py-2.5 px-3.5 rounded-lg border text-xs font-headline uppercase font-bold flex items-center justify-between transition-all cursor-pointer ${
                 isAvailable
-                  ? 'bg-primary-container/15 border-primary-container/40 text-primary-container'
-                  : 'bg-secondary-container/15 border-secondary-container/40 text-secondary'
+                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300'
+                  : 'bg-rose-500/15 border-rose-500/40 text-rose-300'
               }`}
             >
-              <span>{isAvailable ? 'In Stock (Available)' : 'Sold Out (Unavailable)'}</span>
+              <div className="flex items-center gap-1.5">
+                {isAvailable ? (
+                  <>
+                    <Eye className="w-4 h-4 text-emerald-400" />
+                    <span>Visible on Menu</span>
+                  </>
+                ) : (
+                  <>
+                    <EyeOff className="w-4 h-4 text-rose-400" />
+                    <span>Hidden / Paused</span>
+                  </>
+                )}
+              </div>
               <span
-                className={`w-2 h-2 rounded-full ${
-                  isAvailable ? 'bg-primary-container shadow-glow-yellow' : 'bg-secondary-container shadow-glow-red'
+                className={`w-2.5 h-2.5 rounded-full ${
+                  isAvailable ? 'bg-emerald-400 shadow-[0_0_8px_#34d399]' : 'bg-rose-400 shadow-[0_0_8px_#f87171]'
                 }`}
               />
             </button>
@@ -162,12 +174,12 @@ export const ItemFormModal: React.FC<ItemFormModalProps> = ({
         </div>
 
         {/* Pricing */}
-        <div className="p-3.5 bg-surface-container border border-outline-variant/30 rounded space-y-3">
+        <div className="p-3.5 bg-[#18181f] border border-[#383844] rounded-lg space-y-3">
           <div className="flex items-center justify-between">
-            <label className="font-headline text-[11px] uppercase tracking-wider font-semibold text-on-surface-variant">
+            <label className="font-headline text-[11px] uppercase tracking-wider font-bold text-zinc-200">
               Price (ETB)
             </label>
-            <label className="inline-flex items-center gap-2 cursor-pointer text-xs text-on-surface-variant select-none">
+            <label className="inline-flex items-center gap-2 cursor-pointer text-xs text-zinc-300 select-none">
               <input
                 type="checkbox"
                 checked={isMarketPrice}
@@ -175,9 +187,9 @@ export const ItemFormModal: React.FC<ItemFormModalProps> = ({
                   setIsMarketPrice(e.target.checked);
                   if (e.target.checked) setPrice('');
                 }}
-                className="rounded border-outline-variant bg-surface-container-high text-primary-container focus:ring-primary-container"
+                className="w-4 h-4 rounded border-[#383844] bg-[#22222c] text-[#FFBD18] focus:ring-[#FFBD18] cursor-pointer"
               />
-              <span>Market / Variable Price</span>
+              <span className="font-medium">Market / Variable Price</span>
             </label>
           </div>
 
@@ -190,10 +202,10 @@ export const ItemFormModal: React.FC<ItemFormModalProps> = ({
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               required={!isMarketPrice}
-              rightIcon={<span className="text-xs font-headline font-bold text-outline">ETB</span>}
+              rightIcon={<span className="text-xs font-headline font-bold text-[#FFBD18]">ETB</span>}
             />
           ) : (
-            <p className="text-xs text-tertiary-container font-medium p-2 bg-tertiary-container/10 rounded border border-tertiary-container/30">
+            <p className="text-xs text-[#16B9E8] font-medium p-2.5 bg-[#16B9E8]/10 rounded border border-[#16B9E8]/30">
               This item will display as &ldquo;Price on Request&rdquo; on the customer menu.
             </p>
           )}
@@ -201,33 +213,33 @@ export const ItemFormModal: React.FC<ItemFormModalProps> = ({
 
         {/* Description */}
         <TextArea
-          label="Gourmet Description"
-          placeholder="Mouth-watering garden recipe details, aromatic herbs, sauces, and cooking style..."
+          label="Dish Description"
+          placeholder="Aromatic ingredients, preparation style, and notes..."
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
 
         {/* Tags */}
         <Input
-          label="Dietary & Feature Badges (Comma-separated)"
-          placeholder="e.g., Bestseller, Chef Pick, Signature, Vegetarian"
+          label="Highlight Badges (Comma-separated)"
+          placeholder="e.g., Signature, Chef Pick, Popular, Spicy"
           value={tags}
           onChange={(e) => setTags(e.target.value)}
-          helperText="These badges display stylishly on the dish photo and details."
+          helperText="Badges appear as sleek translucent tags on the dish card."
         />
 
         {/* Image Mode & Upload/URL */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="block font-headline text-[11px] uppercase tracking-wider font-semibold text-on-surface-variant">
+            <label className="block font-headline text-[11px] uppercase tracking-wider font-bold text-zinc-200">
               Dish Photography
             </label>
-            <div className="flex bg-surface-container p-0.5 rounded border border-outline-variant/30 text-xs font-headline uppercase font-semibold">
+            <div className="flex bg-[#18181f] p-0.5 rounded-lg border border-[#383844] text-xs font-headline uppercase font-bold">
               <button
                 type="button"
                 onClick={() => setImageMode('url')}
-                className={`px-2.5 py-1 rounded transition-all ${
-                  imageMode === 'url' ? 'bg-primary-container text-on-primary-container' : 'text-outline hover:text-white'
+                className={`px-3 py-1 rounded-md transition-all cursor-pointer ${
+                  imageMode === 'url' ? 'bg-[#FFBD18] text-black font-extrabold' : 'text-zinc-400 hover:text-white'
                 }`}
               >
                 Photo URL
@@ -235,8 +247,8 @@ export const ItemFormModal: React.FC<ItemFormModalProps> = ({
               <button
                 type="button"
                 onClick={() => setImageMode('file')}
-                className={`px-2.5 py-1 rounded transition-all ${
-                  imageMode === 'file' ? 'bg-primary-container text-on-primary-container' : 'text-outline hover:text-white'
+                className={`px-3 py-1 rounded-md transition-all cursor-pointer ${
+                  imageMode === 'file' ? 'bg-[#FFBD18] text-black font-extrabold' : 'text-zinc-400 hover:text-white'
                 }`}
               >
                 Upload File
@@ -246,33 +258,33 @@ export const ItemFormModal: React.FC<ItemFormModalProps> = ({
 
           {imageMode === 'url' ? (
             <Input
-              placeholder="https://images.unsplash.com/... or https://lh3.googleusercontent.com/..."
+              placeholder="https://images.unsplash.com/... or image link"
               value={imageUrl}
               onChange={(e) => {
                 setImageUrl(e.target.value);
                 setPreviewUrl(e.target.value);
               }}
-              leftIcon={<LinkIcon className="w-4 h-4 text-outline" />}
+              leftIcon={<LinkIcon className="w-4 h-4 text-zinc-400" />}
             />
           ) : (
-            <div className="border-2 border-dashed border-outline-variant/40 hover:border-primary-container rounded p-4 text-center cursor-pointer transition-colors relative bg-surface-container">
+            <div className="border-2 border-dashed border-[#383844] hover:border-[#FFBD18] rounded-lg p-5 text-center cursor-pointer transition-colors relative bg-[#18181f]">
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
                 className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
               />
-              <Upload className="w-6 h-6 text-outline mx-auto mb-2" />
-              <p className="font-headline text-xs font-semibold text-on-surface">
+              <Upload className="w-6 h-6 text-zinc-400 mx-auto mb-2" />
+              <p className="font-headline text-xs font-bold text-white">
                 {selectedFile ? selectedFile.name : 'Tap or drop image file here'}
               </p>
-              <p className="text-[10px] text-outline mt-1 font-mono">PNG, JPG, WEBP up to 10MB</p>
+              <p className="text-[11px] text-zinc-400 mt-1 font-mono">PNG, JPG, WEBP up to 10MB</p>
             </div>
           )}
 
           {/* Preview */}
           {previewUrl && (
-            <div className="relative w-full h-32 rounded overflow-hidden border border-outline-variant/30 bg-surface-container">
+            <div className="relative w-full h-36 rounded-lg overflow-hidden border border-[#383844] bg-[#18181f]">
               <img
                 src={previewUrl}
                 alt="Preview"
@@ -286,16 +298,17 @@ export const ItemFormModal: React.FC<ItemFormModalProps> = ({
                   setImageUrl('');
                   setSelectedFile(null);
                 }}
-                className="absolute top-2 right-2 p-1 rounded-full bg-black/70 text-white hover:bg-black"
+                className="absolute top-2 right-2 p-1.5 rounded-full bg-black/80 text-white hover:bg-black transition-colors"
+                title="Remove image"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
           )}
         </div>
 
         {/* Buttons */}
-        <div className="flex justify-end gap-2 pt-3 border-t border-outline-variant/20">
+        <div className="flex justify-end gap-2.5 pt-3 border-t border-[#2b2b34]">
           <Button variant="secondary" type="button" onClick={onClose} disabled={isSaving}>
             Cancel
           </Button>

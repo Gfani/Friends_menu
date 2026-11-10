@@ -31,23 +31,23 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variantClasses = {
     primary:
-      'bg-primary-container text-on-primary-container hover:brightness-110 shadow-glow-yellow',
+      'bg-[#FFBD18] text-black font-bold hover:brightness-110 shadow-[0_0_15px_rgba(255,189,24,0.35)]',
     yellow:
-      'bg-primary-container text-on-primary-container hover:brightness-110 shadow-glow-yellow',
+      'bg-[#FFBD18] text-black font-bold hover:brightness-110 shadow-[0_0_15px_rgba(255,189,24,0.35)]',
     accent:
-      'bg-surface-container-low text-primary-container border border-outline-variant/30 hover:border-primary-container/60 hover:bg-surface-container',
+      'bg-[#1a1a22] text-[#FFBD18] border border-[#383844] hover:border-[#FFBD18] hover:bg-[#20202a]',
     secondary:
-      'bg-surface-container-high text-on-surface hover:text-white border border-outline-variant/30 hover:border-primary-container/50',
+      'bg-[#202028] text-white hover:bg-[#2a2a35] border border-[#383844]',
     outline:
-      'bg-transparent hover:bg-white/5 text-on-surface border border-outline-variant/40 hover:border-primary-container/60',
+      'bg-transparent hover:bg-white/10 text-white border border-[#383844] hover:border-[#FFBD18]',
     danger:
-      'bg-secondary-container/20 hover:bg-secondary-container/30 text-secondary border border-secondary-container/40 shadow-glow-red',
+      'bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40',
     red:
-      'bg-secondary-container text-white hover:brightness-110 shadow-glow-red',
+      'bg-[#F32636] text-white hover:brightness-110 font-bold shadow-[0_0_15px_rgba(243,38,54,0.35)]',
     blue:
-      'bg-tertiary-container text-on-tertiary-container hover:brightness-110 shadow-glow-blue',
+      'bg-[#16B9E8] text-black hover:brightness-110 font-bold shadow-[0_0_15px_rgba(22,185,232,0.35)]',
     ghost:
-      'bg-transparent hover:bg-white/5 text-on-surface-variant hover:text-on-surface',
+      'bg-transparent hover:bg-white/10 text-zinc-300 hover:text-white',
   };
 
   return (

@@ -89,15 +89,15 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
   };
 
   return (
-    <div className="bg-surface-container-low border border-outline-variant/30 rounded-xl p-5 space-y-4 shadow-card-elevated">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-outline-variant/20">
+    <div className="bg-[#16161b] border border-[#2b2b34] rounded-xl p-5 space-y-4 shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#2b2b34]">
         <div>
-          <h3 className="font-headline text-lg font-bold text-primary flex items-center gap-2">
-            <Folder className="w-5 h-5 text-tertiary" />
-            <span>Category Hierarchy &amp; Ordering</span>
+          <h3 className="font-headline text-lg font-bold text-white flex items-center gap-2">
+            <Folder className="w-5 h-5 text-[#16B9E8]" />
+            <span>Menu Sections &amp; Display Order</span>
           </h3>
-          <p className="font-body text-xs text-on-surface-variant mt-0.5">
-            Organize dishes into sections visible on the mobile customer menu.
+          <p className="font-body text-xs text-zinc-300 mt-1">
+            Organize sections as they appear on the customer menu (e.g. PASTA, SALAD, RICE, SOUP).
           </p>
         </div>
 
@@ -105,31 +105,31 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
           variant="yellow"
           size="sm"
           onClick={handleOpenAdd}
-          leftIcon={<Plus className="w-4 h-4 text-on-primary-container" />}
+          leftIcon={<Plus className="w-4 h-4 text-black font-bold" />}
         >
-          Add Category
+          Add Section
         </Button>
       </div>
 
       {/* Category List */}
-      <div className="divide-y divide-outline-variant/15 border border-outline-variant/25 rounded overflow-hidden bg-surface-container">
+      <div className="divide-y divide-[#2b2b34]/80 border border-[#2b2b34] rounded-xl overflow-hidden bg-[#18181f]">
         {categories.map((cat, index) => {
           const itemCount = cat.items ? cat.items.length : cat._count?.items ?? 0;
 
           return (
             <div
               key={cat.id}
-              className="p-3.5 flex items-center justify-between gap-3 hover:bg-surface-container-high/40 transition-colors"
+              className="p-4 flex items-center justify-between gap-3 hover:bg-[#1e1e26] transition-colors"
             >
-              <div className="flex items-center gap-3 min-w-0">
+              <div className="flex items-center gap-3.5 min-w-0">
                 {/* Reorder Up/Down */}
-                <div className="flex flex-col gap-0.5">
+                <div className="flex flex-col gap-1">
                   <button
                     type="button"
                     disabled={index === 0 || reorderMutation.isPending}
                     onClick={() => handleMove(index, 'up')}
-                    className="p-1 rounded hover:bg-surface-container-highest text-outline hover:text-white disabled:opacity-20"
-                    title="Move Up"
+                    className="p-1.5 rounded bg-[#202028] hover:bg-white/10 text-zinc-400 hover:text-white disabled:opacity-20 cursor-pointer transition-colors"
+                    title="Move Section Up"
                   >
                     <ArrowUp className="w-3.5 h-3.5" />
                   </button>
@@ -137,8 +137,8 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
                     type="button"
                     disabled={index === categories.length - 1 || reorderMutation.isPending}
                     onClick={() => handleMove(index, 'down')}
-                    className="p-1 rounded hover:bg-surface-container-highest text-outline hover:text-white disabled:opacity-20"
-                    title="Move Down"
+                    className="p-1.5 rounded bg-[#202028] hover:bg-white/10 text-zinc-400 hover:text-white disabled:opacity-20 cursor-pointer transition-colors"
+                    title="Move Section Down"
                   >
                     <ArrowDown className="w-3.5 h-3.5" />
                   </button>
@@ -146,16 +146,16 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
 
                 {/* Name & Count */}
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="font-headline text-base font-bold text-on-surface tracking-wide truncate">
+                  <div className="flex items-center gap-2.5">
+                    <span className="font-headline text-base font-bold text-white tracking-wide truncate">
                       {cat.name}
                     </span>
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-surface-container-high text-outline font-headline font-semibold">
+                    <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#FFBD18]/15 text-[#FFBD18] border border-[#FFBD18]/30 font-headline font-bold">
                       {itemCount} {itemCount === 1 ? 'dish' : 'dishes'}
                     </span>
                   </div>
                   {cat.description && (
-                    <p className="font-body text-xs text-on-surface-variant truncate max-w-sm mt-0.5">
+                    <p className="font-body text-xs text-zinc-400 truncate max-w-md mt-1">
                       {cat.description}
                     </p>
                   )}
@@ -167,16 +167,16 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
                 <button
                   type="button"
                   onClick={() => handleOpenEdit(cat)}
-                  className="p-2 rounded text-outline hover:text-primary hover:bg-surface-container-high transition-colors"
-                  title="Edit Category"
+                  className="p-2 rounded-lg text-zinc-300 hover:text-[#FFBD18] hover:bg-[#FFBD18]/15 border border-transparent hover:border-[#FFBD18]/30 transition-all cursor-pointer"
+                  title="Edit Section"
                 >
                   <Edit2 className="w-4 h-4" />
                 </button>
                 <button
                   type="button"
                   onClick={() => setDeleteCandidate(cat)}
-                  className="p-2 rounded text-outline hover:text-secondary hover:bg-secondary-container/15 transition-colors"
-                  title="Delete Category"
+                  className="p-2 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-rose-500/15 border border-transparent hover:border-rose-500/30 transition-all cursor-pointer"
+                  title="Delete Section"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -184,19 +184,25 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
             </div>
           );
         })}
+
+        {categories.length === 0 && (
+          <div className="py-12 text-center text-zinc-400 font-medium">
+            No menu sections found. Click &quot;Add Section&quot; to create one.
+          </div>
+        )}
       </div>
 
       {/* Add Modal */}
       <Modal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
-        title="Create New Category"
-        subtitle="New section will appear as a category tab on the menu"
+        title="Create New Menu Section"
+        subtitle="This section will appear as a category tab on the customer digital menu"
       >
         <form onSubmit={handleCreate} className="space-y-4">
           <Input
-            label="Category Name"
-            placeholder="e.g., Desserts, Cocktails, Burgers"
+            label="Section Name"
+            placeholder="e.g. PASTA, SALAD, RICE, SOUP, DESSERTS"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -204,7 +210,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
           />
           <TextArea
             label="Description (Optional)"
-            placeholder="Brief aromatic description to display at the top of this category section..."
+            placeholder="Brief description to display for this menu section..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
@@ -213,7 +219,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
               Cancel
             </Button>
             <Button variant="yellow" type="submit" isLoading={createMutation.isPending}>
-              Create Category
+              Create Section
             </Button>
           </div>
         </form>
@@ -223,13 +229,13 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
       <Modal
         isOpen={!!editingCategory}
         onClose={() => setEditingCategory(null)}
-        title={`Edit Category: ${editingCategory?.name}`}
-        subtitle="Rename or update description"
+        title={`Edit Section: ${editingCategory?.name}`}
+        subtitle="Rename section or update description"
       >
         <form onSubmit={handleUpdate} className="space-y-4">
           <Input
-            label="Category Name"
-            placeholder="Category Name"
+            label="Section Name"
+            placeholder="Section Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -256,14 +262,14 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
       <Modal
         isOpen={!!deleteCandidate}
         onClose={() => setDeleteCandidate(null)}
-        title="Delete Category?"
+        title="Delete Menu Section?"
         subtitle="This action cannot be undone"
       >
         <div className="space-y-4">
-          <p className="text-body-sm text-on-surface-variant">
-            Are you sure you want to delete category{' '}
-            <strong className="text-primary">&ldquo;{deleteCandidate?.name}&rdquo;</strong>?
-            Any dishes inside this category will also be removed.
+          <p className="text-sm text-zinc-200">
+            Are you sure you want to delete section{' '}
+            <strong className="text-white font-bold">&ldquo;{deleteCandidate?.name}&rdquo;</strong>?
+            Any dishes inside this section will also be removed.
           </p>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="secondary" onClick={() => setDeleteCandidate(null)}>

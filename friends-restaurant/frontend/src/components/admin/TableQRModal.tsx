@@ -145,7 +145,7 @@ export const TableQRModal: React.FC<TableQRModalProps> = ({ isOpen, onClose }) =
 
             <div className="space-y-0.5">
               <p className="text-xs font-extrabold text-black uppercase tracking-wider">
-                Scan to View Menu & Call Waiter
+                Scan to View Live Digital Menu
               </p>
               <p className="text-[9px] text-zinc-500 italic">
                 &ldquo;We&apos;ll be there for you.&rdquo;

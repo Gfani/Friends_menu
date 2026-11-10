@@ -7,6 +7,8 @@ import {
   X,
   Utensils,
   Plus,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import { Category, MenuItem } from '../../types/menu';
 import { useToggleItemStatus, useUpdateItem, useDeleteItem } from '../../hooks/useMenu';
@@ -78,17 +80,17 @@ export const ItemListTable: React.FC<ItemListTableProps> = ({
   };
 
   return (
-    <div className="bg-surface-container-low border border-outline-variant/30 rounded-xl overflow-hidden shadow-card-elevated space-y-4">
+    <div className="bg-[#16161b] border border-[#2b2b34] rounded-xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.5)] space-y-4">
       {/* Table Toolbar */}
-      <div className="p-4 sm:p-5 border-b border-outline-variant/20 space-y-4">
+      <div className="p-4 sm:p-5 border-b border-[#2b2b34] space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h3 className="font-headline text-lg font-bold text-primary flex items-center gap-2">
-              <Utensils className="w-5 h-5 text-primary-container" />
-              <span>Menu Inventory &amp; Live Pricing</span>
+            <h3 className="font-headline text-lg font-bold text-white flex items-center gap-2">
+              <Utensils className="w-5 h-5 text-[#FFBD18]" />
+              <span>Menu Dishes &amp; Live Pricing</span>
             </h3>
-            <p className="font-body text-xs text-on-surface-variant mt-0.5">
-              Instant dish editing, stock toggle, and market price adjustments.
+            <p className="font-body text-xs text-zinc-300 mt-1">
+              Instant dish editing, price updates, and customer menu visibility toggles.
             </p>
           </div>
 
@@ -96,7 +98,7 @@ export const ItemListTable: React.FC<ItemListTableProps> = ({
             variant="yellow"
             size="md"
             onClick={onAddNew}
-            leftIcon={<Plus className="w-4 h-4 text-on-primary-container" />}
+            leftIcon={<Plus className="w-4 h-4 text-black font-bold" />}
           >
             Add New Dish
           </Button>
@@ -106,29 +108,29 @@ export const ItemListTable: React.FC<ItemListTableProps> = ({
         <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
           {/* Search */}
           <div className="relative flex-1 max-w-md">
-            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-outline" />
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" />
             <input
               type="text"
               placeholder="Search by dish name or ingredient..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-surface-container text-on-surface placeholder:text-outline text-xs sm:text-sm rounded border border-outline-variant/30 pl-10 pr-4 py-2.5 focus:outline-none focus:border-primary-container"
+              className="w-full bg-[#18181f] text-white placeholder:text-zinc-500 text-xs sm:text-sm rounded-lg border border-[#383844] pl-10 pr-4 py-2.5 focus:outline-none focus:border-[#FFBD18] focus:ring-1 focus:ring-[#FFBD18] transition-all"
             />
           </div>
 
           {/* Category Dropdown */}
-          <div className="flex items-center gap-2">
-            <span className="font-headline text-xs font-semibold uppercase text-outline shrink-0">
-              Category:
+          <div className="flex items-center gap-2.5">
+            <span className="font-headline text-xs font-bold uppercase tracking-wider text-zinc-300 shrink-0">
+              Section:
             </span>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="bg-surface-container text-on-surface text-xs sm:text-sm rounded border border-outline-variant/30 px-3 py-2.5 focus:outline-none focus:border-primary-container"
+              className="bg-[#18181f] text-white text-xs sm:text-sm rounded-lg border border-[#383844] px-3.5 py-2.5 focus:outline-none focus:border-[#FFBD18] focus:ring-1 focus:ring-[#FFBD18] cursor-pointer"
             >
-              <option value="all">All Categories ({items.length})</option>
+              <option value="all" className="bg-[#18181f] text-white">All Sections ({items.length})</option>
               {categories.map((c) => (
-                <option key={c.id} value={c.id}>
+                <option key={c.id} value={c.id} className="bg-[#18181f] text-white">
                   {c.name}
                 </option>
               ))}
@@ -141,27 +143,27 @@ export const ItemListTable: React.FC<ItemListTableProps> = ({
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse text-xs sm:text-sm">
           <thead>
-            <tr className="border-b border-outline-variant/20 bg-surface-container-lowest/60 text-outline uppercase font-headline text-[10px] font-semibold tracking-wider">
+            <tr className="border-b border-[#2b2b34] bg-[#111115] text-zinc-300 uppercase font-headline text-[11px] font-bold tracking-wider">
               <th className="py-3 px-4">Dish</th>
-              <th className="py-3 px-4">Category</th>
+              <th className="py-3 px-4">Section</th>
               <th className="py-3 px-4">Price (ETB)</th>
-              <th className="py-3 px-4 text-center">Live Availability</th>
+              <th className="py-3 px-4 text-center">Menu Visibility</th>
               <th className="py-3 px-4 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-outline-variant/15">
+          <tbody className="divide-y divide-[#2b2b34]/80">
             {filteredItems.map((item) => (
               <tr
                 key={item.id}
-                className={`hover:bg-surface-container-high/40 transition-colors ${
-                  !item.isAvailable ? 'bg-black/30 opacity-70' : ''
+                className={`hover:bg-[#1e1e26] transition-colors ${
+                  !item.isAvailable ? 'bg-black/40 opacity-70' : ''
                 }`}
               >
                 {/* Dish column */}
                 <td className="py-3.5 px-4">
                   <div className="flex items-center gap-3">
                     {/* Thumbnail */}
-                    <div className="w-12 h-12 rounded overflow-hidden bg-surface-container border border-outline-variant/30 shrink-0">
+                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-[#202028] border border-[#383844] shrink-0">
                       {item.image ? (
                         <img
                           src={item.image}
@@ -172,22 +174,27 @@ export const ItemListTable: React.FC<ItemListTableProps> = ({
                           }}
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-outline">
-                          <Utensils className="w-4 h-4" />
+                        <div className="w-full h-full flex items-center justify-center text-zinc-400">
+                          <Utensils className="w-5 h-5 text-zinc-500" />
                         </div>
                       )}
                     </div>
 
                     <div className="min-w-0">
-                      <div className="font-headline font-semibold text-on-surface tracking-wide truncate max-w-xs">
+                      <div className="font-headline font-bold text-white text-base tracking-wide truncate max-w-xs sm:max-w-md">
                         {item.name}
                       </div>
+                      {item.description && (
+                        <p className="text-xs text-zinc-400 truncate max-w-xs sm:max-w-md mt-0.5">
+                          {item.description}
+                        </p>
+                      )}
                       {item.tags && (
-                        <div className="flex flex-wrap gap-1 mt-0.5">
-                          {item.tags.split(',').slice(0, 2).map((t, idx) => (
+                        <div className="flex flex-wrap gap-1.5 mt-1">
+                          {item.tags.split(',').slice(0, 3).map((t, idx) => (
                             <span
                               key={idx}
-                              className="text-[9px] font-headline uppercase font-semibold px-1.5 py-0.2 rounded bg-surface-container-high text-outline"
+                              className="text-[10px] font-headline uppercase font-bold px-2 py-0.5 rounded-full bg-[#FFBD18]/15 text-[#FFBD18] border border-[#FFBD18]/30"
                             >
                               {t.trim()}
                             </span>
@@ -200,7 +207,7 @@ export const ItemListTable: React.FC<ItemListTableProps> = ({
 
                 {/* Category */}
                 <td className="py-3.5 px-4 whitespace-nowrap">
-                  <span className="px-2.5 py-1 rounded text-[11px] font-headline uppercase font-semibold bg-surface-container-high text-on-surface-variant border border-outline-variant/30">
+                  <span className="px-2.5 py-1 rounded-full text-xs font-headline uppercase font-bold bg-[#20202a] text-zinc-200 border border-[#383844]">
                     {item.category?.name || 'Uncategorized'}
                   </span>
                 </td>
@@ -215,19 +222,19 @@ export const ItemListTable: React.FC<ItemListTableProps> = ({
                         placeholder="Mkt"
                         value={quickPriceVal}
                         onChange={(e) => setQuickPriceVal(e.target.value)}
-                        className="w-20 bg-surface-container text-white text-xs px-2 py-1 rounded border border-primary-container focus:outline-none"
+                        className="w-20 bg-[#18181f] text-white text-xs px-2.5 py-1 rounded border border-[#FFBD18] focus:outline-none"
                         autoFocus
                       />
                       <button
                         onClick={() => handleSaveQuickPrice(item)}
-                        className="p-1 rounded bg-primary-container text-on-primary-container hover:brightness-110"
+                        className="p-1 rounded bg-[#FFBD18] text-black hover:brightness-110 font-bold"
                         title="Save price"
                       >
                         <Check className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => setQuickPriceId(null)}
-                        className="p-1 rounded bg-surface-container-high text-outline hover:text-white"
+                        className="p-1 rounded bg-[#202028] text-zinc-400 hover:text-white"
                         title="Cancel"
                       >
                         <X className="w-3.5 h-3.5" />
@@ -240,55 +247,61 @@ export const ItemListTable: React.FC<ItemListTableProps> = ({
                       title="Click to quick-edit price"
                     >
                       <span
-                        className={`font-headline font-bold ${
-                          item.price === null ? 'text-tertiary-container text-xs' : 'text-primary-container'
+                        className={`font-headline font-bold font-mono text-base ${
+                          item.price === null ? 'text-[#16B9E8] text-xs' : 'text-[#FFBD18]'
                         }`}
                       >
                         {item.price !== null && item.price !== undefined
                           ? `${item.price.toLocaleString()} ETB`
                           : 'Market Price'}
                       </span>
-                      <Edit2 className="w-3 h-3 text-outline opacity-0 group-hover/price:opacity-100 transition-opacity" />
+                      <Edit2 className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover/price:opacity-100 transition-opacity" />
                     </div>
                   )}
                 </td>
 
-                {/* Status Toggle (Live Available / Sold Out) */}
+                {/* Status Toggle (Visible on Menu / Hidden) */}
                 <td className="py-3.5 px-4 text-center whitespace-nowrap">
                   <button
                     type="button"
                     onClick={() => handleToggleStatus(item)}
                     disabled={toggleStatusMutation.isPending}
-                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-headline font-semibold uppercase tracking-wider transition-all ${
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-headline font-bold uppercase tracking-wider transition-all cursor-pointer ${
                       item.isAvailable
-                        ? 'bg-primary-container/15 text-primary-container border border-primary-container/30 hover:bg-primary-container/25'
-                        : 'bg-secondary-container/15 text-secondary border border-secondary-container/30 hover:bg-secondary-container/25'
+                        ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/25'
+                        : 'bg-rose-500/15 text-rose-300 border border-rose-500/40 hover:bg-rose-500/25'
                     }`}
+                    title={item.isAvailable ? 'Click to temporarily hide from customer menu' : 'Click to make visible on customer menu'}
                   >
-                    <span
-                      className={`w-1.5 h-1.5 rounded-full ${
-                        item.isAvailable ? 'bg-primary-container' : 'bg-secondary-container'
-                      }`}
-                    />
-                    <span>{item.isAvailable ? 'Available' : 'Sold Out'}</span>
+                    {item.isAvailable ? (
+                      <>
+                        <Eye className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>Visible on Menu</span>
+                      </>
+                    ) : (
+                      <>
+                        <EyeOff className="w-3.5 h-3.5 text-rose-400" />
+                        <span>Hidden / Paused</span>
+                      </>
+                    )}
                   </button>
                 </td>
 
                 {/* Actions */}
                 <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                  <div className="flex items-center justify-end gap-1">
+                  <div className="flex items-center justify-end gap-1.5">
                     <button
                       type="button"
                       onClick={() => onEditItem(item)}
-                      className="p-2 rounded text-outline hover:text-primary hover:bg-surface-container-high transition-colors"
-                      title="Edit Dish"
+                      className="p-2 rounded-lg text-zinc-300 hover:text-[#FFBD18] hover:bg-[#FFBD18]/15 border border-transparent hover:border-[#FFBD18]/30 transition-all cursor-pointer"
+                      title="Edit Dish Details"
                     >
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button
                       type="button"
                       onClick={() => setDeleteCandidate(item)}
-                      className="p-2 rounded text-outline hover:text-secondary hover:bg-secondary-container/15 transition-colors"
+                      className="p-2 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-rose-500/15 border border-transparent hover:border-rose-500/30 transition-all cursor-pointer"
                       title="Delete Dish"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -300,8 +313,8 @@ export const ItemListTable: React.FC<ItemListTableProps> = ({
 
             {filteredItems.length === 0 && (
               <tr>
-                <td colSpan={5} className="py-12 text-center text-outline">
-                  No dishes found matching your criteria.
+                <td colSpan={5} className="py-12 text-center text-zinc-400 font-medium">
+                  No dishes found matching your search.
                 </td>
               </tr>
             )}
@@ -314,12 +327,12 @@ export const ItemListTable: React.FC<ItemListTableProps> = ({
         isOpen={!!deleteCandidate}
         onClose={() => setDeleteCandidate(null)}
         title="Remove Menu Item?"
-        subtitle="This will permanently delete the dish from the restaurant menu"
+        subtitle="This will permanently delete the dish from the digital menu"
       >
         <div className="space-y-4">
-          <p className="text-body-sm text-on-surface-variant">
+          <p className="text-sm text-zinc-200">
             Are you sure you want to remove{' '}
-            <strong className="text-primary">&ldquo;{deleteCandidate?.name}&rdquo;</strong> from the
+            <strong className="text-white font-bold">&ldquo;{deleteCandidate?.name}&rdquo;</strong> from the
             menu?
           </p>
           <div className="flex justify-end gap-2 pt-2">
