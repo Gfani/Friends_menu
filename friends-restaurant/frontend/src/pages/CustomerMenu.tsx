@@ -921,15 +921,15 @@ export const CustomerMenu: React.FC = () => {
         onClick={() => setIsServiceModalOpen(true)}
         type="button"
         aria-label="Call Waiter or Request Bill"
-        className="fixed bottom-6 left-6 z-40 inline-flex items-center gap-2.5 px-4 py-3 rounded-full backdrop-blur-md border border-[#FFBD18]/50 bg-[#121212]/95 text-white shadow-[0_10px_30px_rgba(0,0,0,0.85)] hover:scale-105 hover:border-[#FFBD18] transition-all duration-300 cursor-pointer animate-in fade-in group"
+        className="fixed bottom-4 sm:bottom-6 left-3 sm:left-6 z-40 inline-flex items-center gap-2 px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-full backdrop-blur-md border border-[#FFBD18]/50 bg-[#121212]/95 text-white shadow-[0_10px_30px_rgba(0,0,0,0.85)] hover:scale-105 hover:border-[#FFBD18] transition-all duration-300 cursor-pointer animate-in fade-in group"
       >
-        <span className="relative flex h-2.5 w-2.5">
+        <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFBD18] opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FFBD18]"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-[#FFBD18]"></span>
         </span>
-        <Bell className="w-4 h-4 text-[#FFBD18] group-hover:rotate-12 transition-transform" />
-        <span className="font-headline text-xs font-bold uppercase tracking-wider">
-          {currentLang === 'ti' ? 'ኣሳላጢ ጸውዕ / ቢል' : currentLang === 'am' ? 'አስተናጋጅ ጥራ / ሂሳብ' : 'Call Waiter / Bill'}
+        <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FFBD18] group-hover:rotate-12 transition-transform" />
+        <span className="font-headline text-[11px] sm:text-xs font-bold uppercase tracking-wider">
+          {currentLang === 'ti' ? 'ኣሳላጢ ጸውዕ' : currentLang === 'am' ? 'አስተናጋጅ ጥራ' : 'Call Waiter'}
         </span>
       </button>
 
@@ -947,13 +947,13 @@ export const CustomerMenu: React.FC = () => {
           onClick={scrollToTop}
           type="button"
           aria-label="Scroll back to top"
-          className="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full backdrop-blur-md border border-[#222222] text-white shadow-[0_10px_25px_rgba(0,0,0,0.8)] hover:scale-105 transition-all duration-300 flex items-center justify-center cursor-pointer animate-in fade-in"
+          className="fixed bottom-4 sm:bottom-6 right-3 sm:right-6 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full backdrop-blur-md border border-[#222222] text-white shadow-[0_10px_25px_rgba(0,0,0,0.8)] hover:scale-105 transition-all duration-300 flex items-center justify-center cursor-pointer animate-in fade-in"
           style={{
             backgroundColor: `${cardColor}E6`,
           }}
           title="Back to Top"
         >
-          <ArrowUp className="w-5 h-5" />
+          <ArrowUp className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
       )}
     </div>

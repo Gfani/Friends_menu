@@ -85,64 +85,64 @@ export const AdminDashboard: React.FC = () => {
       <AdminHeader />
 
       {/* Main Admin Content */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 space-y-5 sm:space-y-6">
         {/* KPI Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {/* Total Dishes */}
-          <div className="bg-[#121212] border border-[#222222] rounded-2xl p-5 flex items-center gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
-            <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-white shrink-0">
-              <Utensils className="w-5 h-5" />
+          <div className="bg-[#121212] border border-[#222222] rounded-2xl p-3.5 sm:p-5 flex items-center gap-3 sm:gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-white shrink-0">
+              <Utensils className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <span className="font-headline text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block">
-                Total Dishes &amp; Drinks
+              <span className="font-headline text-[10px] sm:text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block leading-tight">
+                Total Dishes
               </span>
-              <span className="font-headline text-2xl font-bold font-mono text-white">
+              <span className="font-headline text-xl sm:text-2xl font-bold font-mono text-white">
                 {totalItemsCount}
               </span>
             </div>
           </div>
 
           {/* Menu Sections */}
-          <div className="bg-[#121212] border border-[#222222] rounded-2xl p-5 flex items-center gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
-            <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-white shrink-0">
-              <FolderTree className="w-5 h-5" />
+          <div className="bg-[#121212] border border-[#222222] rounded-2xl p-3.5 sm:p-5 flex items-center gap-3 sm:gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-white shrink-0">
+              <FolderTree className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <span className="font-headline text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block">
+              <span className="font-headline text-[10px] sm:text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block leading-tight">
                 Categories
               </span>
-              <span className="font-headline text-2xl font-bold font-mono text-white">
+              <span className="font-headline text-xl sm:text-2xl font-bold font-mono text-white">
                 {categoriesCount}
               </span>
             </div>
           </div>
 
           {/* Visible on Menu */}
-          <div className="bg-[#121212] border border-[#222222] rounded-2xl p-5 flex items-center gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
-            <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-[#FFBD18] shrink-0">
-              <CheckCircle2 className="w-5 h-5" />
+          <div className="bg-[#121212] border border-[#222222] rounded-2xl p-3.5 sm:p-5 flex items-center gap-3 sm:gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-[#FFBD18] shrink-0">
+              <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <span className="font-headline text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block">
+              <span className="font-headline text-[10px] sm:text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block leading-tight">
                 Live on Menu
               </span>
-              <span className="font-headline text-2xl font-bold font-mono text-white">
+              <span className="font-headline text-xl sm:text-2xl font-bold font-mono text-white">
                 {activeMenuCount}
               </span>
             </div>
           </div>
 
           {/* Paused / Hidden */}
-          <div className="bg-[#121212] border border-[#222222] rounded-2xl p-5 flex items-center gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
-            <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-[#71717A] shrink-0">
-              <EyeOff className="w-5 h-5" />
+          <div className="bg-[#121212] border border-[#222222] rounded-2xl p-3.5 sm:p-5 flex items-center gap-3 sm:gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-[#71717A] shrink-0">
+              <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <span className="font-headline text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block">
+              <span className="font-headline text-[10px] sm:text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block leading-tight">
                 Hidden Dishes
               </span>
-              <span className="font-headline text-2xl font-bold font-mono text-white">
+              <span className="font-headline text-xl sm:text-2xl font-bold font-mono text-white">
                 {pausedMenuCount}
               </span>
             </div>
@@ -150,53 +150,57 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         {/* Navigation Tabs (Dishes vs Categories vs Customize Menu & CMS) */}
-        <div className="flex border-b border-[#222222] gap-2 overflow-x-auto no-scrollbar">
+        <div className="flex border-b border-[#222222] gap-1 sm:gap-2 overflow-x-auto no-scrollbar -mx-3 px-3 sm:mx-0 sm:px-0">
           <button
             onClick={() => setActiveTab('items')}
-            className={`px-5 py-3 font-headline text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px shrink-0 cursor-pointer ${
+            className={`px-3.5 sm:px-5 py-2.5 sm:py-3 font-headline text-xs uppercase tracking-wider sm:tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px shrink-0 cursor-pointer ${
               activeTab === 'items'
                 ? 'border-[#FFBD18] text-white bg-white/5'
                 : 'border-transparent text-[#A1A1AA] hover:text-white hover:bg-white/5'
             }`}
           >
             <Utensils className="w-4 h-4 text-white" />
-            <span>Dishes &amp; Live Pricing ({items.length})</span>
+            <span className="hidden sm:inline">Dishes &amp; Live Pricing ({items.length})</span>
+            <span className="sm:hidden">Dishes ({items.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('categories')}
-            className={`px-5 py-3 font-headline text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px shrink-0 cursor-pointer ${
+            className={`px-3.5 sm:px-5 py-2.5 sm:py-3 font-headline text-xs uppercase tracking-wider sm:tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px shrink-0 cursor-pointer ${
               activeTab === 'categories'
                 ? 'border-[#FFBD18] text-white bg-white/5'
                 : 'border-transparent text-[#A1A1AA] hover:text-white hover:bg-white/5'
             }`}
           >
             <FolderTree className="w-4 h-4 text-white" />
-            <span>Category Manager ({categories.length})</span>
+            <span className="hidden sm:inline">Category Manager ({categories.length})</span>
+            <span className="sm:hidden">Categories ({categories.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('cms')}
-            className={`px-5 py-3 font-headline text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px shrink-0 cursor-pointer ${
+            className={`px-3.5 sm:px-5 py-2.5 sm:py-3 font-headline text-xs uppercase tracking-wider sm:tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px shrink-0 cursor-pointer ${
               activeTab === 'cms'
                 ? 'border-[#FFBD18] text-[#FFBD18] bg-white/5 font-extrabold'
                 : 'border-transparent text-[#A1A1AA] hover:text-white hover:bg-white/5'
             }`}
           >
             <Palette className="w-4 h-4 text-[#FFBD18]" />
-            <span>Customize Menu &amp; Live CMS</span>
+            <span className="hidden sm:inline">Customize Menu &amp; Live CMS</span>
+            <span className="sm:hidden">Theme &amp; CMS</span>
           </button>
 
           <button
             onClick={() => setActiveTab('analytics')}
-            className={`px-5 py-3 font-headline text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px shrink-0 cursor-pointer ${
+            className={`px-3.5 sm:px-5 py-2.5 sm:py-3 font-headline text-xs uppercase tracking-wider sm:tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px shrink-0 cursor-pointer ${
               activeTab === 'analytics'
                 ? 'border-[#16B9E8] text-[#16B9E8] bg-white/5 font-extrabold'
                 : 'border-transparent text-[#A1A1AA] hover:text-white hover:bg-white/5'
             }`}
           >
             <TrendingUp className="w-4 h-4 text-[#16B9E8]" />
-            <span>Analytics &amp; Insights</span>
+            <span className="hidden sm:inline">Analytics &amp; Insights</span>
+            <span className="sm:hidden">Analytics</span>
           </button>
         </div>
 

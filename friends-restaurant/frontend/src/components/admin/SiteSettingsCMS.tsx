@@ -62,11 +62,11 @@ export const SiteSettingsCMS: React.FC = () => {
   }
 
   return (
-    <div className="bg-[#121212] border border-[#222222] rounded-2xl p-6 sm:p-8 space-y-6 shadow-[0_8px_30px_rgba(0,0,0,0.6)]">
+    <div className="bg-[#121212] border border-[#222222] rounded-2xl p-4 sm:p-6 sm:p-8 space-y-6 shadow-[0_8px_30px_rgba(0,0,0,0.6)]">
       {/* CMS Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#222222]">
         <div>
-          <h3 className="font-headline text-xl font-bold text-white flex items-center gap-2">
+          <h3 className="font-headline text-lg sm:text-xl font-bold text-white flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-[#FFBD18]" />
             <span>Customer Menu CMS &amp; Live Customization</span>
           </h3>
@@ -75,13 +75,14 @@ export const SiteSettingsCMS: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5">
           <Button
             variant="secondary"
             size="sm"
             onClick={() => setIsResetConfirmOpen(true)}
             leftIcon={<RotateCcw className="w-3.5 h-3.5 text-[#A1A1AA]" />}
             disabled={resetMutation.isPending}
+            className="flex-1 sm:flex-none justify-center"
           >
             Restore to Default
           </Button>
@@ -92,6 +93,7 @@ export const SiteSettingsCMS: React.FC = () => {
             onClick={handleSave}
             isLoading={updateMutation.isPending}
             leftIcon={saveSuccess ? <Check className="w-4 h-4 text-black" /> : <Save className="w-4 h-4 text-black font-bold" />}
+            className="flex-1 sm:flex-none justify-center font-extrabold"
           >
             {saveSuccess ? 'Saved Live!' : 'Save Live Changes'}
           </Button>
