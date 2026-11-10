@@ -106,28 +106,31 @@ export const AnalyticsDashboard: React.FC = () => {
           </p>
         </div>
 
-        {/* Most Active Table */}
+        {/* Guest Engagement Rate */}
         <div className="bg-[#121212] border border-[#222222] rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
           <div className="flex items-center justify-between mb-3">
             <span className="font-headline text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold">
-              Most Active Table
+              Avg Dishes per Visit
             </span>
-            <div className="w-8 h-8 rounded-lg bg-[#FFBD18]/10 text-[#FFBD18] flex items-center justify-center">
-              <Flame className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center">
+              <TrendingUp className="w-4 h-4" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
             <span className="font-headline text-3xl font-bold font-mono text-white">
-              {topTables[0] ? `Table #${topTables[0].tableNumber}` : 'Table #4'}
+              {totalPageViews > 0 ? (totalDishViews / totalPageViews).toFixed(1) : '0'}
+            </span>
+            <span className="text-xs text-purple-400 font-bold">
+              Dishes / scan
             </span>
           </div>
           <p className="text-[11px] text-[#71717A] mt-1">
-            {topTables[0] ? `${topTables[0].count} visits recorded` : 'Garden center table'}
+            Customer engagement depth per session
           </p>
         </div>
       </div>
 
-      {/* Main Grid: Most Popular Dishes + Table Activity */}
+      {/* Main Grid: Most Popular Dishes + Official QR Stand */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Top Viewed Dishes (8 Cols) */}
         <div className="lg:col-span-8 bg-[#121212] border border-[#222222] rounded-2xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.6)] space-y-5">
@@ -213,51 +216,37 @@ export const AnalyticsDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Column: Table QR Scans Breakdown (4 Cols) */}
+        {/* Right Column: Unified Official QR Stand (4 Cols) */}
         <div className="lg:col-span-4 bg-[#121212] border border-[#222222] rounded-2xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.6)] space-y-5">
           <div className="pb-4 border-b border-[#222222]">
             <h3 className="font-headline text-base font-bold text-white flex items-center gap-2">
-              <QrCode className="w-4 h-4 text-[#16B9E8]" />
-              <span>Table Activity</span>
+              <QrCode className="w-4 h-4 text-[#FFBD18]" />
+              <span>Official QR Stand</span>
             </h3>
             <p className="text-xs text-[#A1A1AA] mt-0.5">
-              Busiest tables in the garden
+              One unified QR code for all tables
             </p>
           </div>
 
-          <div className="space-y-2.5">
-            {topTables.map((t, idx) => (
-              <div
-                key={t.tableNumber}
-                className="p-3 rounded-xl bg-[#0a0a0a] border border-[#222222] flex items-center justify-between text-xs"
-              >
-                <div className="flex items-center gap-2.5">
-                  <span className="w-7 h-7 rounded-lg bg-[#181818] border border-[#282828] text-white font-headline font-bold flex items-center justify-center">
-                    #{t.tableNumber}
-                  </span>
-                  <div>
-                    <span className="text-white font-bold block">Table #{t.tableNumber}</span>
-                    <span className="text-[10px] text-[#71717A]">Garden Section</span>
-                  </div>
-                </div>
-                <span className="font-mono text-xs font-bold text-[#16B9E8] px-2 py-0.5 rounded-md bg-[#16B9E8]/10 border border-[#16B9E8]/30">
-                  {t.count} scans
-                </span>
-              </div>
-            ))}
-
-            {topTables.length === 0 && (
-              <div className="py-8 text-center text-[#71717A] text-xs">
-                Scans are tracked whenever customers open a table QR URL.
-              </div>
-            )}
+          <div className="p-4 rounded-xl bg-[#0a0a0a] border border-[#222222] space-y-3 text-center">
+            <div className="w-12 h-12 rounded-2xl bg-[#FFBD18]/10 text-[#FFBD18] flex items-center justify-center mx-auto">
+              <QrCode className="w-6 h-6" />
+            </div>
+            <div>
+              <p className="font-headline text-sm font-bold text-white">
+                One Code &bull; Unified Scans
+              </p>
+              <p className="text-xs text-[#A1A1AA] mt-1 leading-relaxed">
+                Print the high-resolution acrylic stand card for your tables. All guest scans are counted together in real time.
+              </p>
+            </div>
           </div>
 
           {/* Business Pitch Tip for Restaurant Owner */}
-          <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-1.5 text-xs text-[#d4d4d8]">
+          <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2 text-xs text-[#d4d4d8]">
             <p className="font-headline font-bold text-white flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-[#FFBD18]" />
-              <span>Manager Insight</span>
+              <span>Kitchen &amp; Manager Tip</span>
             </p>
             <p className="text-[#A1A1AA] text-[11px] leading-relaxed">
               Dishes with the highest views are prime candidates for promotional discounts or kitchen prep prioritization during peak evening hours!

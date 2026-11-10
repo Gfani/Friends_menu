@@ -71,14 +71,6 @@ export const MenuHeader: React.FC<MenuHeaderProps> = ({
             <a href="#" className="flex items-center group" title={settings?.restaurantName || 'Mereba Friends Garden'}>
               <MerebaLogo variant="wide" glow={false} className="group-hover:scale-105 transition-transform" />
             </a>
-
-            {/* Table Badge (If scanned via QR) */}
-            {tableNumber && (
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#121212] border border-[#222222] text-[11px] font-headline uppercase font-bold tracking-wider text-white">
-                <MapPin className="w-3 h-3 text-[#FFBD18]" />
-                <span>Table #{tableNumber}</span>
-              </div>
-            )}
           </div>
 
           {/* Navigation Links */}

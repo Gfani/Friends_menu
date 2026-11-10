@@ -46,6 +46,7 @@ export class AnalyticsController {
         where: { type: 'PAGE_VIEW' },
       });
 
+      // Unified counter: count all QR scans in one total
       const totalTableScans = await prisma.analyticsEvent.count({
         where: { type: 'TABLE_SCAN' },
       });
@@ -54,10 +55,10 @@ export class AnalyticsController {
         where: { type: 'ITEM_VIEW' },
       });
 
-      // Top 6 most viewed dishes
+      // Top 8 most viewed dishes leaderboard
       const topDishes = await prisma.menuItem.findMany({
         orderBy: { viewsCount: 'desc' },
-        take: 6,
+        take: 8,
         select: {
           id: true,
           name: true,
@@ -73,30 +74,6 @@ export class AnalyticsController {
         },
       });
 
-      // Table breakdown
-      const tableEvents = await prisma.analyticsEvent.findMany({
-        where: {
-          tableNumber: {
-            not: null,
-          },
-        },
-        select: {
-          tableNumber: true,
-        },
-      });
-
-      const tableCounts: Record<string, number> = {};
-      tableEvents.forEach((e: { tableNumber: string | null }) => {
-        if (e.tableNumber) {
-          tableCounts[e.tableNumber] = (tableCounts[e.tableNumber] || 0) + 1;
-        }
-      });
-
-      const topTables = Object.entries(tableCounts)
-        .map(([tableNumber, count]) => ({ tableNumber, count }))
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 5);
-
       return reply.send({
         success: true,
         data: {
@@ -104,7 +81,6 @@ export class AnalyticsController {
           totalTableScans: Math.max(totalTableScans, 8),
           totalDishViews: Math.max(totalDishViews, 24),
           topDishes,
-          topTables,
         },
       });
     } catch (err: any) {

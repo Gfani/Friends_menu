@@ -43,16 +43,12 @@ export const CustomerMenu: React.FC = () => {
 
   const navigate = useNavigate();
 
-  // Track visit on mount
+  // Track visit on mount (count all QR scans together in one total)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const table = params.get('table');
-    if (table) {
-      setTableNumber(table);
-    }
+    const isScan = params.get('scan') === 'qr' || params.has('table') || params.has('scan');
     api.trackEvent({
-      type: table ? 'TABLE_SCAN' : 'PAGE_VIEW',
-      tableNumber: table || undefined,
+      type: isScan ? 'TABLE_SCAN' : 'PAGE_VIEW',
     }).catch(() => {});
   }, []);
 
