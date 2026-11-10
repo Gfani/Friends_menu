@@ -194,3 +194,4 @@ export const translateCategory = (name: string, lang: Language): string => {
 
   return name;
 };
+

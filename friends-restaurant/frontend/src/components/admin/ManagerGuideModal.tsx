@@ -145,3 +145,4 @@ export const ManagerGuideModal: React.FC<ManagerGuideModalProps> = ({ isOpen, on
     </Modal>
   );
 };
+

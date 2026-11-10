@@ -7,7 +7,7 @@ interface AuthContextType {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (usernameOrEmail: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -15,26 +15,29 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<AdminUser | null>(() => {
-    const saved = localStorage.getItem('friends_admin_user');
+    const saved = sessionStorage.getItem('friends_admin_user') || localStorage.getItem('friends_admin_user');
     return saved ? JSON.parse(saved) : null;
   });
   const [token, setToken] = useState<string | null>(() => {
-    return localStorage.getItem('friends_admin_token');
+    return sessionStorage.getItem('friends_admin_token') || localStorage.getItem('friends_admin_token');
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const checkAuth = async () => {
-      const storedToken = localStorage.getItem('friends_admin_token');
+      const storedToken = sessionStorage.getItem('friends_admin_token') || localStorage.getItem('friends_admin_token');
       if (storedToken) {
         try {
           const res = await api.getMe();
           setUser(res.admin);
-          localStorage.setItem('friends_admin_user', JSON.stringify(res.admin));
+          sessionStorage.setItem('friends_admin_user', JSON.stringify(res.admin));
         } catch (err) {
           console.error('Session expired or invalid:', err);
           logout();
         }
+      } else {
+        setUser(null);
+        setToken(null);
       }
       setIsLoading(false);
     };
@@ -42,10 +45,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     checkAuth();
   }, []);
 
-  const login = async (email: string, password: string) => {
-    const res = await api.login(email, password);
+  const login = async (usernameOrEmail: string, password: string) => {
+    const res = await api.login(usernameOrEmail, password);
     setToken(res.token);
     setUser(res.admin);
+    sessionStorage.setItem('friends_admin_token', res.token);
+    sessionStorage.setItem('friends_admin_user', JSON.stringify(res.admin));
     localStorage.setItem('friends_admin_token', res.token);
     localStorage.setItem('friends_admin_user', JSON.stringify(res.admin));
   };
@@ -53,6 +58,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     setToken(null);
     setUser(null);
+    sessionStorage.removeItem('friends_admin_token');
+    sessionStorage.removeItem('friends_admin_user');
     localStorage.removeItem('friends_admin_token');
     localStorage.removeItem('friends_admin_user');
   };
@@ -62,7 +69,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       value={{
         user,
         token,
-        isAuthenticated: !!token,
+        isAuthenticated: !!token && !!user,
         isLoading,
         login,
         logout,
@@ -80,4 +87,3 @@ export const useAuth = () => {
   }
   return context;
 };
-

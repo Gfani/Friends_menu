@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Lock, Mail, ArrowRight, AlertCircle, ArrowLeft } from 'lucide-react';
+import { Lock, User, ArrowRight, AlertCircle, ArrowLeft, Shield } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { MerebaLogo } from '../components/common/MerebaLogo';
 
 export const AdminLogin: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [failedAttempts, setFailedAttempts] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
-
-  const [isLocked, setIsLocked] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,16 +24,22 @@ export const AdminLogin: React.FC = () => {
       return;
     }
 
+    if (!username.trim() || !password.trim()) {
+      setError('Please enter both your username and password.');
+      return;
+    }
+
     setError(null);
     setIsLoading(true);
 
     try {
-      await login(email, password);
+      await login(username.trim(), password);
       setFailedAttempts(0);
       navigate('/admin');
     } catch (err: any) {
       const nextAttempts = failedAttempts + 1;
       setFailedAttempts(nextAttempts);
+
       if (nextAttempts >= 5) {
         setIsLocked(true);
         setError('Too many failed attempts. Login locked for 30 seconds.');
@@ -44,7 +49,10 @@ export const AdminLogin: React.FC = () => {
           setError(null);
         }, 30000);
       } else {
-        setError(`Invalid credentials. ${5 - nextAttempts} attempt(s) remaining.`);
+        const errorMsg = err.message?.includes('Incorrect password')
+          ? 'Incorrect password. Access denied.'
+          : err.message || 'Invalid username or password. Access denied.';
+        setError(`${errorMsg} (${5 - nextAttempts} attempts remaining)`);
       }
     } finally {
       setIsLoading(false);
@@ -71,32 +79,36 @@ export const AdminLogin: React.FC = () => {
             <MerebaLogo variant="full" className="w-40 sm:w-48" />
           </div>
 
-          <h1 className="font-headline text-lg font-bold text-white uppercase tracking-wider">
-            Menu Manager Console
-          </h1>
+          <div className="flex items-center justify-center gap-2 pt-2">
+            <Shield className="w-4 h-4 text-[#FFBD18]" />
+            <h1 className="font-headline text-lg font-bold text-white uppercase tracking-wider">
+              Management Portal
+            </h1>
+          </div>
           <p className="font-body text-xs text-[#A1A1AA]">
-            Sign in to manage dishes, live pricing, sections, and table QR codes.
+            Authorized personnel only. Please sign in with your manager credentials.
           </p>
         </div>
 
         {/* Error notification */}
         {error && (
-          <div className="mb-4 p-3 bg-white/5 border border-white/10 rounded-xl flex items-center gap-2 text-xs text-[#FFA4AB]">
-            <AlertCircle className="w-4 h-4 shrink-0" />
+          <div className="mb-4 p-3.5 bg-red-950/40 border border-red-500/30 rounded-xl flex items-center gap-2.5 text-xs text-red-300 animate-in fade-in">
+            <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
             <span>{error}</span>
           </div>
         )}
 
-        {/* Form */}
+        {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
-            label="Admin Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="admin@friends.com"
-            leftIcon={<Mail className="w-4 h-4" />}
+            label="Username or Email"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter username or email"
+            leftIcon={<User className="w-4 h-4" />}
             required
+            autoFocus
           />
 
           <Input
@@ -104,7 +116,7 @@ export const AdminLogin: React.FC = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
+            placeholder="Enter manager password"
             leftIcon={<Lock className="w-4 h-4" />}
             required
           />
@@ -115,20 +127,17 @@ export const AdminLogin: React.FC = () => {
             type="submit"
             className="w-full mt-2 font-extrabold"
             isLoading={isLoading}
+            disabled={isLocked}
             rightIcon={<ArrowRight className="w-4 h-4" />}
           >
-            Authenticate
+            Sign In to Dashboard
           </Button>
         </form>
 
-        {/* Demo credentials hint */}
-        <div className="mt-6 pt-4 border-t border-[#222222] text-center space-y-1.5">
-          <span className="font-headline text-[10px] text-[#71717A] uppercase tracking-widest font-bold block">
-            Default Credentials
-          </span>
-          <div className="inline-block bg-[#0a0a0a] border border-[#222222] rounded-xl px-3 py-1.5 text-xs font-mono text-zinc-300">
-            <span className="text-white font-bold">admin@friends.com</span> / <span>admin123</span>
-          </div>
+        <div className="mt-6 pt-4 border-t border-[#222222] text-center">
+          <p className="text-[11px] text-[#52525B]">
+            Mereba Friends Garden &bull; Secure Restaurant Operations
+          </p>
         </div>
       </div>
     </div>

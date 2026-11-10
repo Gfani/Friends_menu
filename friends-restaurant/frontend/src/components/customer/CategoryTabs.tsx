@@ -42,11 +42,10 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
             onSelectParent('FOOD');
             onSelectCategory('all');
           }}
-          className={`flex items-center gap-2 px-6 sm:px-8 py-2.5 rounded-full font-headline text-xs sm:text-sm font-extrabold uppercase tracking-widest transition-all duration-300 cursor-pointer ${
-            activeParent === 'FOOD'
-              ? 'bg-[#FFBD18] text-black shadow-[0_0_20px_rgba(255,189,24,0.4)] scale-102'
-              : 'text-[#A1A1AA] hover:text-white hover:bg-white/5'
-          }`}
+          className={`flex items-center gap-2 px-6 sm:px-8 py-2.5 rounded-full font-headline text-xs sm:text-sm font-extrabold uppercase tracking-widest transition-all duration-300 cursor-pointer ${activeParent === 'FOOD'
+            ? 'bg-[#FFBD18] text-black shadow-[0_0_20px_rgba(255,189,24,0.4)] scale-102'
+            : 'text-[#A1A1AA] hover:text-white hover:bg-white/5'
+            }`}
         >
           <Utensils className="w-4 h-4" />
           <span>{t.food} ({totalFoodCount})</span>
@@ -58,11 +57,10 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
             onSelectParent('DRINKS');
             onSelectCategory('all');
           }}
-          className={`flex items-center gap-2 px-6 sm:px-8 py-2.5 rounded-full font-headline text-xs sm:text-sm font-extrabold uppercase tracking-widest transition-all duration-300 cursor-pointer ${
-            activeParent === 'DRINKS'
-              ? 'bg-[#FFBD18] text-black shadow-[0_0_20px_rgba(255,189,24,0.4)] scale-102'
-              : 'text-[#A1A1AA] hover:text-white hover:bg-white/5'
-          }`}
+          className={`flex items-center gap-2 px-6 sm:px-8 py-2.5 rounded-full font-headline text-xs sm:text-sm font-extrabold uppercase tracking-widest transition-all duration-300 cursor-pointer ${activeParent === 'DRINKS'
+            ? 'bg-[#FFBD18] text-black shadow-[0_0_20px_rgba(255,189,24,0.4)] scale-102'
+            : 'text-[#A1A1AA] hover:text-white hover:bg-white/5'
+            }`}
         >
           <Wine className="w-4 h-4" />
           <span>{t.drinks} ({totalDrinkCount})</span>
@@ -75,11 +73,10 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
         <button
           onClick={() => onSelectCategory('all')}
           type="button"
-          className={`px-4 sm:px-5 py-2 rounded-full font-headline text-xs uppercase tracking-wider font-bold transition-all duration-200 shrink-0 cursor-pointer ${
-            activeCategory === 'all'
-              ? 'bg-white text-black shadow-[0_0_12px_rgba(255,255,255,0.25)]'
-              : 'bg-[#141414] text-[#A1A1AA] hover:text-white hover:bg-[#1f1f1f] border border-[#222222]'
-          }`}
+          className={`px-4 sm:px-5 py-2 rounded-full font-headline text-xs uppercase tracking-wider font-bold transition-all duration-200 shrink-0 cursor-pointer ${activeCategory === 'all'
+            ? 'bg-white text-black shadow-[0_0_12px_rgba(255,255,255,0.25)]'
+            : 'bg-[#141414] text-[#A1A1AA] hover:text-white hover:bg-[#1f1f1f] border border-[#222222]'
+            }`}
         >
           <span>{activeParent === 'FOOD' ? t.allFood : t.allDrinks}</span>
         </button>
@@ -94,11 +91,10 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
               key={category.id}
               onClick={() => onSelectCategory(category.id)}
               type="button"
-              className={`px-4 sm:px-5 py-2 rounded-full font-headline text-xs uppercase tracking-wider font-bold transition-all duration-200 shrink-0 cursor-pointer ${
-                isActive
-                  ? 'bg-white text-black shadow-[0_0_12px_rgba(255,255,255,0.25)]'
-                  : 'bg-[#141414] text-[#A1A1AA] hover:text-white hover:bg-[#1f1f1f] border border-[#222222]'
-              }`}
+              className={`px-4 sm:px-5 py-2 rounded-full font-headline text-xs uppercase tracking-wider font-bold transition-all duration-200 shrink-0 cursor-pointer ${isActive
+                ? 'bg-white text-black shadow-[0_0_12px_rgba(255,255,255,0.25)]'
+                : 'bg-[#141414] text-[#A1A1AA] hover:text-white hover:bg-[#1f1f1f] border border-[#222222]'
+                }`}
             >
               <span>{translatedName}</span>
             </button>

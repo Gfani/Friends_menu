@@ -40,10 +40,10 @@ class ApiClient {
   }
 
   // --- Auth ---
-  async login(email: string, password: string): Promise<{ success: boolean; token: string; admin: AdminUser }> {
+  async login(usernameOrEmail: string, password: string): Promise<{ success: boolean; token: string; admin: AdminUser }> {
     return this.request('/api/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username: usernameOrEmail, email: usernameOrEmail, password }),
     });
   }
 

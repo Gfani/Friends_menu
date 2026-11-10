@@ -4,7 +4,8 @@ import { prisma } from '../config/database.js';
 import { z } from 'zod';
 
 const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
+  username: z.string().optional(),
+  email: z.string().optional(),
   password: z.string().min(1, 'Password is required'),
 });
 
@@ -19,16 +20,33 @@ export class AuthController {
         });
       }
 
-      const { email, password } = parseResult.data;
+      const { username, email, password } = parseResult.data;
+      const identifier = (username || email || '').trim();
 
-      const admin = await prisma.admin.findUnique({
-        where: { email: email.toLowerCase() },
+      if (!identifier) {
+        return reply.status(400).send({
+          success: false,
+          error: 'Username or email is required',
+        });
+      }
+
+      const lowerId = identifier.toLowerCase();
+
+      // Find admin by exact email, admin name, or prefix match (e.g. "admin" for "admin@friends.com")
+      const admin = await prisma.admin.findFirst({
+        where: {
+          OR: [
+            { email: lowerId },
+            { name: identifier },
+            { email: { startsWith: lowerId + '@' } },
+          ],
+        },
       });
 
       if (!admin) {
         return reply.status(401).send({
           success: false,
-          error: 'Invalid credentials. Please verify your email and password.',
+          error: 'Invalid username or password. Access denied.',
         });
       }
 
@@ -36,7 +54,7 @@ export class AuthController {
       if (!isPasswordValid) {
         return reply.status(401).send({
           success: false,
-          error: 'Invalid credentials. Please verify your email and password.',
+          error: 'Incorrect password. Access denied.',
         });
       }
 
@@ -47,7 +65,7 @@ export class AuthController {
           email: admin.email,
           name: admin.name,
         },
-        { expiresIn: '7d' }
+        { expiresIn: '1d' }
       );
 
       return reply.send({
