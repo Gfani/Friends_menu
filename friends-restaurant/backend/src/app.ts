@@ -9,6 +9,7 @@ import { env } from './config/env.js';
 import { authRoutes } from './routes/auth.routes.js';
 import { menuRoutes } from './routes/menu.routes.js';
 import { settingsRoutes } from './routes/settings.routes.js';
+import { analyticsRoutes } from './routes/analytics.routes.js';
 
 const app = Fastify({
   logger: {
@@ -59,6 +60,7 @@ async function main() {
   await app.register(authRoutes, { prefix: '/api/auth' });
   await app.register(menuRoutes, { prefix: '/api' });
   await app.register(settingsRoutes, { prefix: '/api' });
+  await app.register(analyticsRoutes, { prefix: '/api/analytics' });
 
   // Listen
   try {

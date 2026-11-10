@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, Sparkles } from 'lucide-react';
 import { MenuItem } from '../../types/menu';
+import { api } from '../../api/client';
 
 interface MenuCardProps {
   item: MenuItem;
@@ -31,9 +32,21 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
   const specialLabel = isMarketPrice ? "Chef's Special" : 'House Special';
   const categoryName = item.category?.name || 'Artisan Selection';
 
+  const handleToggle = () => {
+    const nextState = !isExpanded;
+    setIsExpanded(nextState);
+    if (nextState) {
+      api.trackEvent({
+        type: 'ITEM_VIEW',
+        itemId: item.id,
+        itemName: item.name,
+      }).catch(() => {});
+    }
+  };
+
   return (
     <div
-      onClick={() => setIsExpanded(!isExpanded)}
+      onClick={handleToggle}
       className={`group relative rounded-2xl border transition-all duration-300 cursor-pointer select-none overflow-hidden flex flex-col justify-between ${
         isExpanded
           ? 'bg-[#181818] border-[#333333] shadow-[0_20px_40px_rgba(0,0,0,0.8)]'

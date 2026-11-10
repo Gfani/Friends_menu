@@ -38,10 +38,20 @@ model MenuItem {
   isAvailable Boolean  @default(true)
   tags        String?
   sortOrder   Int      @default(0)
+  viewsCount  Int      @default(0)
   categoryId  String
   category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model AnalyticsEvent {
+  id          String   @id @default(uuid())
+  type        String   // "PAGE_VIEW" | "TABLE_SCAN" | "ITEM_VIEW"
+  tableNumber String?
+  itemId      String?
+  itemName    String?
+  createdAt   DateTime @default(now())
 }
 
 model ServiceRequest {

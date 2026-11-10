@@ -4,12 +4,10 @@ import {
   AlertCircle,
   ArrowUp,
   ExternalLink,
-  Lock,
   Wifi,
   Check,
   Copy,
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { useMenu, useSiteSettings } from '../hooks/useMenu';
 import { MenuHeader } from '../components/customer/MenuHeader';
 import { CategoryTabs } from '../components/customer/CategoryTabs';
@@ -17,10 +15,18 @@ import { MenuCard } from '../components/customer/MenuCard';
 import { MenuItem } from '../types/menu';
 import { MerebaLogo } from '../components/common/MerebaLogo';
 import { FriendsDoodleRibbon } from '../components/customer/FriendsDoodleRibbon';
+import { api } from '../api/client';
+import { Language, translations } from '../i18n/translations';
 
 export const CustomerMenu: React.FC = () => {
   const { data: categories = [], isLoading, error, refetch } = useMenu();
   const { data: settings } = useSiteSettings();
+
+  // Language state
+  const [currentLang, setCurrentLang] = useState<Language>(() => {
+    return (localStorage.getItem('friends_language') as Language) || 'en';
+  });
+  const t = translations[currentLang];
 
   // Primary Department: FOOD vs DRINKS
   const [activeParent, setActiveParent] = useState<'FOOD' | 'DRINKS'>('FOOD');
@@ -28,6 +34,16 @@ export const CustomerMenu: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
   const [copiedWifi, setCopiedWifi] = useState<boolean>(false);
+
+  // Track visit on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const table = params.get('table');
+    api.trackEvent({
+      type: table ? 'TABLE_SCAN' : 'PAGE_VIEW',
+      tableNumber: table || undefined,
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -125,7 +141,7 @@ export const CustomerMenu: React.FC = () => {
       }}
     >
       {/* 1. FIXED TOP NAVIGATION BAR */}
-      <MenuHeader />
+      <MenuHeader currentLang={currentLang} onLanguageChange={setCurrentLang} />
 
       {/* 2. CINEMATIC HERO SECTION */}
       <section
@@ -219,14 +235,14 @@ export const CustomerMenu: React.FC = () => {
               className="w-full sm:w-auto inline-flex items-center justify-center font-headline text-xs uppercase tracking-widest px-8 py-3.5 rounded-full text-black font-extrabold hover:brightness-110 shadow-[0_0_20px_rgba(255,189,24,0.3)] transition-all cursor-pointer"
               style={{ backgroundColor: accentColor }}
             >
-              EXPLORE OUR MENU
+              {t.exploreMenu}
             </a>
             <a
               href="#location-section"
               className="w-full sm:w-auto inline-flex items-center justify-center font-headline text-xs uppercase tracking-widest px-8 py-3.5 rounded-full text-white hover:bg-[#1a1a1a] border border-[#222222] hover:border-[#333333] transition-all font-semibold"
               style={{ backgroundColor: cardColor }}
             >
-              VISIT OUR GARDEN
+              {t.visitGarden}
             </a>
           </div>
 
@@ -235,7 +251,7 @@ export const CustomerMenu: React.FC = () => {
             <div>
               <p className="font-headline text-2xl sm:text-3xl text-white font-extrabold tracking-tight">11:00</p>
               <p className="font-headline text-[10px] sm:text-[11px] text-[#A1A1AA] uppercase tracking-widest mt-1 font-semibold">
-                AM &bull; Daily Open
+                {t.dailyOpen}
               </p>
             </div>
             <div className="border-x border-[#222222]">
@@ -243,13 +259,13 @@ export const CustomerMenu: React.FC = () => {
                 {totalFoodCount + totalDrinkCount}+
               </p>
               <p className="font-headline text-[10px] sm:text-[11px] text-[#A1A1AA] uppercase tracking-widest mt-1 font-semibold">
-                Artisan Dishes &amp; Drinks
+                {t.artisanDishes}
               </p>
             </div>
             <div>
               <p className="font-headline text-2xl sm:text-3xl text-white font-extrabold tracking-tight">100%</p>
               <p className="font-headline text-[10px] sm:text-[11px] text-[#A1A1AA] uppercase tracking-widest mt-1 font-semibold">
-                Fresh To Order
+                {t.freshToOrder}
               </p>
             </div>
           </div>
@@ -294,7 +310,7 @@ export const CustomerMenu: React.FC = () => {
                 </span>
                 <input
                   type="text"
-                  placeholder={`Search ${activeParent === 'FOOD' ? 'pasta, rice, salad, soup, pizza...' : 'soft drinks, hot drinks, mojito, beer, juice...'}`}
+                  placeholder={activeParent === 'FOOD' ? t.searchPlaceholderFood : t.searchPlaceholderDrinks}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-11 pr-10 py-2.5 sm:py-3 rounded-xl text-white text-sm placeholder:text-[#71717A] border border-[#222222] focus:outline-none transition-colors shadow-inner font-body"
@@ -307,7 +323,7 @@ export const CustomerMenu: React.FC = () => {
                   <button
                     onClick={() => setSearchQuery('')}
                     className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#71717A] hover:text-white transition-colors"
-                    title="Clear search"
+                    title={t.clearSearch}
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -326,6 +342,7 @@ export const CustomerMenu: React.FC = () => {
                 onSelectCategory={setActiveCategory}
                 totalFoodCount={totalFoodCount}
                 totalDrinkCount={totalDrinkCount}
+                currentLang={currentLang}
               />
             </div>
           </div>
@@ -340,7 +357,7 @@ export const CustomerMenu: React.FC = () => {
                 onClick={() => setSearchQuery('')}
                 className="text-white hover:underline font-headline uppercase tracking-wider text-[11px] font-semibold"
               >
-                Clear Search
+                {t.clearSearch}
               </button>
             </div>
           )}
@@ -382,9 +399,9 @@ export const CustomerMenu: React.FC = () => {
               className="py-16 text-center rounded-2xl border border-[#222222] p-8 max-w-lg mx-auto"
               style={{ backgroundColor: cardColor }}
             >
-              <p className="font-headline text-lg text-white font-bold">No dishes or drinks match your selection.</p>
+              <p className="font-headline text-lg text-white font-bold">{t.noDishesFound}</p>
               <p className="font-body text-xs text-[#A1A1AA] mt-1">
-                Try selecting &ldquo;All {activeParent === 'FOOD' ? 'Food' : 'Drinks'}&rdquo; or clear your search term.
+                {t.trySearching}
               </p>
               <button
                 onClick={() => {
@@ -394,7 +411,7 @@ export const CustomerMenu: React.FC = () => {
                 className="mt-5 px-6 py-2.5 text-black text-xs font-headline uppercase font-extrabold rounded-full hover:brightness-110 transition-all cursor-pointer shadow-md"
                 style={{ backgroundColor: accentColor }}
               >
-                Show All {activeParent === 'FOOD' ? 'Food' : 'Drinks'}
+                {t.showAll} {activeParent === 'FOOD' ? t.food : t.drinks}
               </button>
             </div>
           )}
@@ -872,13 +889,7 @@ export const CustomerMenu: React.FC = () => {
 
             <div className="pt-6 border-t border-[#222222] w-full flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#71717A] gap-2">
               <p>Copyright &copy; F.R.I.E.N.D.S {settings?.restaurantName || 'Mereba Friends Garden'}. All rights reserved.</p>
-              <Link
-                to="/admin"
-                className="inline-flex items-center gap-1.5 text-[#A1A1AA] hover:text-white transition-colors font-headline uppercase tracking-wider font-semibold"
-              >
-                <Lock className="w-3 h-3" />
-                <span>Staff Console</span>
-              </Link>
+              <p className="text-[#52525B]">Casual Luxury Dining &bull; Kebele 17, Mekelle</p>
             </div>
           </div>
         </div>

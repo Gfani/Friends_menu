@@ -227,3 +227,15 @@ export function useResolveServiceRequest() {
     },
   });
 }
+
+// 12. Menu Analytics Hook
+export function useAnalyticsSummary() {
+  return useQuery({
+    queryKey: ['analytics-summary'],
+    queryFn: async () => {
+      const res = await api.getAnalyticsSummary();
+      return res.data;
+    },
+    refetchInterval: 15000,
+  });
+}

@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { LogOut, ExternalLink, QrCode, Shield, KeyRound } from 'lucide-react';
+import { LogOut, ExternalLink, QrCode, Shield, KeyRound, BookOpen } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { TableQRModal } from './TableQRModal';
 import { AccountSecurityModal } from './AccountSecurityModal';
+import { ManagerGuideModal } from './ManagerGuideModal';
 import { MerebaLogo } from '../common/MerebaLogo';
 
 export const AdminHeader: React.FC = () => {
   const { user, logout } = useAuth();
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [isSecurityModalOpen, setIsSecurityModalOpen] = useState(false);
+  const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
 
   return (
     <>
@@ -29,6 +31,16 @@ export const AdminHeader: React.FC = () => {
 
           {/* Right Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Manager Operations Guide Button */}
+            <button
+              onClick={() => setIsGuideModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-headline font-bold uppercase tracking-wider rounded-xl bg-[#141414] hover:bg-[#1f1f1f] text-[#d4d4d8] hover:text-white border border-[#262626] transition-all cursor-pointer"
+              title="1-Page Operations Cheatsheet"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-[#FFBD18]" />
+              <span className="hidden sm:inline">Manager Guide</span>
+            </button>
+
             {/* Generate Table QR Codes Button */}
             <button
               onClick={() => setIsQRModalOpen(true)}
@@ -92,6 +104,12 @@ export const AdminHeader: React.FC = () => {
       <AccountSecurityModal
         isOpen={isSecurityModalOpen}
         onClose={() => setIsSecurityModalOpen(false)}
+      />
+
+      {/* Manager Operations Guide Modal */}
+      <ManagerGuideModal
+        isOpen={isGuideModalOpen}
+        onClose={() => setIsGuideModalOpen(false)}
       />
     </>
   );

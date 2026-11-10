@@ -192,6 +192,39 @@ class ApiClient {
       method: 'PATCH',
     });
   }
+
+  // --- Menu Analytics ---
+  async trackEvent(data: {
+    type: 'PAGE_VIEW' | 'TABLE_SCAN' | 'ITEM_VIEW';
+    tableNumber?: string;
+    itemId?: string;
+    itemName?: string;
+  }): Promise<{ success: boolean }> {
+    return this.request('/api/analytics/track', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getAnalyticsSummary(): Promise<{
+    success: boolean;
+    data: {
+      totalPageViews: number;
+      totalTableScans: number;
+      totalDishViews: number;
+      topDishes: Array<{
+        id: string;
+        name: string;
+        price: number | null;
+        image: string | null;
+        viewsCount: number;
+        category?: { name: string; parentCategory: string };
+      }>;
+      topTables: Array<{ tableNumber: string; count: number }>;
+    };
+  }> {
+    return this.request('/api/analytics/summary');
+  }
 }
 
 export const api = new ApiClient();

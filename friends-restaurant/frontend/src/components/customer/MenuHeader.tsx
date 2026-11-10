@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import {
   Wifi,
   Check,
@@ -7,18 +7,28 @@ import {
   MapPin,
   Menu as MenuIcon,
   X,
-  Lock,
+  Globe,
 } from 'lucide-react';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
 import { MerebaLogo } from '../common/MerebaLogo';
 import { useSiteSettings } from '../../hooks/useMenu';
+import { Language, translations } from '../../i18n/translations';
 
-export const MenuHeader: React.FC = () => {
+interface MenuHeaderProps {
+  currentLang?: Language;
+  onLanguageChange?: (lang: Language) => void;
+}
+
+export const MenuHeader: React.FC<MenuHeaderProps> = ({
+  currentLang = 'en',
+  onLanguageChange,
+}) => {
   const [searchParams] = useSearchParams();
   const urlTable = searchParams.get('table');
 
   const { data: settings } = useSiteSettings();
+  const t = translations[currentLang];
 
   const [tableNumber, setTableNumber] = useState<string | null>(() => {
     return urlTable || localStorage.getItem('friends_table_number') || null;
@@ -44,6 +54,13 @@ export const MenuHeader: React.FC = () => {
     setTimeout(() => setCopiedWifi(false), 2500);
   };
 
+  const handleLangSelect = (lang: Language) => {
+    if (onLanguageChange) {
+      onLanguageChange(lang);
+    }
+    localStorage.setItem('friends_language', lang);
+  };
+
   return (
     <>
       {/* FIXED NAVIGATION BAR */}
@@ -67,42 +84,73 @@ export const MenuHeader: React.FC = () => {
           {/* Navigation Links */}
           <nav className="hidden lg:flex items-center gap-7 font-headline text-xs uppercase tracking-widest">
             <a href="#hero" className="text-white hover:text-white transition-colors py-1 font-semibold">
-              Home
+              {t.home}
             </a>
             <a href="#menu-section" className="text-[#A1A1AA] hover:text-white transition-colors py-1 font-medium">
-              Our Menu
+              {t.ourMenu}
             </a>
             <a href="#about-section" className="text-[#A1A1AA] hover:text-white transition-colors py-1 font-medium">
-              About Us
+              {t.aboutUs}
             </a>
             <a href="#gallery-section" className="text-[#A1A1AA] hover:text-white transition-colors py-1 font-medium">
-              Atmosphere
+              {t.atmosphere}
             </a>
             <a href="#location-section" className="text-[#A1A1AA] hover:text-white transition-colors py-1 font-medium">
-              Location &amp; Hours
+              {t.locationHours}
             </a>
           </nav>
 
-          {/* Right Actions */}
+          {/* Right Actions: Free Wi-Fi + Language Switcher (Admin Link completely removed for customers) */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Language Switcher Bar */}
+            <div className="inline-flex items-center p-1 rounded-full bg-[#121212] border border-[#262626]">
+              <button
+                type="button"
+                onClick={() => handleLangSelect('en')}
+                className={`px-2.5 py-1 rounded-full text-[11px] font-headline font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  currentLang === 'en'
+                    ? 'bg-[#FFBD18] text-black shadow-sm font-extrabold'
+                    : 'text-[#A1A1AA] hover:text-white'
+                }`}
+                title="English"
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => handleLangSelect('ti')}
+                className={`px-2.5 py-1 rounded-full text-[11px] font-headline font-bold transition-all cursor-pointer ${
+                  currentLang === 'ti'
+                    ? 'bg-[#FFBD18] text-black shadow-sm font-extrabold'
+                    : 'text-[#A1A1AA] hover:text-white'
+                }`}
+                title="ትግርኛ"
+              >
+                ትግ
+              </button>
+              <button
+                type="button"
+                onClick={() => handleLangSelect('am')}
+                className={`px-2.5 py-1 rounded-full text-[11px] font-headline font-bold transition-all cursor-pointer ${
+                  currentLang === 'am'
+                    ? 'bg-[#FFBD18] text-black shadow-sm font-extrabold'
+                    : 'text-[#A1A1AA] hover:text-white'
+                }`}
+                title="አማርኛ"
+              >
+                አማ
+              </button>
+            </div>
+
             {/* Free Wi-Fi Button */}
             <button
               onClick={() => setIsWifiModalOpen(true)}
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121212] hover:bg-[#1a1a1a] border border-[#222222] hover:border-[#333333] text-[#A1A1AA] hover:text-white text-xs font-headline uppercase font-semibold tracking-wider transition-all cursor-pointer"
-              title="Complimentary Wi-Fi"
+              title={t.freeWifi}
             >
               <Wifi className="w-3.5 h-3.5 text-[#FFBD18]" />
-              <span className="hidden sm:inline">Free Wi-Fi</span>
+              <span className="hidden sm:inline">{t.freeWifi}</span>
             </button>
-
-            {/* Staff / Admin Portal */}
-            <Link
-              to="/admin"
-              className="w-8 h-8 rounded-full bg-[#121212] border border-[#222222] hover:border-[#333333] flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all shrink-0"
-              title="Staff & Admin Portal"
-            >
-              <Lock className="w-3.5 h-3.5" />
-            </Link>
 
             {/* Mobile Hamburger Menu Toggle */}
             <button
@@ -123,35 +171,35 @@ export const MenuHeader: React.FC = () => {
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 text-white hover:text-white"
             >
-              Home
+              {t.home}
             </a>
             <a
               href="#menu-section"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 text-[#A1A1AA] hover:text-white"
             >
-              Our Menu (Food &amp; Drinks)
+              {t.ourMenu} ({t.food} &amp; {t.drinks})
             </a>
             <a
               href="#about-section"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 text-[#A1A1AA] hover:text-white"
             >
-              About Us
+              {t.aboutUs}
             </a>
             <a
               href="#gallery-section"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 text-[#A1A1AA] hover:text-white"
             >
-              Atmosphere &amp; Plates
+              {t.atmosphere}
             </a>
             <a
               href="#location-section"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 text-[#A1A1AA] hover:text-white"
             >
-              Location &amp; Hours
+              {t.locationHours}
             </a>
 
             <div className="pt-2 border-t border-[#222222] flex gap-2">
@@ -165,7 +213,7 @@ export const MenuHeader: React.FC = () => {
                 }}
                 leftIcon={<Wifi className="w-3.5 h-3.5 text-[#FFBD18]" />}
               >
-                Connect to Free Wi-Fi
+                {t.guestWifi}
               </Button>
             </div>
           </div>
@@ -182,7 +230,7 @@ export const MenuHeader: React.FC = () => {
               <Wifi className="w-4 h-4 text-[#FFBD18]" />
             </div>
             <span className="font-headline text-base sm:text-lg uppercase tracking-wider text-white font-bold">
-              Complimentary Guest Wi-Fi
+              {t.guestWifi}
             </span>
           </div>
         }
@@ -217,12 +265,12 @@ export const MenuHeader: React.FC = () => {
                 {copiedWifi ? (
                   <>
                     <Check className="w-3.5 h-3.5 text-black" />
-                    <span>Copied!</span>
+                    <span>{t.passwordCopied}</span>
                   </>
                 ) : (
                   <>
                     <Copy className="w-3.5 h-3.5 text-black" />
-                    <span>Copy</span>
+                    <span>{t.copyPassword}</span>
                   </>
                 )}
               </button>
@@ -238,7 +286,7 @@ export const MenuHeader: React.FC = () => {
             className="w-full py-2.5 rounded-lg bg-[#181818] hover:bg-[#222222] text-white font-headline uppercase tracking-wider text-xs font-bold border border-[#282828] transition-colors cursor-pointer"
             onClick={() => setIsWifiModalOpen(false)}
           >
-            Close
+            {t.close}
           </button>
         </div>
       </Modal>

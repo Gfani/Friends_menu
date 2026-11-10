@@ -7,24 +7,45 @@ import { Input } from '../components/ui/Input';
 import { MerebaLogo } from '../components/common/MerebaLogo';
 
 export const AdminLogin: React.FC = () => {
-  const [email, setEmail] = useState('admin@friends.com');
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [failedAttempts, setFailedAttempts] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const [isLocked, setIsLocked] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLocked) {
+      setError('Access temporarily locked due to too many failed attempts. Please wait 30 seconds.');
+      return;
+    }
+
     setError(null);
     setIsLoading(true);
 
     try {
       await login(email, password);
+      setFailedAttempts(0);
       navigate('/admin');
     } catch (err: any) {
-      setError(err.message || 'Invalid email or password');
+      const nextAttempts = failedAttempts + 1;
+      setFailedAttempts(nextAttempts);
+      if (nextAttempts >= 5) {
+        setIsLocked(true);
+        setError('Too many failed attempts. Login locked for 30 seconds.');
+        setTimeout(() => {
+          setIsLocked(false);
+          setFailedAttempts(0);
+          setError(null);
+        }, 30000);
+      } else {
+        setError(`Invalid credentials. ${5 - nextAttempts} attempt(s) remaining.`);
+      }
     } finally {
       setIsLoading(false);
     }

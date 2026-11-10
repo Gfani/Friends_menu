@@ -6,6 +6,7 @@ import {
   CheckCircle2,
   EyeOff,
   Palette,
+  TrendingUp,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import {
@@ -19,12 +20,13 @@ import { CategoryManager } from '../components/admin/CategoryManager';
 import { ItemListTable } from '../components/admin/ItemListTable';
 import { ItemFormModal } from '../components/admin/ItemFormModal';
 import { SiteSettingsCMS } from '../components/admin/SiteSettingsCMS';
+import { AnalyticsDashboard } from '../components/admin/AnalyticsDashboard';
 import { MenuItem } from '../types/menu';
 
 export const AdminDashboard: React.FC = () => {
   const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<'items' | 'categories' | 'cms'>('items');
+  const [activeTab, setActiveTab] = useState<'items' | 'categories' | 'cms' | 'analytics'>('items');
   const [isItemModalOpen, setIsItemModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
 
@@ -184,6 +186,18 @@ export const AdminDashboard: React.FC = () => {
             <Palette className="w-4 h-4 text-[#FFBD18]" />
             <span>Customize Menu &amp; Live CMS</span>
           </button>
+
+          <button
+            onClick={() => setActiveTab('analytics')}
+            className={`px-5 py-3 font-headline text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px shrink-0 cursor-pointer ${
+              activeTab === 'analytics'
+                ? 'border-[#16B9E8] text-[#16B9E8] bg-white/5 font-extrabold'
+                : 'border-transparent text-[#A1A1AA] hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <TrendingUp className="w-4 h-4 text-[#16B9E8]" />
+            <span>Analytics &amp; Insights</span>
+          </button>
         </div>
 
         {/* Tab View 1: Dishes Table */}
@@ -201,6 +215,9 @@ export const AdminDashboard: React.FC = () => {
 
         {/* Tab View 3: Live Menu CMS & Visual Customizer */}
         {activeTab === 'cms' && <SiteSettingsCMS />}
+
+        {/* Tab View 4: Menu Analytics & QR Tracking */}
+        {activeTab === 'analytics' && <AnalyticsDashboard />}
       </main>
 
       {/* Modal: Item Create / Edit */}

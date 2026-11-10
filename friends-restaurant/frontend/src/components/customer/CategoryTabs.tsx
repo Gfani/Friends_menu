@@ -1,6 +1,7 @@
 import React from 'react';
 import { Utensils, Wine } from 'lucide-react';
 import { Category } from '../../types/menu';
+import { Language, translations, translateCategory } from '../../i18n/translations';
 
 interface CategoryTabsProps {
   categories: Category[];
@@ -10,6 +11,7 @@ interface CategoryTabsProps {
   onSelectCategory: (id: string) => void;
   totalFoodCount: number;
   totalDrinkCount: number;
+  currentLang?: Language;
 }
 
 export const CategoryTabs: React.FC<CategoryTabsProps> = ({
@@ -20,7 +22,10 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
   onSelectCategory,
   totalFoodCount,
   totalDrinkCount,
+  currentLang = 'en',
 }) => {
+  const t = translations[currentLang];
+
   // Filter subcategories for the active parent department
   const currentSubCategories = categories.filter((cat) => {
     const parent = cat.parentCategory || 'FOOD';
@@ -44,7 +49,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
           }`}
         >
           <Utensils className="w-4 h-4" />
-          <span>FOOD ({totalFoodCount})</span>
+          <span>{t.food} ({totalFoodCount})</span>
         </button>
 
         <button
@@ -60,7 +65,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
           }`}
         >
           <Wine className="w-4 h-4" />
-          <span>DRINKS ({totalDrinkCount})</span>
+          <span>{t.drinks} ({totalDrinkCount})</span>
         </button>
       </div>
 
@@ -76,12 +81,13 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
               : 'bg-[#141414] text-[#A1A1AA] hover:text-white hover:bg-[#1f1f1f] border border-[#222222]'
           }`}
         >
-          <span>All {activeParent === 'FOOD' ? 'Food' : 'Drinks'}</span>
+          <span>{activeParent === 'FOOD' ? t.allFood : t.allDrinks}</span>
         </button>
 
-        {/* Dynamic subcategories (Pasta, Rice, Salad, Soup / Soft, Hot, Cold, Alcohol, etc.) */}
+        {/* Dynamic subcategories with localization */}
         {currentSubCategories.map((category) => {
           const isActive = activeCategory === category.id;
+          const translatedName = translateCategory(category.name, currentLang);
 
           return (
             <button
@@ -94,7 +100,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
                   : 'bg-[#141414] text-[#A1A1AA] hover:text-white hover:bg-[#1f1f1f] border border-[#222222]'
               }`}
             >
-              <span>{category.name}</span>
+              <span>{translatedName}</span>
             </button>
           );
         })}

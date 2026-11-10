@@ -1,0 +1,24 @@
+{
+  "name": "Mereba Friends Garden - Digital Menu",
+  "short_name": "Friends Menu",
+  "description": "Artisanal Kitchen & Casual Luxury Garden Lounge Menu",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/friends-logo-couch.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/friends-logo-couch.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
