@@ -7,7 +7,7 @@ interface MenuCardProps {
   index: number;
 }
 
-export const MenuCard: React.FC<MenuCardProps> = ({ item, index }) => {
+export const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [imgError, setImgError] = useState(false);
 
@@ -20,7 +20,7 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, index }) => {
 
   const isMarketPrice = item.price === null || item.price === undefined;
 
-  // At most ONE special badge: only for Chef's specials / signature dishes
+  // Subtle special indicator for signature dishes
   const isSpecial =
     isMarketPrice ||
     (item.tags &&
@@ -29,52 +29,30 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, index }) => {
         item.tags.toLowerCase().includes('special')));
 
   const specialLabel = isMarketPrice ? "Chef's Special" : 'House Special';
-
-  // Subtitle category name
-  const categoryName = item.category?.name || 'Kitchen Special';
-  const categoryLower = categoryName.toLowerCase();
-
-  // Modern background-tinted pill badge styling based on category with high text visibility
-  const getCategoryBadgeStyle = () => {
-    if (categoryLower.includes('pasta')) {
-      return 'bg-[#F32636]/15 text-[#FFA4AB] border-[#F32636]/35';
-    }
-    if (categoryLower.includes('rice')) {
-      return 'bg-[#16B9E8]/15 text-[#7CE0FF] border-[#16B9E8]/35';
-    }
-    if (categoryLower.includes('salad')) {
-      return 'bg-[#10b981]/15 text-[#86EFAC] border-[#10b981]/35';
-    }
-    if (categoryLower.includes('soup')) {
-      return 'bg-[#FFBD18]/15 text-[#FFE07D] border-[#FFBD18]/35';
-    }
-    return 'bg-[#26262e]/80 text-[#e4e1e6] border-white/10';
-  };
+  const categoryName = item.category?.name || 'Artisan Selection';
 
   return (
     <div
       onClick={() => setIsExpanded(!isExpanded)}
-      className={`group relative rounded-xl border transition-all duration-300 cursor-pointer select-none overflow-hidden flex flex-col justify-between ${
+      className={`group relative rounded-2xl border transition-all duration-300 cursor-pointer select-none overflow-hidden flex flex-col justify-between ${
         isExpanded
-          ? 'bg-[#18181c] border-[#383842] shadow-[0_16px_36px_rgba(0,0,0,0.55)] ring-1 ring-[#FFBD18]/25'
-          : isSpecial
-          ? 'bg-[#151518] border-[#2d2820] hover:border-[#FFBD18]/50 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(0,0,0,0.4)]'
-          : 'bg-[#151518] border-[#222227] hover:border-[#35353d] hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(0,0,0,0.4)]'
-      } ${!item.isAvailable ? 'opacity-60' : ''}`}
+          ? 'bg-[#181818] border-[#333333] shadow-[0_20px_40px_rgba(0,0,0,0.8)]'
+          : 'bg-[#121212] border-[#222222] hover:border-[#333333] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.6)]'
+      } ${!item.isAvailable ? 'opacity-50' : ''}`}
     >
-      <div className="p-4 sm:p-5 flex flex-col justify-between h-full">
+      <div className="p-5 sm:p-6 flex flex-col justify-between h-full">
         <div>
-          {/* Main Dish Row: High-resolution Thumbnail + Title & Price */}
-          <div className="flex items-start gap-3.5 sm:gap-4">
-            {/* 1. COMPACT DISH THUMBNAIL (Rounded Square, High-Res, Visually Mouthwatering) */}
+          {/* Main Dish Row: Compact Thumbnail + Title & Price */}
+          <div className="flex items-start gap-4">
+            {/* Dish Thumbnail */}
             {item.image && !imgError && (
-              <div className="relative w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-xl overflow-hidden shrink-0 border border-[#2b2b34] bg-[#0c0c0e] shadow-md group-hover:border-[#FFBD18]/45 transition-all duration-300">
+              <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 border border-[#222222] bg-[#080808] group-hover:border-[#333333] transition-all duration-300">
                 <img
                   src={item.image}
                   alt={item.name}
                   loading="lazy"
                   onError={() => setImgError(true)}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
             )}
@@ -84,17 +62,17 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, index }) => {
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 pr-1">
                   <h3
-                    className={`font-headline text-base sm:text-lg font-semibold text-white tracking-normal leading-snug group-hover:text-[#ffe0aa] transition-colors truncate ${
-                      !item.isAvailable ? 'line-through text-[#71717a]' : ''
+                    className={`font-headline text-base sm:text-lg font-bold text-white tracking-normal leading-snug group-hover:text-white transition-colors truncate ${
+                      !item.isAvailable ? 'line-through text-[#71717A]' : ''
                     }`}
                   >
                     {item.name}
                   </h3>
 
-                  {/* Translucent House/Chef Special Pill Badge */}
+                  {/* Clean Minimal Special Pill Badge (Monochrome) */}
                   {isSpecial && (
-                    <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full text-[10px] font-sans font-medium uppercase tracking-[0.1em] bg-[#FFBD18]/15 border border-[#FFBD18]/30 text-[#FFBD18]">
-                      <Sparkles className="w-2.5 h-2.5" />
+                    <span className="inline-flex items-center gap-1 mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-sans font-medium uppercase tracking-[0.12em] bg-white/5 border border-white/10 text-[#d4d4d8]">
+                      <Sparkles className="w-2.5 h-2.5 text-zinc-400" />
                       {specialLabel}
                     </span>
                   )}
@@ -103,9 +81,9 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, index }) => {
                 {/* Price Tag & Sleek Chevron */}
                 <div className="flex items-center gap-2 shrink-0 text-right">
                   <span
-                    className={`font-headline text-sm sm:text-base font-bold tracking-tight whitespace-nowrap ${
+                    className={`font-headline text-sm sm:text-base font-bold font-mono tracking-tight whitespace-nowrap ${
                       isMarketPrice
-                        ? 'text-[#ffe0aa] text-xs uppercase tracking-wider font-medium'
+                        ? 'text-[#A1A1AA] text-xs uppercase tracking-wider font-medium'
                         : 'text-[#FFBD18]'
                     }`}
                   >
@@ -114,8 +92,8 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, index }) => {
 
                   {/* Subtle rotating minimal chevron */}
                   <div
-                    className={`w-5 h-5 rounded-full flex items-center justify-center text-[#71717a] group-hover:text-white transition-transform duration-300 ${
-                      isExpanded ? 'rotate-180 text-[#FFBD18]' : ''
+                    className={`w-5 h-5 rounded-full flex items-center justify-center text-[#71717A] group-hover:text-white transition-transform duration-300 ${
+                      isExpanded ? 'rotate-180 text-white' : ''
                     }`}
                     title={isExpanded ? 'Collapse' : 'Expand'}
                   >
@@ -127,8 +105,8 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, index }) => {
               {/* Description preview */}
               {item.description && (
                 <p
-                  className={`font-body text-xs text-[#9a9aa2] leading-relaxed mt-1.5 transition-all ${
-                    isExpanded ? 'text-[#c8c0b5]' : 'line-clamp-2'
+                  className={`font-body text-xs text-[#A1A1AA] leading-relaxed mt-2 transition-all ${
+                    isExpanded ? 'text-zinc-200' : 'line-clamp-2'
                   }`}
                 >
                   {item.description}
@@ -139,10 +117,10 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, index }) => {
 
           {/* EDITORIAL EXPANDED VIEW: Pristine Full Hero Photo & Description */}
           {isExpanded && (
-            <div className="mt-4 pt-3.5 border-t border-[#26262d] animate-in fade-in duration-200 space-y-3">
+            <div className="mt-5 pt-4 border-t border-[#222222] animate-in fade-in duration-200 space-y-3.5">
               {/* Full Clean Food Photography */}
               {item.image && !imgError && (
-                <div className="relative w-full h-44 sm:h-56 rounded-lg overflow-hidden bg-[#0c0c0e] border border-[#26262d] shadow-md group/img">
+                <div className="relative w-full h-48 sm:h-60 rounded-xl overflow-hidden bg-[#080808] border border-[#222222] group/img">
                   <img
                     src={item.image}
                     alt={item.name}
@@ -154,14 +132,14 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, index }) => {
               )}
 
               {/* Preparation note & In-stock status */}
-              <div className="flex items-center justify-between text-xs pt-1 text-[#8e8e96]">
-                <span className="font-sans text-[11px] uppercase tracking-[0.12em]">
-                  {categoryName} &bull; Cooked Fresh To Order
+              <div className="flex items-center justify-between text-xs pt-1 text-[#A1A1AA]">
+                <span className="font-sans text-[11px] uppercase tracking-[0.14em]">
+                  {categoryName} &bull; Prepared Fresh To Order
                 </span>
 
                 {!item.isAvailable && (
-                  <span className="font-sans text-[11px] uppercase tracking-[0.12em] font-semibold text-[#F32636]">
-                    Currently Sold Out
+                  <span className="font-sans text-[11px] uppercase tracking-[0.14em] font-semibold text-zinc-400">
+                    Currently Unavailable
                   </span>
                 )}
               </div>
@@ -169,25 +147,23 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, index }) => {
           )}
         </div>
 
-        {/* Row 3: SLEEK PILL BADGE REDESIGN (Translucent background-tinted badges) */}
-        <div className="mt-3.5 pt-3 border-t border-[#1f1f24] flex items-center justify-between">
+        {/* Row 3: SLEEK MONOCHROME PILL BADGES */}
+        <div className="mt-4 pt-3.5 border-t border-[#1c1c1c] flex items-center justify-between">
           <div className="flex items-center gap-2 flex-wrap">
-            {/* Background-tinted category pill */}
-            <span
-              className={`px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.12em] font-semibold border backdrop-blur-sm ${getCategoryBadgeStyle()}`}
-            >
+            {/* Clean luxury category pill */}
+            <span className="px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.14em] font-semibold bg-[#1a1a1a] text-[#d4d4d8] border border-[#2a2a2a]">
               {categoryName}
             </span>
 
-            {/* Sold Out badge only if item is unavailable */}
+            {/* Unavailable badge */}
             {!item.isAvailable && (
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-sans uppercase tracking-[0.1em] font-semibold border bg-[#F32636]/15 text-[#FFA4AB] border-[#F32636]/30">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-sans uppercase tracking-wider font-semibold border bg-white/5 text-zinc-400 border-white/10">
                 Sold Out
               </span>
             )}
           </div>
 
-          <span className="font-sans text-[10px] uppercase tracking-[0.15em] text-[#9a9aa2] font-medium">
+          <span className="font-sans text-[10px] uppercase tracking-[0.15em] text-[#71717A] font-medium">
             Mereba Bistro
           </span>
         </div>

@@ -31,23 +31,23 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variantClasses = {
     primary:
-      'bg-[#FFBD18] text-black font-bold hover:brightness-110 shadow-[0_0_15px_rgba(255,189,24,0.35)]',
+      'bg-[#FFBD18] text-black font-extrabold hover:brightness-110 shadow-[0_0_15px_rgba(255,189,24,0.3)]',
     yellow:
-      'bg-[#FFBD18] text-black font-bold hover:brightness-110 shadow-[0_0_15px_rgba(255,189,24,0.35)]',
+      'bg-[#FFBD18] text-black font-extrabold hover:brightness-110 shadow-[0_0_15px_rgba(255,189,24,0.3)]',
     accent:
-      'bg-[#1a1a22] text-[#FFBD18] border border-[#383844] hover:border-[#FFBD18] hover:bg-[#20202a]',
+      'bg-[#121212] text-white border border-[#222222] hover:border-[#333333] hover:bg-[#181818]',
     secondary:
-      'bg-[#202028] text-white hover:bg-[#2a2a35] border border-[#383844]',
+      'bg-[#181818] text-white hover:bg-[#202020] border border-[#222222]',
     outline:
-      'bg-transparent hover:bg-white/10 text-white border border-[#383844] hover:border-[#FFBD18]',
+      'bg-transparent hover:bg-white/5 text-white border border-[#222222] hover:border-[#333333]',
     danger:
-      'bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40',
+      'bg-[#181818] hover:bg-[#222222] text-[#FFA4AB] border border-[#2c2c2c]',
     red:
-      'bg-[#F32636] text-white hover:brightness-110 font-bold shadow-[0_0_15px_rgba(243,38,54,0.35)]',
+      'bg-[#F32636] text-white hover:brightness-110 font-bold',
     blue:
-      'bg-[#16B9E8] text-black hover:brightness-110 font-bold shadow-[0_0_15px_rgba(22,185,232,0.35)]',
+      'bg-[#16B9E8] text-black hover:brightness-110 font-bold',
     ghost:
-      'bg-transparent hover:bg-white/10 text-zinc-300 hover:text-white',
+      'bg-transparent hover:bg-white/5 text-[#A1A1AA] hover:text-white',
   };
 
   return (

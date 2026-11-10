@@ -49,15 +49,15 @@ export const Modal: React.FC<ModalProps> = ({
 
       {/* Solid Opaque Modal Dialog */}
       <div
-        className={`relative w-full ${maxWidthClasses[maxWidth]} bg-[#151518] border border-[#2b2b33] rounded-t-3xl sm:rounded-2xl shadow-[0_24px_56px_rgba(0,0,0,0.95)] overflow-hidden z-10 max-h-[90vh] flex flex-col transition-all duration-300 transform translate-y-0`}
+        className={`relative w-full ${maxWidthClasses[maxWidth]} bg-[#121212] border border-[#222222] rounded-t-3xl sm:rounded-2xl shadow-[0_24px_56px_rgba(0,0,0,0.95)] overflow-hidden z-10 max-h-[90vh] flex flex-col transition-all duration-300 transform translate-y-0`}
       >
         {/* Top visual grabber for mobile */}
-        <div className="sm:hidden flex justify-center pt-3 pb-1 bg-[#121215]">
-          <div className="w-12 h-1 bg-[#35353d] rounded-full" />
+        <div className="sm:hidden flex justify-center pt-3 pb-1 bg-[#0a0a0a]">
+          <div className="w-12 h-1 bg-[#262626] rounded-full" />
         </div>
 
         {/* Solid Opaque Header: High Contrast, Sharp White Text */}
-        <div className="flex items-start justify-between p-5 pb-4 border-b border-[#24242c] bg-[#121215]">
+        <div className="flex items-start justify-between p-5 pb-4 border-b border-[#222222] bg-[#0a0a0a]">
           <div>
             {typeof title === 'string' ? (
               <h3 className="font-headline text-lg sm:text-xl uppercase tracking-wider text-white font-bold leading-tight">
@@ -67,14 +67,14 @@ export const Modal: React.FC<ModalProps> = ({
               title
             )}
             {subtitle && (
-              <p className="font-body text-xs text-[#a1a1aa] mt-1 leading-normal">
+              <p className="font-body text-xs text-[#A1A1AA] mt-1 leading-normal">
                 {subtitle}
               </p>
             )}
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-[#9ca3af] hover:text-white hover:bg-[#202026] transition-colors shrink-0 ml-3"
+            className="p-1.5 rounded-lg text-[#A1A1AA] hover:text-white hover:bg-[#1a1a1a] transition-colors shrink-0 ml-3"
             title="Close dialog"
           >
             <X className="w-5 h-5" />
@@ -82,7 +82,7 @@ export const Modal: React.FC<ModalProps> = ({
         </div>
 
         {/* Content Area (Opaque Dark Background) */}
-        <div className="p-5 overflow-y-auto bg-[#151518] text-[#e4e1e6]">
+        <div className="p-5 overflow-y-auto bg-[#121212] text-[#A1A1AA]">
           {children}
         </div>
       </div>

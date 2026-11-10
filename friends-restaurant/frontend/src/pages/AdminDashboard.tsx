@@ -36,12 +36,8 @@ export const AdminDashboard: React.FC = () => {
 
   if (isAuthLoading) {
     return (
-      <div className="min-h-screen bg-[#0e0e11] flex items-center justify-center text-white">
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-[#F32636] animate-bounce" />
-          <span className="w-3 h-3 rounded-full bg-[#16B9E8] animate-bounce delay-100" />
-          <span className="w-3 h-3 rounded-full bg-[#FFBD18] animate-bounce delay-200" />
-        </div>
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center text-white">
+        <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-[#FFBD18] animate-spin" />
       </div>
     );
   }
@@ -80,21 +76,21 @@ export const AdminDashboard: React.FC = () => {
   const pausedMenuCount = items.filter((i) => !i.isAvailable).length;
 
   return (
-    <div className="min-h-screen bg-[#0e0e11] font-body text-[#f4f2f0] flex flex-col selection:bg-[#FFBD18] selection:text-black">
+    <div className="min-h-screen bg-[#050505] font-body text-[#A1A1AA] flex flex-col selection:bg-[#FFBD18] selection:text-black">
       {/* Header */}
       <AdminHeader />
 
       {/* Main Admin Content */}
       <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
         {/* KPI Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Total Dishes */}
-          <div className="bg-[#16161b] border border-[#2b2b34] rounded-xl p-4 flex items-center gap-3.5 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
-            <div className="w-11 h-11 rounded-lg bg-[#FFBD18]/15 border border-[#FFBD18]/30 flex items-center justify-center text-[#FFBD18] shrink-0">
+          <div className="bg-[#121212] border border-[#222222] rounded-2xl p-5 flex items-center gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+            <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-white shrink-0">
               <Utensils className="w-5 h-5" />
             </div>
             <div>
-              <span className="font-headline text-[11px] uppercase tracking-wider text-zinc-400 font-bold block">
+              <span className="font-headline text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block">
                 Total Dishes
               </span>
               <span className="font-headline text-2xl font-bold font-mono text-white">
@@ -103,46 +99,46 @@ export const AdminDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Menu Categories */}
-          <div className="bg-[#16161b] border border-[#2b2b34] rounded-xl p-4 flex items-center gap-3.5 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
-            <div className="w-11 h-11 rounded-lg bg-[#16B9E8]/15 border border-[#16B9E8]/30 flex items-center justify-center text-[#16B9E8] shrink-0">
+          {/* Menu Sections */}
+          <div className="bg-[#121212] border border-[#222222] rounded-2xl p-5 flex items-center gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+            <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-white shrink-0">
               <FolderTree className="w-5 h-5" />
             </div>
             <div>
-              <span className="font-headline text-[11px] uppercase tracking-wider text-zinc-400 font-bold block">
+              <span className="font-headline text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block">
                 Menu Sections
               </span>
-              <span className="font-headline text-2xl font-bold font-mono text-[#16B9E8]">
+              <span className="font-headline text-2xl font-bold font-mono text-white">
                 {categoriesCount}
               </span>
             </div>
           </div>
 
           {/* Visible on Menu */}
-          <div className="bg-[#16161b] border border-[#2b2b34] rounded-xl p-4 flex items-center gap-3.5 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
-            <div className="w-11 h-11 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+          <div className="bg-[#121212] border border-[#222222] rounded-2xl p-5 flex items-center gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+            <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-white shrink-0">
               <CheckCircle2 className="w-5 h-5" />
             </div>
             <div>
-              <span className="font-headline text-[11px] uppercase tracking-wider text-zinc-400 font-bold block">
+              <span className="font-headline text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block">
                 Visible on Menu
               </span>
-              <span className="font-headline text-2xl font-bold font-mono text-emerald-400">
+              <span className="font-headline text-2xl font-bold font-mono text-white">
                 {activeMenuCount}
               </span>
             </div>
           </div>
 
-          {/* Temporarily Hidden / Paused */}
-          <div className="bg-[#16161b] border border-[#2b2b34] rounded-xl p-4 flex items-center gap-3.5 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
-            <div className="w-11 h-11 rounded-lg bg-[#F32636]/15 border border-[#F32636]/30 flex items-center justify-center text-[#F32636] shrink-0">
+          {/* Paused / Hidden */}
+          <div className="bg-[#121212] border border-[#222222] rounded-2xl p-5 flex items-center gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+            <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-white shrink-0">
               <EyeOff className="w-5 h-5" />
             </div>
             <div>
-              <span className="font-headline text-[11px] uppercase tracking-wider text-zinc-400 font-bold block">
+              <span className="font-headline text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block">
                 Paused / Hidden
               </span>
-              <span className="font-headline text-2xl font-bold font-mono text-[#F32636]">
+              <span className="font-headline text-2xl font-bold font-mono text-white">
                 {pausedMenuCount}
               </span>
             </div>
@@ -150,28 +146,28 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         {/* Navigation Tabs (Dishes vs Categories) */}
-        <div className="flex border-b border-[#2b2b34] gap-2">
+        <div className="flex border-b border-[#222222] gap-2">
           <button
             onClick={() => setActiveTab('items')}
-            className={`px-4 py-3 font-headline text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-lg -mb-px cursor-pointer ${
+            className={`px-5 py-3 font-headline text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px cursor-pointer ${
               activeTab === 'items'
-                ? 'border-[#FFBD18] text-[#FFBD18] bg-[#FFBD18]/10'
-                : 'border-transparent text-zinc-400 hover:text-white hover:bg-white/5'
+                ? 'border-[#FFBD18] text-white bg-white/5'
+                : 'border-transparent text-[#A1A1AA] hover:text-white hover:bg-white/5'
             }`}
           >
-            <Utensils className="w-4 h-4 text-[#FFBD18]" />
+            <Utensils className="w-4 h-4 text-white" />
             <span>Dishes &amp; Live Pricing ({items.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('categories')}
-            className={`px-4 py-3 font-headline text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-lg -mb-px cursor-pointer ${
+            className={`px-5 py-3 font-headline text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px cursor-pointer ${
               activeTab === 'categories'
-                ? 'border-[#16B9E8] text-[#16B9E8] bg-[#16B9E8]/10'
-                : 'border-transparent text-zinc-400 hover:text-white hover:bg-white/5'
+                ? 'border-[#FFBD18] text-white bg-white/5'
+                : 'border-transparent text-[#A1A1AA] hover:text-white hover:bg-white/5'
             }`}
           >
-            <FolderTree className="w-4 h-4 text-[#16B9E8]" />
+            <FolderTree className="w-4 h-4 text-white" />
             <span>Category Manager ({categories.length})</span>
           </button>
         </div>

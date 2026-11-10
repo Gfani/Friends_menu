@@ -89,14 +89,14 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
   };
 
   return (
-    <div className="bg-[#16161b] border border-[#2b2b34] rounded-xl p-5 space-y-4 shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#2b2b34]">
+    <div className="bg-[#121212] border border-[#222222] rounded-2xl p-6 space-y-5 shadow-[0_8px_30px_rgba(0,0,0,0.6)]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#222222]">
         <div>
           <h3 className="font-headline text-lg font-bold text-white flex items-center gap-2">
-            <Folder className="w-5 h-5 text-[#16B9E8]" />
+            <Folder className="w-5 h-5 text-white" />
             <span>Menu Sections &amp; Display Order</span>
           </h3>
-          <p className="font-body text-xs text-zinc-300 mt-1">
+          <p className="font-body text-xs text-[#A1A1AA] mt-1">
             Organize sections as they appear on the customer menu (e.g. PASTA, SALAD, RICE, SOUP).
           </p>
         </div>
@@ -105,30 +105,30 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
           variant="yellow"
           size="sm"
           onClick={handleOpenAdd}
-          leftIcon={<Plus className="w-4 h-4 text-black font-bold" />}
+          leftIcon={<Plus className="w-4 h-4 text-black font-extrabold" />}
         >
           Add Section
         </Button>
       </div>
 
       {/* Category List */}
-      <div className="divide-y divide-[#2b2b34]/80 border border-[#2b2b34] rounded-xl overflow-hidden bg-[#18181f]">
+      <div className="divide-y divide-[#1c1c1c] border border-[#222222] rounded-2xl overflow-hidden bg-[#0a0a0a]">
         {categories.map((cat, index) => {
           const itemCount = cat.items ? cat.items.length : cat._count?.items ?? 0;
 
           return (
             <div
               key={cat.id}
-              className="p-4 flex items-center justify-between gap-3 hover:bg-[#1e1e26] transition-colors"
+              className="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-[#141414] transition-colors"
             >
-              <div className="flex items-center gap-3.5 min-w-0">
+              <div className="flex items-center gap-4 min-w-0">
                 {/* Reorder Up/Down */}
                 <div className="flex flex-col gap-1">
                   <button
                     type="button"
                     disabled={index === 0 || reorderMutation.isPending}
                     onClick={() => handleMove(index, 'up')}
-                    className="p-1.5 rounded bg-[#202028] hover:bg-white/10 text-zinc-400 hover:text-white disabled:opacity-20 cursor-pointer transition-colors"
+                    className="p-1.5 rounded-lg bg-[#181818] hover:bg-[#222222] text-[#A1A1AA] hover:text-white disabled:opacity-20 cursor-pointer transition-colors"
                     title="Move Section Up"
                   >
                     <ArrowUp className="w-3.5 h-3.5" />
@@ -137,7 +137,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
                     type="button"
                     disabled={index === categories.length - 1 || reorderMutation.isPending}
                     onClick={() => handleMove(index, 'down')}
-                    className="p-1.5 rounded bg-[#202028] hover:bg-white/10 text-zinc-400 hover:text-white disabled:opacity-20 cursor-pointer transition-colors"
+                    className="p-1.5 rounded-lg bg-[#181818] hover:bg-[#222222] text-[#A1A1AA] hover:text-white disabled:opacity-20 cursor-pointer transition-colors"
                     title="Move Section Down"
                   >
                     <ArrowDown className="w-3.5 h-3.5" />
@@ -146,16 +146,16 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
 
                 {/* Name & Count */}
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-3">
                     <span className="font-headline text-base font-bold text-white tracking-wide truncate">
                       {cat.name}
                     </span>
-                    <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#FFBD18]/15 text-[#FFBD18] border border-[#FFBD18]/30 font-headline font-bold">
+                    <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-white/5 text-[#d4d4d8] border border-white/10 font-headline font-semibold">
                       {itemCount} {itemCount === 1 ? 'dish' : 'dishes'}
                     </span>
                   </div>
                   {cat.description && (
-                    <p className="font-body text-xs text-zinc-400 truncate max-w-md mt-1">
+                    <p className="font-body text-xs text-[#A1A1AA] truncate max-w-md mt-1">
                       {cat.description}
                     </p>
                   )}
@@ -167,7 +167,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
                 <button
                   type="button"
                   onClick={() => handleOpenEdit(cat)}
-                  className="p-2 rounded-lg text-zinc-300 hover:text-[#FFBD18] hover:bg-[#FFBD18]/15 border border-transparent hover:border-[#FFBD18]/30 transition-all cursor-pointer"
+                  className="p-2 rounded-lg text-[#A1A1AA] hover:text-white hover:bg-white/5 transition-all cursor-pointer"
                   title="Edit Section"
                 >
                   <Edit2 className="w-4 h-4" />
@@ -175,7 +175,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
                 <button
                   type="button"
                   onClick={() => setDeleteCandidate(cat)}
-                  className="p-2 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-rose-500/15 border border-transparent hover:border-rose-500/30 transition-all cursor-pointer"
+                  className="p-2 rounded-lg text-[#71717A] hover:text-white hover:bg-white/5 transition-all cursor-pointer"
                   title="Delete Section"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -186,7 +186,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
         })}
 
         {categories.length === 0 && (
-          <div className="py-12 text-center text-zinc-400 font-medium">
+          <div className="py-14 text-center text-[#A1A1AA] font-medium">
             No menu sections found. Click &quot;Add Section&quot; to create one.
           </div>
         )}
@@ -214,7 +214,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="flex justify-end gap-2.5 pt-2">
             <Button variant="secondary" type="button" onClick={() => setIsAddModalOpen(false)}>
               Cancel
             </Button>
@@ -247,7 +247,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="flex justify-end gap-2.5 pt-2">
             <Button variant="secondary" type="button" onClick={() => setEditingCategory(null)}>
               Cancel
             </Button>
@@ -266,12 +266,12 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
         subtitle="This action cannot be undone"
       >
         <div className="space-y-4">
-          <p className="text-sm text-zinc-200">
+          <p className="text-sm text-[#A1A1AA]">
             Are you sure you want to delete section{' '}
             <strong className="text-white font-bold">&ldquo;{deleteCandidate?.name}&rdquo;</strong>?
             Any dishes inside this section will also be removed.
           </p>
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="flex justify-end gap-2.5 pt-2">
             <Button variant="secondary" onClick={() => setDeleteCandidate(null)}>
               Cancel
             </Button>
