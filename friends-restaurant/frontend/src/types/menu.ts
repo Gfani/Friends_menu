@@ -18,6 +18,7 @@ export interface Category {
   name: string;
   slug: string;
   description?: string | null;
+  parentCategory: 'FOOD' | 'DRINKS' | string;
   icon?: string | null;
   sortOrder: number;
   items?: MenuItem[];
@@ -25,6 +26,48 @@ export interface Category {
     items: number;
   };
   createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface SiteSettings {
+  id: string;
+  restaurantName: string;
+  tagline: string;
+  heroTitle1: string;
+  heroTitle2: string;
+  heroDescription: string;
+  primaryCtaText: string;
+  secondaryCtaText: string;
+
+  wifiSsid: string;
+  wifiPassword: string;
+
+  philosophyEyebrow: string;
+  philosophyTitle: string;
+  philosophyDescription: string;
+  manifestoQuote: string;
+  manifestoAuthor: string;
+
+  galleryTitle: string;
+  galleryDescription: string;
+
+  addressLine1: string;
+  addressLine2: string;
+  openingHours: string;
+  phone1: string;
+  phone2: string;
+  instagramHandle: string;
+  instagramUrl: string;
+  tiktokHandle: string;
+  tiktokUrl: string;
+  facebookHandle: string;
+  facebookUrl: string;
+
+  accentColor: string;
+  backgroundColor: string;
+  cardColor: string;
+  fontFamily: string;
+
   updatedAt?: string;
 }
 
@@ -43,4 +86,3 @@ export interface ServiceRequest {
   status: 'PENDING' | 'COMPLETED';
   createdAt: string;
 }
-

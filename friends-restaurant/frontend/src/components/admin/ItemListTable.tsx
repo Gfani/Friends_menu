@@ -121,19 +121,40 @@ export const ItemListTable: React.FC<ItemListTableProps> = ({
           {/* Category Dropdown */}
           <div className="flex items-center gap-2.5">
             <span className="font-headline text-xs font-bold uppercase tracking-wider text-[#A1A1AA] shrink-0">
-              Section:
+              Department / Section:
             </span>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="bg-[#0a0a0a] text-white text-xs sm:text-sm rounded-xl border border-[#222222] px-3.5 py-2.5 focus:outline-none focus:border-[#FFBD18] cursor-pointer"
             >
-              <option value="all" className="bg-[#121212] text-white">All Sections ({items.length})</option>
-              {categories.map((c) => (
-                <option key={c.id} value={c.id} className="bg-[#121212] text-white">
-                  {c.name}
-                </option>
-              ))}
+              <option value="all" className="bg-[#121212] text-white">All Items ({items.length})</option>
+              {(() => {
+                const foodCats = categories.filter((c) => (c.parentCategory || 'FOOD') === 'FOOD');
+                const drinkCats = categories.filter((c) => c.parentCategory === 'DRINKS');
+                return (
+                  <>
+                    {foodCats.length > 0 && (
+                      <optgroup label="🍽️ FOOD" className="bg-[#181818] text-[#FFBD18] font-bold">
+                        {foodCats.map((c) => (
+                          <option key={c.id} value={c.id} className="bg-[#121212] text-white font-normal">
+                            {c.name}
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
+                    {drinkCats.length > 0 && (
+                      <optgroup label="🍹 DRINKS" className="bg-[#181818] text-[#16B9E8] font-bold">
+                        {drinkCats.map((c) => (
+                          <option key={c.id} value={c.id} className="bg-[#121212] text-white font-normal">
+                            {c.name}
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
+                  </>
+                );
+              })()}
             </select>
           </div>
         </div>
@@ -207,7 +228,12 @@ export const ItemListTable: React.FC<ItemListTableProps> = ({
 
                 {/* Category */}
                 <td className="py-4 px-5 whitespace-nowrap">
-                  <span className="px-3 py-1 rounded-full text-xs font-headline uppercase font-bold bg-[#181818] text-[#d4d4d8] border border-[#262626]">
+                  <span className={`px-3 py-1 rounded-full text-xs font-headline uppercase font-bold border ${
+                    item.category?.parentCategory === 'DRINKS'
+                      ? 'bg-[#16B9E8]/10 text-[#16B9E8] border-[#16B9E8]/30'
+                      : 'bg-[#181818] text-[#d4d4d8] border-[#262626]'
+                  }`}>
+                    {item.category?.parentCategory === 'DRINKS' ? '🍹 ' : '🍽️ '}
                     {item.category?.name || 'Uncategorized'}
                   </span>
                 </td>

@@ -30,6 +30,7 @@ export interface CreateCategoryInput {
   name: string;
   slug?: string;
   description?: string;
+  parentCategory?: string; // "FOOD" | "DRINKS"
   icon?: string;
   sortOrder?: number;
 }
@@ -38,6 +39,7 @@ export interface UpdateCategoryInput {
   name?: string;
   slug?: string;
   description?: string;
+  parentCategory?: string; // "FOOD" | "DRINKS"
   icon?: string;
   sortOrder?: number;
 }

@@ -127,8 +127,14 @@ export class MenuService {
   }
 
   // Category management
-  async getAllCategories() {
+  async getAllCategories(parentCategory?: string) {
+    const where: any = {};
+    if (parentCategory && parentCategory !== 'all') {
+      where.parentCategory = parentCategory.toUpperCase();
+    }
+
     return prisma.category.findMany({
+      where,
       orderBy: { sortOrder: 'asc' },
       include: {
         _count: {
@@ -145,6 +151,7 @@ export class MenuService {
         name: data.name,
         slug,
         description: data.description,
+        parentCategory: data.parentCategory ? data.parentCategory.toUpperCase() : 'FOOD',
         icon: data.icon,
         sortOrder: data.sortOrder ?? 0,
       },
@@ -155,6 +162,9 @@ export class MenuService {
     const updateData: any = { ...data };
     if (data.name && !data.slug) {
       updateData.slug = data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+    }
+    if (data.parentCategory) {
+      updateData.parentCategory = data.parentCategory.toUpperCase();
     }
 
     return prisma.category.update({

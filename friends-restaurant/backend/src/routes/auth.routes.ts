@@ -5,5 +5,6 @@ import { authenticate } from '../hooks/auth.hook.js';
 export async function authRoutes(fastify: FastifyInstance) {
   fastify.post('/login', authController.login.bind(authController));
   fastify.get('/me', { preHandler: [authenticate] }, authController.getMe.bind(authController));
+  fastify.put('/profile', { preHandler: [authenticate] }, authController.updateProfile.bind(authController));
 }
 

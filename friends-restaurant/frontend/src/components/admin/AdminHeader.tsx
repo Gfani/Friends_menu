@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { LogOut, ExternalLink, QrCode, Shield } from 'lucide-react';
+import { LogOut, ExternalLink, QrCode, Shield, KeyRound } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { TableQRModal } from './TableQRModal';
+import { AccountSecurityModal } from './AccountSecurityModal';
 import { MerebaLogo } from '../common/MerebaLogo';
 
 export const AdminHeader: React.FC = () => {
   const { user, logout } = useAuth();
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
+  const [isSecurityModalOpen, setIsSecurityModalOpen] = useState(false);
 
   return (
     <>
@@ -48,20 +50,27 @@ export const AdminHeader: React.FC = () => {
               <span className="hidden sm:inline">View Menu</span>
             </Link>
 
-            {/* Admin User Info */}
-            <div className="hidden md:flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-[#121212] border border-[#222222]">
-              <div className="w-7 h-7 rounded-full bg-[#181818] flex items-center justify-center text-white">
+            {/* Admin User / Security Button */}
+            <button
+              onClick={() => setIsSecurityModalOpen(true)}
+              className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-[#121212] hover:bg-[#181818] border border-[#222222] hover:border-[#3a3a3a] text-left transition-all cursor-pointer group"
+              title="Change Admin Email & Password"
+            >
+              <div className="w-7 h-7 rounded-full bg-[#181818] group-hover:bg-[#FFBD18] group-hover:text-black flex items-center justify-center text-white transition-colors">
                 <Shield className="w-3.5 h-3.5" />
               </div>
-              <div className="text-left">
-                <span className="font-headline text-xs font-bold text-white block leading-tight">
-                  {user?.name || 'Manager'}
-                </span>
+              <div className="hidden md:block text-left">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-headline text-xs font-bold text-white block leading-tight">
+                    {user?.name || 'Manager'}
+                  </span>
+                  <KeyRound className="w-2.5 h-2.5 text-[#A1A1AA] group-hover:text-[#FFBD18]" />
+                </div>
                 <span className="text-[10px] text-[#A1A1AA] block leading-tight font-mono">
                   {user?.email || 'admin@friends.com'}
                 </span>
               </div>
-            </div>
+            </button>
 
             {/* Logout */}
             <button
@@ -78,6 +87,12 @@ export const AdminHeader: React.FC = () => {
 
       {/* Table QR Modal */}
       <TableQRModal isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)} />
+
+      {/* Account Security Modal (Change Email & Password) */}
+      <AccountSecurityModal
+        isOpen={isSecurityModalOpen}
+        onClose={() => setIsSecurityModalOpen(false)}
+      />
     </>
   );
 };

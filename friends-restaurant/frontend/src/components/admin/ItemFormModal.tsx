@@ -122,7 +122,7 @@ export const ItemFormModal: React.FC<ItemFormModalProps> = ({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           <div className="space-y-1.5">
             <label className="block font-headline text-[11px] uppercase tracking-wider font-bold text-white">
-              Menu Section
+              Menu Category &amp; Department
             </label>
             <select
               value={categoryId}
@@ -130,11 +130,32 @@ export const ItemFormModal: React.FC<ItemFormModalProps> = ({
               className="w-full bg-[#0a0a0a] text-white text-sm rounded-xl border border-[#222222] px-3.5 py-2.5 focus:outline-none focus:border-[#FFBD18] cursor-pointer"
               required
             >
-              {categories.map((c) => (
-                <option key={c.id} value={c.id} className="bg-[#121212] text-white">
-                  {c.name}
-                </option>
-              ))}
+              {(() => {
+                const foodCats = categories.filter((c) => (c.parentCategory || 'FOOD') === 'FOOD');
+                const drinkCats = categories.filter((c) => c.parentCategory === 'DRINKS');
+                return (
+                  <>
+                    {foodCats.length > 0 && (
+                      <optgroup label="🍽️ FOOD CATEGORIES" className="bg-[#181818] text-[#FFBD18] font-bold">
+                        {foodCats.map((c) => (
+                          <option key={c.id} value={c.id} className="bg-[#121212] text-white font-normal">
+                            {c.name}
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
+                    {drinkCats.length > 0 && (
+                      <optgroup label="🍹 DRINKS CATEGORIES" className="bg-[#181818] text-[#16B9E8] font-bold">
+                        {drinkCats.map((c) => (
+                          <option key={c.id} value={c.id} className="bg-[#121212] text-white font-normal">
+                            {c.name}
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
+                  </>
+                );
+              })()}
             </select>
           </div>
 

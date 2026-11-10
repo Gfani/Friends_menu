@@ -1,4 +1,4 @@
-import { MenuItem, Category, AdminUser, ServiceRequest } from '../types/menu';
+import { MenuItem, Category, AdminUser, ServiceRequest, SiteSettings } from '../types/menu';
 
 const API_BASE = import.meta.env.VITE_API_URL || '';
 
@@ -51,6 +51,36 @@ class ApiClient {
     return this.request('/api/auth/me');
   }
 
+  async updateProfile(data: {
+    email?: string;
+    name?: string;
+    currentPassword?: string;
+    newPassword?: string;
+  }): Promise<{ success: boolean; message: string; admin: AdminUser }> {
+    return this.request('/api/auth/profile', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  // --- Site Settings CMS ---
+  async getSettings(): Promise<{ success: boolean; data: SiteSettings }> {
+    return this.request('/api/settings');
+  }
+
+  async updateSettings(data: Partial<SiteSettings>): Promise<{ success: boolean; message: string; data: SiteSettings }> {
+    return this.request('/api/settings', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async resetSettings(): Promise<{ success: boolean; message: string; data: SiteSettings }> {
+    return this.request('/api/settings/reset', {
+      method: 'POST',
+    });
+  }
+
   // --- Menu & Items ---
   async getMenu(): Promise<{ success: boolean; data: Category[] }> {
     return this.request('/api/menu');
@@ -94,18 +124,33 @@ class ApiClient {
   }
 
   // --- Categories ---
-  async getCategories(): Promise<{ success: boolean; data: Category[] }> {
-    return this.request('/api/categories');
+  async getCategories(type?: string): Promise<{ success: boolean; data: Category[] }> {
+    const q = type ? `?type=${encodeURIComponent(type)}` : '';
+    return this.request(`/api/categories${q}`);
   }
 
-  async createCategory(data: { name: string; description?: string; icon?: string }): Promise<{ success: boolean; data: Category }> {
+  async createCategory(data: {
+    name: string;
+    description?: string;
+    parentCategory?: string;
+    icon?: string;
+  }): Promise<{ success: boolean; data: Category }> {
     return this.request('/api/categories', {
       method: 'POST',
       body: JSON.stringify(data),
     });
   }
 
-  async updateCategory(id: string, data: { name?: string; description?: string; icon?: string; sortOrder?: number }): Promise<{ success: boolean; data: Category }> {
+  async updateCategory(
+    id: string,
+    data: {
+      name?: string;
+      description?: string;
+      parentCategory?: string;
+      icon?: string;
+      sortOrder?: number;
+    }
+  ): Promise<{ success: boolean; data: Category }> {
     return this.request(`/api/categories/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -126,7 +171,12 @@ class ApiClient {
   }
 
   // --- Service Requests (Call Waiter / Bill) ---
-  async submitServiceCall(data: { tableNumber: string; type: 'CALL_WAITER' | 'REQUEST_BILL'; paymentMethod?: string; notes?: string }): Promise<{ success: boolean; message: string; data: ServiceRequest }> {
+  async submitServiceCall(data: {
+    tableNumber: string;
+    type: 'CALL_WAITER' | 'REQUEST_BILL';
+    paymentMethod?: string;
+    notes?: string;
+  }): Promise<{ success: boolean; message: string; data: ServiceRequest }> {
     return this.request('/api/service/call', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -145,4 +195,3 @@ class ApiClient {
 }
 
 export const api = new ApiClient();
-

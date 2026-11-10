@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, ArrowUp, ArrowDown, Edit2, Trash2, Folder } from 'lucide-react';
+import { Plus, ArrowUp, ArrowDown, Edit2, Trash2, Folder, Utensils, Wine, Layers } from 'lucide-react';
 import { Category } from '../../types/menu';
 import {
   useCreateCategory,
@@ -20,8 +20,12 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [deleteCandidate, setDeleteCandidate] = useState<Category | null>(null);
 
+  // Parent Category Filter
+  const [filterParent, setFilterParent] = useState<'ALL' | 'FOOD' | 'DRINKS'>('ALL');
+
   // Form states
   const [name, setName] = useState('');
+  const [parentCategory, setParentCategory] = useState<'FOOD' | 'DRINKS'>('FOOD');
   const [description, setDescription] = useState('');
 
   const createMutation = useCreateCategory();
@@ -31,6 +35,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
 
   const handleOpenAdd = () => {
     setName('');
+    setParentCategory(filterParent === 'DRINKS' ? 'DRINKS' : 'FOOD');
     setDescription('');
     setIsAddModalOpen(true);
   };
@@ -38,6 +43,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
   const handleOpenEdit = (cat: Category) => {
     setEditingCategory(cat);
     setName(cat.name);
+    setParentCategory(cat.parentCategory === 'DRINKS' ? 'DRINKS' : 'FOOD');
     setDescription(cat.description || '');
   };
 
@@ -47,6 +53,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
 
     await createMutation.mutateAsync({
       name: name.trim(),
+      parentCategory,
       description: description.trim(),
     });
 
@@ -63,6 +70,7 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
       id: editingCategory.id,
       data: {
         name: name.trim(),
+        parentCategory,
         description: description.trim(),
       },
     });
@@ -88,16 +96,25 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
     await reorderMutation.mutateAsync(orderedIds);
   };
 
+  const filteredCategories = categories.filter((cat) => {
+    if (filterParent === 'ALL') return true;
+    return (cat.parentCategory || 'FOOD') === filterParent;
+  });
+
+  const foodCount = categories.filter((c) => (c.parentCategory || 'FOOD') === 'FOOD').length;
+  const drinkCount = categories.filter((c) => c.parentCategory === 'DRINKS').length;
+
   return (
     <div className="bg-[#121212] border border-[#222222] rounded-2xl p-6 space-y-5 shadow-[0_8px_30px_rgba(0,0,0,0.6)]">
+      {/* Header & Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#222222]">
         <div>
           <h3 className="font-headline text-lg font-bold text-white flex items-center gap-2">
             <Folder className="w-5 h-5 text-white" />
-            <span>Menu Sections &amp; Display Order</span>
+            <span>Menu Categories &amp; Main Sections</span>
           </h3>
           <p className="font-body text-xs text-[#A1A1AA] mt-1">
-            Organize sections as they appear on the customer menu (e.g. PASTA, SALAD, RICE, SOUP).
+            Organize main sections (FOOD vs DRINKS) and their subcategories (Pasta, Pizza, Cocktails, Beers).
           </p>
         </div>
 
@@ -107,14 +124,57 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
           onClick={handleOpenAdd}
           leftIcon={<Plus className="w-4 h-4 text-black font-extrabold" />}
         >
-          Add Section
+          Add Category
         </Button>
+      </div>
+
+      {/* Main Section Filter Tabs */}
+      <div className="flex items-center gap-2 border-b border-[#1c1c1c] pb-3">
+        <button
+          type="button"
+          onClick={() => setFilterParent('ALL')}
+          className={`px-3.5 py-1.5 rounded-xl text-xs font-headline font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer ${
+            filterParent === 'ALL'
+              ? 'bg-white text-black'
+              : 'bg-[#181818] text-[#A1A1AA] hover:text-white border border-[#262626]'
+          }`}
+        >
+          <Layers className="w-3.5 h-3.5" />
+          <span>All ({categories.length})</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setFilterParent('FOOD')}
+          className={`px-3.5 py-1.5 rounded-xl text-xs font-headline font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer ${
+            filterParent === 'FOOD'
+              ? 'bg-[#FFBD18] text-black font-extrabold shadow-[0_0_12px_rgba(255,189,24,0.3)]'
+              : 'bg-[#181818] text-[#A1A1AA] hover:text-white border border-[#262626]'
+          }`}
+        >
+          <Utensils className="w-3.5 h-3.5" />
+          <span>Food ({foodCount})</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setFilterParent('DRINKS')}
+          className={`px-3.5 py-1.5 rounded-xl text-xs font-headline font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer ${
+            filterParent === 'DRINKS'
+              ? 'bg-[#16B9E8] text-black font-extrabold shadow-[0_0_12px_rgba(22,185,232,0.3)]'
+              : 'bg-[#181818] text-[#A1A1AA] hover:text-white border border-[#262626]'
+          }`}
+        >
+          <Wine className="w-3.5 h-3.5" />
+          <span>Drinks ({drinkCount})</span>
+        </button>
       </div>
 
       {/* Category List */}
       <div className="divide-y divide-[#1c1c1c] border border-[#222222] rounded-2xl overflow-hidden bg-[#0a0a0a]">
-        {categories.map((cat, index) => {
+        {filteredCategories.map((cat, index) => {
           const itemCount = cat.items ? cat.items.length : cat._count?.items ?? 0;
+          const isDrink = cat.parentCategory === 'DRINKS';
 
           return (
             <div
@@ -144,16 +204,29 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
                   </button>
                 </div>
 
-                {/* Name & Count */}
+                {/* Name, Badge & Count */}
                 <div className="min-w-0">
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-2.5">
                     <span className="font-headline text-base font-bold text-white tracking-wide truncate">
                       {cat.name}
                     </span>
+
+                    {/* Main Parent Section Badge */}
+                    <span
+                      className={`text-[10px] px-2 py-0.5 rounded-full font-headline font-bold uppercase tracking-wider border ${
+                        isDrink
+                          ? 'bg-[#16B9E8]/10 text-[#16B9E8] border-[#16B9E8]/30'
+                          : 'bg-[#FFBD18]/10 text-[#FFBD18] border-[#FFBD18]/30'
+                      }`}
+                    >
+                      {isDrink ? '🍹 Drinks' : '🍽️ Food'}
+                    </span>
+
                     <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-white/5 text-[#d4d4d8] border border-white/10 font-headline font-semibold">
-                      {itemCount} {itemCount === 1 ? 'dish' : 'dishes'}
+                      {itemCount} {itemCount === 1 ? 'item' : 'items'}
                     </span>
                   </div>
+
                   {cat.description && (
                     <p className="font-body text-xs text-[#A1A1AA] truncate max-w-md mt-1">
                       {cat.description}
@@ -168,15 +241,15 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
                   type="button"
                   onClick={() => handleOpenEdit(cat)}
                   className="p-2 rounded-lg text-[#A1A1AA] hover:text-white hover:bg-white/5 transition-all cursor-pointer"
-                  title="Edit Section"
+                  title="Edit Category"
                 >
                   <Edit2 className="w-4 h-4" />
                 </button>
                 <button
                   type="button"
                   onClick={() => setDeleteCandidate(cat)}
-                  className="p-2 rounded-lg text-[#71717A] hover:text-white hover:bg-white/5 transition-all cursor-pointer"
-                  title="Delete Section"
+                  className="p-2 rounded-lg text-[#71717A] hover:text-red-400 hover:bg-white/5 transition-all cursor-pointer"
+                  title="Delete Category"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -185,9 +258,9 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
           );
         })}
 
-        {categories.length === 0 && (
+        {filteredCategories.length === 0 && (
           <div className="py-14 text-center text-[#A1A1AA] font-medium">
-            No menu sections found. Click &quot;Add Section&quot; to create one.
+            No categories found in this section. Click &quot;Add Category&quot; to create one.
           </div>
         )}
       </div>
@@ -196,30 +269,66 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
       <Modal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
-        title="Create New Menu Section"
-        subtitle="This section will appear as a category tab on the customer digital menu"
+        title="Create Menu Category"
+        subtitle="This category will appear under Food or Drinks on the customer digital menu"
       >
         <form onSubmit={handleCreate} className="space-y-4">
+          {/* Main Category Selection (FOOD vs DRINKS) */}
+          <div className="space-y-1.5">
+            <label className="block font-headline text-[11px] uppercase tracking-wider font-bold text-white">
+              Main Department / Section
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setParentCategory('FOOD')}
+                className={`py-3 px-4 rounded-xl border font-headline text-xs uppercase tracking-wider font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  parentCategory === 'FOOD'
+                    ? 'bg-[#FFBD18] text-black border-[#FFBD18] shadow-[0_0_15px_rgba(255,189,24,0.3)]'
+                    : 'bg-[#181818] text-[#A1A1AA] border-[#262626] hover:text-white'
+                }`}
+              >
+                <Utensils className="w-4 h-4" />
+                <span>FOOD (Meals, Pasta...)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setParentCategory('DRINKS')}
+                className={`py-3 px-4 rounded-xl border font-headline text-xs uppercase tracking-wider font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  parentCategory === 'DRINKS'
+                    ? 'bg-[#16B9E8] text-black border-[#16B9E8] shadow-[0_0_15px_rgba(22,185,232,0.3)]'
+                    : 'bg-[#181818] text-[#A1A1AA] border-[#262626] hover:text-white'
+                }`}
+              >
+                <Wine className="w-4 h-4" />
+                <span>DRINKS (Cocktails, Soft...)</span>
+              </button>
+            </div>
+          </div>
+
           <Input
-            label="Section Name"
-            placeholder="e.g. PASTA, SALAD, RICE, SOUP, DESSERTS"
+            label="Category Name"
+            placeholder={parentCategory === 'FOOD' ? 'e.g. Pasta, Burgers, Pizza, Soups, Ethiopian Specials' : 'e.g. Soft Drinks, Mojitos, Cold Drinks, Draft Beers'}
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
             autoFocus
           />
+
           <TextArea
             label="Description (Optional)"
             placeholder="Brief description to display for this menu section..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+
           <div className="flex justify-end gap-2.5 pt-2">
             <Button variant="secondary" type="button" onClick={() => setIsAddModalOpen(false)}>
               Cancel
             </Button>
             <Button variant="yellow" type="submit" isLoading={createMutation.isPending}>
-              Create Section
+              Create Category
             </Button>
           </div>
         </form>
@@ -229,24 +338,60 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
       <Modal
         isOpen={!!editingCategory}
         onClose={() => setEditingCategory(null)}
-        title={`Edit Section: ${editingCategory?.name}`}
-        subtitle="Rename section or update description"
+        title={`Edit Category: ${editingCategory?.name}`}
+        subtitle="Rename category, switch between Food and Drinks, or update description"
       >
         <form onSubmit={handleUpdate} className="space-y-4">
+          {/* Main Category Selection */}
+          <div className="space-y-1.5">
+            <label className="block font-headline text-[11px] uppercase tracking-wider font-bold text-white">
+              Main Department / Section
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setParentCategory('FOOD')}
+                className={`py-3 px-4 rounded-xl border font-headline text-xs uppercase tracking-wider font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  parentCategory === 'FOOD'
+                    ? 'bg-[#FFBD18] text-black border-[#FFBD18] shadow-[0_0_15px_rgba(255,189,24,0.3)]'
+                    : 'bg-[#181818] text-[#A1A1AA] border-[#262626] hover:text-white'
+                }`}
+              >
+                <Utensils className="w-4 h-4" />
+                <span>FOOD</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setParentCategory('DRINKS')}
+                className={`py-3 px-4 rounded-xl border font-headline text-xs uppercase tracking-wider font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  parentCategory === 'DRINKS'
+                    ? 'bg-[#16B9E8] text-black border-[#16B9E8] shadow-[0_0_15px_rgba(22,185,232,0.3)]'
+                    : 'bg-[#181818] text-[#A1A1AA] border-[#262626] hover:text-white'
+                }`}
+              >
+                <Wine className="w-4 h-4" />
+                <span>DRINKS</span>
+              </button>
+            </div>
+          </div>
+
           <Input
-            label="Section Name"
-            placeholder="Section Name"
+            label="Category Name"
+            placeholder="Category Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
             autoFocus
           />
+
           <TextArea
             label="Description"
             placeholder="Brief description..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+
           <div className="flex justify-end gap-2.5 pt-2">
             <Button variant="secondary" type="button" onClick={() => setEditingCategory(null)}>
               Cancel
@@ -262,14 +407,14 @@ export const CategoryManager: React.FC<CategoryManagerProps> = ({ categories }) 
       <Modal
         isOpen={!!deleteCandidate}
         onClose={() => setDeleteCandidate(null)}
-        title="Delete Menu Section?"
+        title="Delete Menu Category?"
         subtitle="This action cannot be undone"
       >
         <div className="space-y-4">
           <p className="text-sm text-[#A1A1AA]">
-            Are you sure you want to delete section{' '}
+            Are you sure you want to delete category{' '}
             <strong className="text-white font-bold">&ldquo;{deleteCandidate?.name}&rdquo;</strong>?
-            Any dishes inside this section will also be removed.
+            Any dishes inside this category will also be removed.
           </p>
           <div className="flex justify-end gap-2.5 pt-2">
             <Button variant="secondary" onClick={() => setDeleteCandidate(null)}>

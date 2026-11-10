@@ -5,6 +5,7 @@ import {
   FolderTree,
   CheckCircle2,
   EyeOff,
+  Palette,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import {
@@ -17,12 +18,13 @@ import { AdminHeader } from '../components/admin/AdminHeader';
 import { CategoryManager } from '../components/admin/CategoryManager';
 import { ItemListTable } from '../components/admin/ItemListTable';
 import { ItemFormModal } from '../components/admin/ItemFormModal';
+import { SiteSettingsCMS } from '../components/admin/SiteSettingsCMS';
 import { MenuItem } from '../types/menu';
 
 export const AdminDashboard: React.FC = () => {
   const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<'items' | 'categories'>('items');
+  const [activeTab, setActiveTab] = useState<'items' | 'categories' | 'cms'>('items');
   const [isItemModalOpen, setIsItemModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
 
@@ -69,7 +71,7 @@ export const AdminDashboard: React.FC = () => {
     setEditingItem(null);
   };
 
-  // Live Menu Stats computation (purely for digital menu management)
+  // Live Menu Stats computation (purely for digital menu management - no inventory/sales/stock)
   const totalItemsCount = items.length;
   const categoriesCount = categories.length;
   const activeMenuCount = items.filter((i) => i.isAvailable).length;
@@ -91,7 +93,7 @@ export const AdminDashboard: React.FC = () => {
             </div>
             <div>
               <span className="font-headline text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block">
-                Total Dishes
+                Total Dishes &amp; Drinks
               </span>
               <span className="font-headline text-2xl font-bold font-mono text-white">
                 {totalItemsCount}
@@ -106,7 +108,7 @@ export const AdminDashboard: React.FC = () => {
             </div>
             <div>
               <span className="font-headline text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block">
-                Menu Sections
+                Categories
               </span>
               <span className="font-headline text-2xl font-bold font-mono text-white">
                 {categoriesCount}
@@ -116,12 +118,12 @@ export const AdminDashboard: React.FC = () => {
 
           {/* Visible on Menu */}
           <div className="bg-[#121212] border border-[#222222] rounded-2xl p-5 flex items-center gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
-            <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-white shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-[#FFBD18] shrink-0">
               <CheckCircle2 className="w-5 h-5" />
             </div>
             <div>
               <span className="font-headline text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block">
-                Visible on Menu
+                Live on Menu
               </span>
               <span className="font-headline text-2xl font-bold font-mono text-white">
                 {activeMenuCount}
@@ -131,12 +133,12 @@ export const AdminDashboard: React.FC = () => {
 
           {/* Paused / Hidden */}
           <div className="bg-[#121212] border border-[#222222] rounded-2xl p-5 flex items-center gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
-            <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-white shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center text-[#71717A] shrink-0">
               <EyeOff className="w-5 h-5" />
             </div>
             <div>
               <span className="font-headline text-[11px] uppercase tracking-wider text-[#A1A1AA] font-bold block">
-                Paused / Hidden
+                Hidden Dishes
               </span>
               <span className="font-headline text-2xl font-bold font-mono text-white">
                 {pausedMenuCount}
@@ -145,11 +147,11 @@ export const AdminDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Navigation Tabs (Dishes vs Categories) */}
-        <div className="flex border-b border-[#222222] gap-2">
+        {/* Navigation Tabs (Dishes vs Categories vs Customize Menu & CMS) */}
+        <div className="flex border-b border-[#222222] gap-2 overflow-x-auto no-scrollbar">
           <button
             onClick={() => setActiveTab('items')}
-            className={`px-5 py-3 font-headline text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px cursor-pointer ${
+            className={`px-5 py-3 font-headline text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px shrink-0 cursor-pointer ${
               activeTab === 'items'
                 ? 'border-[#FFBD18] text-white bg-white/5'
                 : 'border-transparent text-[#A1A1AA] hover:text-white hover:bg-white/5'
@@ -161,7 +163,7 @@ export const AdminDashboard: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('categories')}
-            className={`px-5 py-3 font-headline text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px cursor-pointer ${
+            className={`px-5 py-3 font-headline text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px shrink-0 cursor-pointer ${
               activeTab === 'categories'
                 ? 'border-[#FFBD18] text-white bg-white/5'
                 : 'border-transparent text-[#A1A1AA] hover:text-white hover:bg-white/5'
@@ -169,6 +171,18 @@ export const AdminDashboard: React.FC = () => {
           >
             <FolderTree className="w-4 h-4 text-white" />
             <span>Category Manager ({categories.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('cms')}
+            className={`px-5 py-3 font-headline text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 border-b-2 rounded-t-xl -mb-px shrink-0 cursor-pointer ${
+              activeTab === 'cms'
+                ? 'border-[#FFBD18] text-[#FFBD18] bg-white/5 font-extrabold'
+                : 'border-transparent text-[#A1A1AA] hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <Palette className="w-4 h-4 text-[#FFBD18]" />
+            <span>Customize Menu &amp; Live CMS</span>
           </button>
         </div>
 
@@ -184,6 +198,9 @@ export const AdminDashboard: React.FC = () => {
 
         {/* Tab View 2: Categories Manager */}
         {activeTab === 'categories' && <CategoryManager categories={categories} />}
+
+        {/* Tab View 3: Live Menu CMS & Visual Customizer */}
+        {activeTab === 'cms' && <SiteSettingsCMS />}
       </main>
 
       {/* Modal: Item Create / Edit */}

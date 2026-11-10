@@ -265,7 +265,8 @@ export class MenuController {
   // Categories
   async getCategories(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const categories = await menuService.getAllCategories();
+      const { type } = request.query as { type?: string };
+      const categories = await menuService.getAllCategories(type);
       return reply.send({
         success: true,
         data: categories,
@@ -280,7 +281,12 @@ export class MenuController {
 
   async createCategory(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { name, description, icon } = request.body as { name: string; description?: string; icon?: string };
+      const { name, description, parentCategory, icon } = request.body as {
+        name: string;
+        description?: string;
+        parentCategory?: string;
+        icon?: string;
+      };
       if (!name) {
         return reply.status(400).send({
           success: false,
@@ -288,7 +294,7 @@ export class MenuController {
         });
       }
 
-      const category = await menuService.createCategory({ name, description, icon });
+      const category = await menuService.createCategory({ name, description, parentCategory, icon });
       return reply.status(201).send({
         success: true,
         message: 'Category created successfully',
@@ -305,7 +311,13 @@ export class MenuController {
   async updateCategory(request: FastifyRequest, reply: FastifyReply) {
     try {
       const { id } = request.params as { id: string };
-      const body = request.body as { name?: string; description?: string; icon?: string; sortOrder?: number };
+      const body = request.body as {
+        name?: string;
+        description?: string;
+        parentCategory?: string;
+        icon?: string;
+        sortOrder?: number;
+      };
       const updated = await menuService.updateCategory(id, body);
       return reply.send({
         success: true,
