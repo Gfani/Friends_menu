@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
-import { LogOut, ExternalLink, QrCode, Shield, KeyRound, BookOpen } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { LogOut, ExternalLink, QrCode, Shield, KeyRound, BookOpen, Bell } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { TableQRModal } from './TableQRModal';
 import { AccountSecurityModal } from './AccountSecurityModal';
 import { ManagerGuideModal } from './ManagerGuideModal';
+import { LiveServiceBoardModal } from './LiveServiceBoardModal';
 import { MerebaLogo } from '../common/MerebaLogo';
+import { useServiceRequests } from '../../hooks/useMenu';
+import { playServiceBellChime } from '../../utils/audio';
 
 export const AdminHeader: React.FC = () => {
   const { user, logout } = useAuth();
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [isSecurityModalOpen, setIsSecurityModalOpen] = useState(false);
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
+  const [isLiveBoardOpen, setIsLiveBoardOpen] = useState(false);
+
+  // Live service requests polling
+  const { data: requests = [] } = useServiceRequests();
+  const pendingRequests = requests.filter((r) => r.status === 'PENDING');
+  const pendingCount = pendingRequests.length;
+  const prevCountRef = useRef<number>(pendingCount);
+
+  useEffect(() => {
+    if (pendingCount > prevCountRef.current) {
+      playServiceBellChime();
+    }
+    prevCountRef.current = pendingCount;
+  }, [pendingCount]);
 
   return (
     <>
@@ -31,6 +48,25 @@ export const AdminHeader: React.FC = () => {
 
           {/* Right Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Live Service Requests Call Bell */}
+            <button
+              onClick={() => setIsLiveBoardOpen(true)}
+              className={`relative inline-flex items-center gap-1.5 px-3 py-2 text-xs font-headline font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
+                pendingCount > 0
+                  ? 'bg-red-950/70 border border-red-500/50 text-red-200 animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.4)]'
+                  : 'bg-[#141414] hover:bg-[#1f1f1f] text-[#d4d4d8] hover:text-white border border-[#262626]'
+              }`}
+              title="Live Table Service Requests"
+            >
+              <Bell className={`w-3.5 h-3.5 ${pendingCount > 0 ? 'text-red-400' : 'text-[#FFBD18]'}`} />
+              <span className="hidden sm:inline">Table Service</span>
+              {pendingCount > 0 && (
+                <span className="ml-1 px-1.5 py-0.5 rounded-full bg-red-600 text-[10px] font-black text-white">
+                  {pendingCount}
+                </span>
+              )}
+            </button>
+
             {/* Manager Operations Guide Button */}
             <button
               onClick={() => setIsGuideModalOpen(true)}
@@ -96,6 +132,12 @@ export const AdminHeader: React.FC = () => {
           </div>
         </div>
       </header>
+
+      {/* Live Table Service Board Modal */}
+      <LiveServiceBoardModal
+        isOpen={isLiveBoardOpen}
+        onClose={() => setIsLiveBoardOpen(false)}
+      />
 
       {/* Table QR Modal */}
       <TableQRModal isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)} />

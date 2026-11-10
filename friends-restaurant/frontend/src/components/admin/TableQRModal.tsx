@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import QRCode from 'qrcode';
-import { QrCode, Download, Printer, Copy, Check, Sparkles, ExternalLink } from 'lucide-react';
+import { QrCode, Download, Printer, Copy, Check, Sparkles, ExternalLink, Wifi } from 'lucide-react';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
+import { MerebaLogo } from '../common/MerebaLogo';
+import { useSiteSettings } from '../../hooks/useMenu';
 
 interface TableQRModalProps {
   isOpen: boolean;
@@ -10,6 +12,7 @@ interface TableQRModalProps {
 }
 
 export const TableQRModal: React.FC<TableQRModalProps> = ({ isOpen, onClose }) => {
+  const { data: settings } = useSiteSettings();
   const [selectedTable, setSelectedTable] = useState<string>('4');
   const [customTable, setCustomTable] = useState<string>('');
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
@@ -111,25 +114,21 @@ export const TableQRModal: React.FC<TableQRModalProps> = ({ isOpen, onClose }) =
         <div className="flex justify-center">
           <div
             ref={printCardRef}
-            className="w-full max-w-xs bg-white text-black p-5 rounded-3xl shadow-2xl border-4 border-[#121212] text-center space-y-3"
+            className="w-full max-w-xs bg-[#0c0c0c] text-white p-6 rounded-3xl shadow-2xl border-2 border-[#262626] text-center space-y-4"
           >
             {/* Friends Official Master Logo on Table Card */}
             <div className="flex justify-center pt-2 pb-1">
-              <img
-                src="/assets/friends-logo.png"
-                alt="F·R·I·E·N·D·S - መረባ ፍሬንድስ"
-                className="w-44 sm:w-48 h-auto object-contain mx-auto"
-              />
+              <MerebaLogo variant="full" className="w-36 h-auto mx-auto" />
             </div>
 
             <div className="py-1">
-              <span className="inline-block px-3 py-1 rounded-full bg-black text-white text-xs font-mono font-bold tracking-wider">
+              <span className="inline-block px-4 py-1.5 rounded-full bg-[#FFBD18] text-black text-xs font-headline font-black tracking-widest uppercase shadow-[0_0_12px_rgba(255,189,24,0.4)]">
                 TABLE #{activeTable}
               </span>
             </div>
 
             {/* QR Code image */}
-            <div className="p-2 bg-zinc-50 rounded-2xl border-2 border-zinc-200 inline-block shadow-inner">
+            <div className="p-3 bg-white rounded-2xl inline-block shadow-lg">
               {qrDataUrl ? (
                 <img
                   src={qrDataUrl}
@@ -143,22 +142,26 @@ export const TableQRModal: React.FC<TableQRModalProps> = ({ isOpen, onClose }) =
               )}
             </div>
 
-            <div className="space-y-0.5">
-              <p className="text-xs font-extrabold text-black uppercase tracking-wider">
-                Scan to View Live Digital Menu
+            <div className="space-y-1">
+              <p className="font-headline text-xs font-extrabold text-white uppercase tracking-wider">
+                Scan with Phone Camera
               </p>
-              <p className="text-[9px] text-zinc-500 italic">
-                &ldquo;We&apos;ll be there for you.&rdquo;
+              <p className="text-[10px] text-[#A1A1AA]">
+                Browse Full Menu &bull; Call Waiter &bull; Instant Bill
               </p>
             </div>
 
-            {/* Wi-Fi callout at bottom of table card */}
-            <div className="pt-2 border-t border-zinc-200 text-[9px] text-zinc-600 space-y-0.5">
-              <p>
-                <strong>Wi-Fi:</strong> Mereba_Friends_Garden_5G
+            {/* Dynamic Wi-Fi callout at bottom of table card */}
+            <div className="pt-3 border-t border-[#222222] text-[10px] text-[#A1A1AA] space-y-1 bg-[#141414] rounded-xl p-2.5">
+              <div className="flex items-center justify-center gap-1.5 text-white font-semibold">
+                <Wifi className="w-3.5 h-3.5 text-[#FFBD18]" />
+                <span>Guest Wi-Fi Access</span>
+              </div>
+              <p className="font-mono text-zinc-300">
+                Network: <span className="text-white font-bold">{settings?.wifiSsid || 'Mereba_Friends_Garden_5G'}</span>
               </p>
-              <p>
-                <strong>Password:</strong> centralperkcoffee
+              <p className="font-mono text-zinc-300">
+                Pass: <span className="text-[#FFBD18] font-bold">{settings?.wifiPassword || 'centralperkcoffee'}</span>
               </p>
             </div>
           </div>

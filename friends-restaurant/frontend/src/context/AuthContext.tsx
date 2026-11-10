@@ -13,19 +13,40 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Purge any old persistent localStorage tokens immediately to ensure login is always requested
+if (typeof window !== 'undefined') {
+  try {
+    localStorage.removeItem('friends_admin_token');
+    localStorage.removeItem('friends_admin_user');
+  } catch {
+    // Ignore storage errors
+  }
+}
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Use sessionStorage so credentials never persist across tab/browser restarts
   const [user, setUser] = useState<AdminUser | null>(() => {
-    const saved = sessionStorage.getItem('friends_admin_user') || localStorage.getItem('friends_admin_user');
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = sessionStorage.getItem('friends_admin_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
   });
+
   const [token, setToken] = useState<string | null>(() => {
-    return sessionStorage.getItem('friends_admin_token') || localStorage.getItem('friends_admin_token');
+    try {
+      return sessionStorage.getItem('friends_admin_token');
+    } catch {
+      return null;
+    }
   });
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const checkAuth = async () => {
-      const storedToken = sessionStorage.getItem('friends_admin_token') || localStorage.getItem('friends_admin_token');
+      const storedToken = sessionStorage.getItem('friends_admin_token');
       if (storedToken) {
         try {
           const res = await api.getMe();
@@ -51,8 +72,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(res.admin);
     sessionStorage.setItem('friends_admin_token', res.token);
     sessionStorage.setItem('friends_admin_user', JSON.stringify(res.admin));
-    localStorage.setItem('friends_admin_token', res.token);
-    localStorage.setItem('friends_admin_user', JSON.stringify(res.admin));
+    // Explicitly ensure localStorage does not retain credentials
+    localStorage.removeItem('friends_admin_token');
+    localStorage.removeItem('friends_admin_user');
   };
 
   const logout = () => {
@@ -87,3 +109,4 @@ export const useAuth = () => {
   }
   return context;
 };
+

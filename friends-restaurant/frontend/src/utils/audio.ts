@@ -50,3 +50,4 @@ export function playServiceBellChime(): void {
     console.warn('Audio chime skipped by browser policy:', err);
   }
 }
+

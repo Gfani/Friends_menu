@@ -193,7 +193,7 @@ export function useUpdateAdminProfile() {
       api.updateProfile(data),
     onSuccess: (res) => {
       if (res.admin) {
-        localStorage.setItem('friends_admin_user', JSON.stringify(res.admin));
+        sessionStorage.setItem('friends_admin_user', JSON.stringify(res.admin));
       }
     },
   });

@@ -4,7 +4,8 @@ const API_BASE = import.meta.env.VITE_API_URL || '';
 
 class ApiClient {
   private getAuthToken(): string | null {
-    return localStorage.getItem('friends_admin_token');
+    if (typeof window === 'undefined') return null;
+    return sessionStorage.getItem('friends_admin_token');
   }
 
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {

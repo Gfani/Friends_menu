@@ -7,7 +7,10 @@ import {
   Wifi,
   Check,
   Copy,
+  Bell,
+  Lock,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useMenu, useSiteSettings } from '../hooks/useMenu';
 import { MenuHeader } from '../components/customer/MenuHeader';
 import { CategoryTabs } from '../components/customer/CategoryTabs';
@@ -15,6 +18,7 @@ import { MenuCard } from '../components/customer/MenuCard';
 import { MenuItem } from '../types/menu';
 import { MerebaLogo } from '../components/common/MerebaLogo';
 import { FriendsDoodleRibbon } from '../components/customer/FriendsDoodleRibbon';
+import { CallServiceModal } from '../components/customer/CallServiceModal';
 import { api } from '../api/client';
 import { Language, translations } from '../i18n/translations';
 
@@ -34,11 +38,18 @@ export const CustomerMenu: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
   const [copiedWifi, setCopiedWifi] = useState<boolean>(false);
+  const [isServiceModalOpen, setIsServiceModalOpen] = useState<boolean>(false);
+  const [tableNumber, setTableNumber] = useState<string>('');
+
+  const navigate = useNavigate();
 
   // Track visit on mount
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const table = params.get('table');
+    if (table) {
+      setTableNumber(table);
+    }
     api.trackEvent({
       type: table ? 'TABLE_SCAN' : 'PAGE_VIEW',
       tableNumber: table || undefined,
@@ -889,11 +900,46 @@ export const CustomerMenu: React.FC = () => {
 
             <div className="pt-6 border-t border-[#222222] w-full flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#71717A] gap-2">
               <p>Copyright &copy; F.R.I.E.N.D.S {settings?.restaurantName || 'Mereba Friends Garden'}. All rights reserved.</p>
-              <p className="text-[#52525B]">Casual Luxury Dining &bull; Kebele 17, Mekelle</p>
+              <div className="flex items-center gap-3">
+                <p className="text-[#52525B]">Casual Luxury Dining &bull; Kebele 17, Mekelle</p>
+                <button
+                  onClick={() => navigate('/admin/login')}
+                  className="text-[#333333] hover:text-[#FFBD18] transition-colors p-1"
+                  title="Staff Portal Login"
+                  aria-label="Staff Portal Login"
+                >
+                  <Lock className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </footer>
+
+      {/* Floating Waiter / Bill Service Button */}
+      <button
+        onClick={() => setIsServiceModalOpen(true)}
+        type="button"
+        aria-label="Call Waiter or Request Bill"
+        className="fixed bottom-6 left-6 z-40 inline-flex items-center gap-2.5 px-4 py-3 rounded-full backdrop-blur-md border border-[#FFBD18]/50 bg-[#121212]/95 text-white shadow-[0_10px_30px_rgba(0,0,0,0.85)] hover:scale-105 hover:border-[#FFBD18] transition-all duration-300 cursor-pointer animate-in fade-in group"
+      >
+        <span className="relative flex h-2.5 w-2.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFBD18] opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FFBD18]"></span>
+        </span>
+        <Bell className="w-4 h-4 text-[#FFBD18] group-hover:rotate-12 transition-transform" />
+        <span className="font-headline text-xs font-bold uppercase tracking-wider">
+          {currentLang === 'ti' ? 'ኣሳላጢ ጸውዕ / ቢል' : currentLang === 'am' ? 'አስተናጋጅ ጥራ / ሂሳብ' : 'Call Waiter / Bill'}
+        </span>
+      </button>
+
+      {/* Call Service Modal */}
+      <CallServiceModal
+        isOpen={isServiceModalOpen}
+        onClose={() => setIsServiceModalOpen(false)}
+        initialTableNumber={tableNumber}
+        currentLang={currentLang}
+      />
 
       {/* Floating Scroll To Top Button */}
       {showScrollTop && (
