@@ -15,3 +15,4 @@ start "" http://localhost:5000
 
 node dist/app.js
 pause
+
