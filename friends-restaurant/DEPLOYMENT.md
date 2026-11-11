@@ -191,3 +191,4 @@ Complete these 5 quick steps when delivering the system to the restaurant owner:
   Give the owner a printed/laminated copy of `CLIENT_HANDOVER.md` and the acrylic QR table stands.
 
 *Congratulations! The system is 100% production-ready for Mereba Friends Garden.*
+
