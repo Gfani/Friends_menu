@@ -199,36 +199,7 @@ export function useUpdateAdminProfile() {
   });
 }
 
-// 11. Service Requests (Call Waiter / Bill)
-export function useCallService() {
-  return useMutation({
-    mutationFn: (data: { tableNumber: string; type: 'CALL_WAITER' | 'REQUEST_BILL'; paymentMethod?: string; notes?: string }) =>
-      api.submitServiceCall(data),
-  });
-}
-
-export function useServiceRequests() {
-  return useQuery({
-    queryKey: MENU_QUERY_KEYS.serviceRequests,
-    queryFn: async () => {
-      const res = await api.getServiceRequests();
-      return res.data;
-    },
-    refetchInterval: 10000,
-  });
-}
-
-export function useResolveServiceRequest() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (id: string) => api.resolveServiceRequest(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: MENU_QUERY_KEYS.serviceRequests });
-    },
-  });
-}
-
-// 12. Menu Analytics Hook
+// 11. Menu Analytics Hook
 export function useAnalyticsSummary() {
   return useQuery({
     queryKey: ['analytics-summary'],

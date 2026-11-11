@@ -8,7 +8,6 @@ export async function menuRoutes(fastify: FastifyInstance) {
   fastify.get('/menu/items', menuController.getItems.bind(menuController));
   fastify.get('/menu/items/:id', menuController.getItem.bind(menuController));
   fastify.get('/categories', menuController.getCategories.bind(menuController));
-  fastify.post('/service/call', menuController.callWaiterOrBill.bind(menuController));
 
   // Admin protected routes for menu items
   fastify.post('/menu/items', { preHandler: [authenticate] }, menuController.createItem.bind(menuController));
@@ -21,9 +20,5 @@ export async function menuRoutes(fastify: FastifyInstance) {
   fastify.put('/categories/reorder', { preHandler: [authenticate] }, menuController.reorderCategories.bind(menuController));
   fastify.put('/categories/:id', { preHandler: [authenticate] }, menuController.updateCategory.bind(menuController));
   fastify.delete('/categories/:id', { preHandler: [authenticate] }, menuController.deleteCategory.bind(menuController));
-
-  // Admin service requests
-  fastify.get('/service/requests', { preHandler: [authenticate] }, menuController.getServiceRequests.bind(menuController));
-  fastify.patch('/service/requests/:id/resolve', { preHandler: [authenticate] }, menuController.resolveServiceRequest.bind(menuController));
 }
 

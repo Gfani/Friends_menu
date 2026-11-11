@@ -72,14 +72,14 @@ friends-restaurant/
 ---
 
 ## 📱 Customer Features (`/`)
-1. **Quick Action Bar**:
-   - **Call Waiter**: Pick table number (1–20), add optional notes, alert server in real-time.
-   - **Request Bill**: Select table and payment method (Cash, Telebirr, CBE Birr, Card).
-   - **Free Wi-Fi**: Network `Mereba_Friends_Garden_5G`, password `centralperkcoffee` with 1-click copy.
+1. **Quick Action Bar & Hospitality Info**:
+   - **Complimentary Wi-Fi**: Network `Mereba_Friends_Garden_5G`, password `centralperkcoffee` with 1-click copy.
+   - **Direct Contact & Social**: 1-tap phone calls, Instagram, TikTok, and Facebook links.
+   - **Trilingual Language Selector**: Instant 1-tap switching between English, Tigrinya, and Amharic.
 2. **Category Filter Tabs**: Smooth horizontal scrolling with item counts and colored dot indicators.
 3. **Live Search**: Instant text filtering by dish name, description, or ingredient.
 4. **Accordion Expandable Item Rows**:
-   - Ultra-compact default row: Dish name and price in ETB with chevron (`^`) toggle.
+   - Ultra-compact default row: Dish name and price in ETB with chevron toggle.
    - Expanded state: High-resolution food photography, description, dietary badges, live availability, and dynamic pricing tag.
 
 ---
@@ -98,8 +98,9 @@ friends-restaurant/
   - Re-order categories (Move Up / Down).
   - Rename categories and update descriptions.
   - Add new categories and delete existing ones.
-- **Table Service Alerts**:
-  - Live alerts for customer waiter calls and bill requests with one-click resolve.
+- **Unified Table QR Generator & Analytics**:
+  - Single Master QR acrylic card generation and instant printing.
+  - Live visitor metrics, QR scan counter, and Popular Dishes Leaderboard.
 
 ---
 

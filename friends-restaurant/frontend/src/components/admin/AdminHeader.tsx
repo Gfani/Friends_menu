@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   LogOut,
   ExternalLink,
@@ -6,7 +6,6 @@ import {
   Shield,
   KeyRound,
   BookOpen,
-  Bell,
   Menu as MenuIcon,
   X,
 } from 'lucide-react';
@@ -15,31 +14,14 @@ import { Link } from 'react-router-dom';
 import { TableQRModal } from './TableQRModal';
 import { AccountSecurityModal } from './AccountSecurityModal';
 import { ManagerGuideModal } from './ManagerGuideModal';
-import { LiveServiceBoardModal } from './LiveServiceBoardModal';
 import { MerebaLogo } from '../common/MerebaLogo';
-import { useServiceRequests } from '../../hooks/useMenu';
-import { playServiceBellChime } from '../../utils/audio';
 
 export const AdminHeader: React.FC = () => {
   const { user, logout } = useAuth();
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [isSecurityModalOpen, setIsSecurityModalOpen] = useState(false);
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
-  const [isLiveBoardOpen, setIsLiveBoardOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  // Live service requests polling
-  const { data: requests = [] } = useServiceRequests();
-  const pendingRequests = requests.filter((r) => r.status === 'PENDING');
-  const pendingCount = pendingRequests.length;
-  const prevCountRef = useRef<number>(pendingCount);
-
-  useEffect(() => {
-    if (pendingCount > prevCountRef.current) {
-      playServiceBellChime();
-    }
-    prevCountRef.current = pendingCount;
-  }, [pendingCount]);
 
   return (
     <>
@@ -59,25 +41,6 @@ export const AdminHeader: React.FC = () => {
 
           {/* Right Actions */}
           <div className="flex items-center gap-1.5 sm:gap-2.5">
-            {/* Live Service Requests Call Bell (Always visible so alerts are never missed) */}
-            <button
-              onClick={() => setIsLiveBoardOpen(true)}
-              className={`relative inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-2 text-xs font-headline font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
-                pendingCount > 0
-                  ? 'bg-red-950/70 border border-red-500/50 text-red-200 animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.4)]'
-                  : 'bg-[#141414] hover:bg-[#1f1f1f] text-[#d4d4d8] hover:text-white border border-[#262626]'
-              }`}
-              title="Live Table Service Requests"
-            >
-              <Bell className={`w-4 h-4 ${pendingCount > 0 ? 'text-red-400' : 'text-[#FFBD18]'}`} />
-              <span className="hidden sm:inline">Table Service</span>
-              {pendingCount > 0 && (
-                <span className="px-1.5 py-0.2 rounded-full bg-red-600 text-[10px] font-black text-white">
-                  {pendingCount}
-                </span>
-              )}
-            </button>
-
             {/* Desktop Only: Manager Operations Guide */}
             <button
               onClick={() => setIsGuideModalOpen(true)}
@@ -88,14 +51,14 @@ export const AdminHeader: React.FC = () => {
               <span>Manager Guide</span>
             </button>
 
-            {/* Generate Table QR Codes Button (Always available) */}
+            {/* Generate Table QR Stand Button (Always available) */}
             <button
               onClick={() => setIsQRModalOpen(true)}
               className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-2 text-xs font-headline font-bold uppercase tracking-wider rounded-xl bg-[#FFBD18] text-black hover:brightness-110 shadow-[0_0_15px_rgba(255,189,24,0.3)] transition-all cursor-pointer"
-              title="Generate and Print Table QR Codes"
+              title="Generate and Print Master Table QR Code"
             >
               <QrCode className="w-4 h-4 text-black" />
-              <span className="hidden sm:inline">Table QRs</span>
+              <span>Master QR</span>
             </button>
 
             {/* Desktop Only: View Menu Link */}
@@ -212,12 +175,6 @@ export const AdminHeader: React.FC = () => {
           </div>
         )}
       </header>
-
-      {/* Live Table Service Board Modal */}
-      <LiveServiceBoardModal
-        isOpen={isLiveBoardOpen}
-        onClose={() => setIsLiveBoardOpen(false)}
-      />
 
       {/* Table QR Modal */}
       <TableQRModal isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)} />

@@ -76,13 +76,3 @@ export interface AdminUser {
   email: string;
   name: string;
 }
-
-export interface ServiceRequest {
-  id: string;
-  tableNumber: string;
-  type: 'CALL_WAITER' | 'REQUEST_BILL';
-  paymentMethod?: string | null;
-  notes?: string | null;
-  status: 'PENDING' | 'COMPLETED';
-  createdAt: string;
-}

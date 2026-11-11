@@ -1,4 +1,4 @@
-import { MenuItem, Category, AdminUser, ServiceRequest, SiteSettings } from '../types/menu';
+import { MenuItem, Category, AdminUser, SiteSettings } from '../types/menu';
 
 const API_BASE = import.meta.env.VITE_API_URL || '';
 
@@ -171,28 +171,7 @@ class ApiClient {
     });
   }
 
-  // --- Service Requests (Call Waiter / Bill) ---
-  async submitServiceCall(data: {
-    tableNumber: string;
-    type: 'CALL_WAITER' | 'REQUEST_BILL';
-    paymentMethod?: string;
-    notes?: string;
-  }): Promise<{ success: boolean; message: string; data: ServiceRequest }> {
-    return this.request('/api/service/call', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-  }
 
-  async getServiceRequests(): Promise<{ success: boolean; data: ServiceRequest[] }> {
-    return this.request('/api/service/requests');
-  }
-
-  async resolveServiceRequest(id: string): Promise<{ success: boolean; message: string }> {
-    return this.request(`/api/service/requests/${id}/resolve`, {
-      method: 'PATCH',
-    });
-  }
 
   // --- Menu Analytics ---
   async trackEvent(data: {

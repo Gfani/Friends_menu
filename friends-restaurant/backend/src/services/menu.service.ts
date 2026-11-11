@@ -4,7 +4,6 @@ import {
   UpdateMenuItemInput,
   CreateCategoryInput,
   UpdateCategoryInput,
-  ServiceRequestInput,
 } from '../types/index.js';
 
 export class MenuService {
@@ -187,33 +186,6 @@ export class MenuService {
       })
     );
     return prisma.$transaction(updates);
-  }
-
-  // Service Requests
-  async createServiceRequest(data: ServiceRequestInput) {
-    return prisma.serviceRequest.create({
-      data: {
-        tableNumber: data.tableNumber,
-        type: data.type,
-        paymentMethod: data.paymentMethod,
-        notes: data.notes,
-      },
-    });
-  }
-
-  async getActiveServiceRequests() {
-    return prisma.serviceRequest.findMany({
-      where: { status: 'PENDING' },
-      orderBy: { createdAt: 'desc' },
-      take: 50,
-    });
-  }
-
-  async resolveServiceRequest(id: string) {
-    return prisma.serviceRequest.update({
-      where: { id },
-      data: { status: 'COMPLETED' },
-    });
   }
 }
 

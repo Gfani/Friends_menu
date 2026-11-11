@@ -98,10 +98,10 @@ export const ManagerGuideModal: React.FC<ManagerGuideModalProps> = ({ isOpen, on
           <div className="p-4 rounded-xl bg-[#0a0a0a] border border-[#222222] space-y-2">
             <div className="flex items-center gap-2 text-[#16B9E8] font-headline font-bold uppercase tracking-wider">
               <QrCode className="w-4 h-4" />
-              <span>4. Table QR Stands</span>
+              <span>4. Master QR Code Stand</span>
             </div>
             <p className="text-[#A1A1AA] leading-relaxed">
-              Click <strong className="text-white">Table QRs</strong> in the top navigation bar. Select Table #1 to #20, and click "Download High-Res QR" or print the table card for your acrylic stands.
+              Click <strong className="text-white">Master QR</strong> in the top navigation bar. Click "Download High-Res QR" or print the acrylic stand card with your guest Wi-Fi details. All customer scans are tracked seamlessly in your dashboard.
             </p>
           </div>
 
