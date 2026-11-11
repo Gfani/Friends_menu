@@ -52,7 +52,158 @@ export const TableQRModal: React.FC<TableQRModalProps> = ({ isOpen, onClose }) =
   };
 
   const handlePrint = () => {
-    window.print();
+    const cardEl = printCardRef.current;
+    if (!cardEl) {
+      window.print();
+      return;
+    }
+
+    const printWindow = window.open('', '_blank', 'width=700,height=950');
+    if (!printWindow) {
+      window.print();
+      return;
+    }
+
+    const wifiSsid = settings?.wifiSsid || 'Mereba_Friends_Garden_5G';
+    const wifiPassword = settings?.wifiPassword || 'centralperkcoffee';
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Mereba Friends Garden - Official Table QR Stand</title>
+          <style>
+            @page { size: auto; margin: 12mm; }
+            * { box-sizing: border-box; }
+            body {
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              min-height: 100vh;
+              margin: 0;
+              background: #ffffff;
+              color: #000000;
+            }
+            .acrylic-card {
+              width: 320px;
+              background-color: #0a0a0a !important;
+              color: #ffffff !important;
+              border: 3px solid #222222;
+              border-radius: 28px;
+              padding: 28px 24px;
+              text-align: center;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+              box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            }
+            .brand-name {
+              font-size: 15px;
+              font-weight: 900;
+              letter-spacing: 2px;
+              text-transform: uppercase;
+              color: #ffffff;
+              margin: 8px 0 2px;
+            }
+            .brand-sub {
+              font-size: 9px;
+              font-weight: 700;
+              letter-spacing: 3px;
+              color: #FFBD18;
+              text-transform: uppercase;
+              margin-bottom: 12px;
+            }
+            .badge {
+              display: inline-block;
+              background-color: #FFBD18 !important;
+              color: #000000 !important;
+              font-size: 10px;
+              font-weight: 900;
+              letter-spacing: 2px;
+              text-transform: uppercase;
+              padding: 6px 14px;
+              border-radius: 999px;
+              margin-bottom: 16px;
+            }
+            .qr-wrapper {
+              background: #ffffff !important;
+              padding: 12px;
+              border-radius: 20px;
+              display: inline-block;
+              margin-bottom: 14px;
+            }
+            .qr-wrapper img {
+              width: 180px;
+              height: 180px;
+              display: block;
+            }
+            .instructions {
+              font-size: 12px;
+              font-weight: 800;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+              color: #ffffff;
+              margin: 0 0 4px;
+            }
+            .sub-instructions {
+              font-size: 9px;
+              color: #a1a1aa;
+              margin: 0 0 16px;
+            }
+            .wifi-box {
+              background-color: #141414 !important;
+              border-top: 1px solid #262626;
+              border-radius: 14px;
+              padding: 10px 12px;
+              font-size: 10px;
+              color: #d4d4d8;
+              text-align: center;
+            }
+            .wifi-header {
+              font-weight: 800;
+              color: #ffffff;
+              margin-bottom: 4px;
+              text-transform: uppercase;
+              font-size: 9px;
+              letter-spacing: 1px;
+            }
+            .wifi-line {
+              font-family: monospace;
+              font-size: 10px;
+              margin: 2px 0;
+            }
+            .highlight { color: #FFBD18; font-weight: bold; }
+          </style>
+        </head>
+        <body>
+          <div class="acrylic-card">
+            <div class="brand-name">MEREBA FRIENDS GARDEN</div>
+            <div class="brand-sub">መረባ ፍሬንድስ &bull; MEKELLE</div>
+            <div>
+              <span class="badge">SCAN FOR DIGITAL MENU</span>
+            </div>
+            <div class="qr-wrapper">
+              <img src="${qrDataUrl}" alt="Menu QR Code" />
+            </div>
+            <p class="instructions">Point Your Camera to Browse</p>
+            <p class="sub-instructions">Artisan Dishes &bull; Signature Cocktails &bull; Coffee</p>
+            <div class="wifi-box">
+              <div class="wifi-header">Guest Wi-Fi Access</div>
+              <div class="wifi-line">Network: <strong>${wifiSsid}</strong></div>
+              <div class="wifi-line">Password: <span class="highlight">${wifiPassword}</span></div>
+            </div>
+          </div>
+          <script>
+            window.onload = function() {
+              window.focus();
+              window.print();
+              setTimeout(function() { window.close(); }, 500);
+            };
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
   };
 
   return (

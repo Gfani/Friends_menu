@@ -62,6 +62,23 @@ async function main() {
   await app.register(settingsRoutes, { prefix: '/api' });
   await app.register(analyticsRoutes, { prefix: '/api/analytics' });
 
+  // Serve production frontend single-page application if built
+  const frontendDistPath = path.resolve(process.cwd(), '../frontend/dist');
+  if (fs.existsSync(frontendDistPath)) {
+    await app.register(fastifyStatic, {
+      root: frontendDistPath,
+      prefix: '/',
+      decorateReply: false,
+    });
+
+    app.setNotFoundHandler((req, reply) => {
+      if (req.raw.url && req.raw.url.startsWith('/api')) {
+        return reply.status(404).send({ error: 'API endpoint not found' });
+      }
+      return reply.sendFile('index.html', frontendDistPath);
+    });
+  }
+
   // Listen
   try {
     await app.listen({ port: env.PORT, host: env.HOST });
