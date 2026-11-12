@@ -112,3 +112,4 @@ We have included a GitHub Action workflow template in `.github/workflows/azure-d
 4. Click **"Print Stand Card"** (or **"Download High-Res PNG"**).
    * The QR code automatically encodes your live Azure domain with `?scan=qr`.
 5. Place the printed acrylic stands on all tables at Mereba Friends Garden!
+

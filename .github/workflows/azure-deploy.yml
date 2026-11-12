@@ -21,3 +21,4 @@ jobs:
         run: |
           docker build -t friends-menu-app:${{ github.sha }} -f friends-restaurant/Dockerfile friends-restaurant
           echo "Docker image built successfully!"
+

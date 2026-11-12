@@ -69,3 +69,4 @@ ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 # Start server
 CMD ["node", "dist/app.js"]
+

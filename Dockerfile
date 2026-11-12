@@ -60,3 +60,4 @@ EXPOSE 5000
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 CMD ["node", "dist/app.js"]
+
