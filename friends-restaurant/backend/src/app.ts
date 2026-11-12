@@ -10,6 +10,7 @@ import { authRoutes } from './routes/auth.routes.js';
 import { menuRoutes } from './routes/menu.routes.js';
 import { settingsRoutes } from './routes/settings.routes.js';
 import { analyticsRoutes } from './routes/analytics.routes.js';
+import { syncRoutes } from './routes/sync.routes.js';
 
 const app = Fastify({
   logger: {
@@ -61,10 +62,19 @@ async function main() {
   await app.register(menuRoutes, { prefix: '/api' });
   await app.register(settingsRoutes, { prefix: '/api' });
   await app.register(analyticsRoutes, { prefix: '/api/analytics' });
+  await app.register(syncRoutes, { prefix: '/api' });
 
   // Serve production frontend single-page application if built
-  const frontendDistPath = path.resolve(process.cwd(), '../frontend/dist');
-  if (fs.existsSync(frontendDistPath)) {
+  const possiblePaths = [
+    process.env.FRONTEND_DIST,
+    path.resolve(process.cwd(), '../frontend/dist'),
+    path.resolve(process.cwd(), './frontend-dist'),
+    path.resolve(process.cwd(), './public'),
+  ].filter(Boolean) as string[];
+
+  const frontendDistPath = possiblePaths.find((p) => fs.existsSync(p));
+
+  if (frontendDistPath) {
     await app.register(fastifyStatic, {
       root: frontendDistPath,
       prefix: '/',
@@ -77,6 +87,7 @@ async function main() {
       }
       return reply.sendFile('index.html', frontendDistPath);
     });
+    console.log(`🌐 Serving production frontend UI from ${frontendDistPath}`);
   }
 
   // Listen
