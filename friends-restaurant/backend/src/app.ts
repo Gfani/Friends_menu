@@ -6,6 +6,7 @@ import fastifyStatic from '@fastify/static';
 import path from 'path';
 import fs from 'fs';
 import { env } from './config/env.js';
+import { ensureDatabaseReady } from './config/autoInit.js';
 import { authRoutes } from './routes/auth.routes.js';
 import { menuRoutes } from './routes/menu.routes.js';
 import { settingsRoutes } from './routes/settings.routes.js';
@@ -19,6 +20,9 @@ const app = Fastify({
 });
 
 async function main() {
+  // Ensure database tables exist and are seeded automatically
+  await ensureDatabaseReady();
+
   // Ensure uploads directory exists
   const uploadsPath = path.resolve(process.cwd(), env.UPLOAD_DIR);
   if (!fs.existsSync(uploadsPath)) {
