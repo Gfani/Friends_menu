@@ -441,14 +441,16 @@ export const CustomerMenu: React.FC = () => {
 
           {/* 3-COLUMN LUXURY MENU CARDS GRID */}
           {!isLoading && !error && displayedItems.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 min-h-[55vh]">
-              {displayedItems.map((item, index) => (
-                <MenuCard
-                  key={item.id}
-                  item={item}
-                  index={index}
-                />
-              ))}
+            <div className="min-h-[35vh]">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-start">
+                {displayedItems.map((item, index) => (
+                  <MenuCard
+                    key={item.id}
+                    item={item}
+                    index={index}
+                  />
+                ))}
+              </div>
             </div>
           )}
         </div>

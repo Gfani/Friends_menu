@@ -47,19 +47,19 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
   return (
     <div
       onClick={handleToggle}
-      className={`group relative rounded-2xl border transition-all duration-300 cursor-pointer select-none overflow-hidden flex flex-col justify-between ${
+      className={`group relative rounded-2xl border transition-all duration-300 cursor-pointer select-none overflow-hidden h-auto ${
         isExpanded
           ? 'bg-[#181818] border-[#333333] shadow-[0_20px_40px_rgba(0,0,0,0.8)]'
           : 'bg-[#121212] border-[#222222] hover:border-[#333333] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.6)]'
       } ${!item.isAvailable ? 'opacity-50' : ''}`}
     >
-      <div className="p-5 sm:p-6 flex flex-col justify-between h-full">
+      <div className="p-4 sm:p-5 flex flex-col h-auto">
         <div>
           {/* Main Dish Row: Compact Thumbnail + Title & Price */}
-          <div className="flex items-start gap-4">
+          <div className="flex items-start gap-3.5 sm:gap-4">
             {/* Dish Thumbnail */}
             {item.image && !imgError && (
-              <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 border border-[#222222] bg-[#080808] group-hover:border-[#333333] transition-all duration-300">
+              <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shrink-0 border border-[#222222] bg-[#080808] group-hover:border-[#333333] transition-all duration-300 shadow-md">
                 <img
                   src={item.image}
                   alt={item.name}
@@ -92,7 +92,7 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
                 </div>
 
                 {/* Price Tag & Sleek Chevron */}
-                <div className="flex items-center gap-2 shrink-0 text-right">
+                <div className="flex items-center gap-1.5 shrink-0 text-right">
                   <span
                     className={`font-headline text-sm sm:text-base font-bold font-mono tracking-tight whitespace-nowrap ${
                       isMarketPrice
@@ -118,7 +118,7 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
               {/* Description preview */}
               {item.description && (
                 <p
-                  className={`font-body text-xs text-[#A1A1AA] leading-relaxed mt-2 transition-all ${
+                  className={`font-body text-xs text-[#A1A1AA] leading-relaxed mt-1.5 transition-all ${
                     isExpanded ? 'text-zinc-200' : 'line-clamp-2'
                   }`}
                 >
@@ -130,10 +130,10 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
 
           {/* EDITORIAL EXPANDED VIEW: Pristine Full Hero Photo & Description */}
           {isExpanded && (
-            <div className="mt-5 pt-4 border-t border-[#222222] animate-in fade-in duration-200 space-y-3.5">
+            <div className="mt-4 pt-3.5 border-t border-[#222222] animate-in fade-in duration-200 space-y-3">
               {/* Full Clean Food Photography */}
               {item.image && !imgError && (
-                <div className="relative w-full h-48 sm:h-60 rounded-xl overflow-hidden bg-[#080808] border border-[#222222] group/img">
+                <div className="relative w-full h-44 sm:h-56 rounded-xl overflow-hidden bg-[#080808] border border-[#222222] group/img">
                   <img
                     src={item.image}
                     alt={item.name}
@@ -161,22 +161,22 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
         </div>
 
         {/* Row 3: SLEEK MONOCHROME PILL BADGES */}
-        <div className="mt-4 pt-3.5 border-t border-[#1c1c1c] flex items-center justify-between">
+        <div className="mt-3 pt-2.5 border-t border-[#1f1f1f] flex items-center justify-between">
           <div className="flex items-center gap-2 flex-wrap">
             {/* Clean luxury category pill */}
-            <span className="px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.14em] font-semibold bg-[#1a1a1a] text-[#d4d4d8] border border-[#2a2a2a]">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-sans uppercase tracking-[0.12em] font-semibold bg-[#1a1a1a] text-[#d4d4d8] border border-[#2a2a2a]">
               {categoryName}
             </span>
 
             {/* Unavailable badge */}
             {!item.isAvailable && (
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-sans uppercase tracking-wider font-semibold border bg-white/5 text-zinc-400 border-white/10">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-sans uppercase tracking-wider font-semibold border bg-white/5 text-zinc-400 border-white/10">
                 Sold Out
               </span>
             )}
           </div>
 
-          <span className="font-sans text-[10px] uppercase tracking-[0.15em] text-[#71717A] font-medium">
+          <span className="font-sans text-[10px] uppercase tracking-[0.14em] text-[#71717A] font-medium">
             Mereba Bistro
           </span>
         </div>
