@@ -100,26 +100,14 @@ export const CustomerMenu: React.FC = () => {
     };
   }, [safeCategories]);
 
-  // Smooth scroll handler so selecting a category keeps user at the dishes, never dumped at footer
+  // Category and parent department switchers: stay strictly fixed in place with zero downward scroll
   const handleSelectCategory = (catId: string) => {
     setActiveCategory(catId);
-    const tabsElement = document.getElementById('category-tabs-section');
-    if (tabsElement) {
-      const yOffset = -90; // account for sticky header
-      const y = tabsElement.getBoundingClientRect().top + window.scrollY + yOffset;
-      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-    }
   };
 
   const handleSelectParent = (parent: 'FOOD' | 'DRINKS') => {
     setActiveParent(parent);
     setActiveCategory('all');
-    const tabsElement = document.getElementById('category-tabs-section');
-    if (tabsElement) {
-      const yOffset = -90;
-      const y = tabsElement.getBoundingClientRect().top + window.scrollY + yOffset;
-      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-    }
   };
 
   // Episode naming mapper for Friends themed category headers
