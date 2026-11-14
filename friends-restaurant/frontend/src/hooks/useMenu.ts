@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../api/client';
 import { Category, MenuItem, SiteSettings, AdminUser } from '../types/menu';
+import { INITIAL_CATEGORIES } from '../data/initialMenu';
 
 export const MENU_QUERY_KEYS = {
   menu: ['menu'] as const,
@@ -15,9 +16,15 @@ export function useMenu() {
   return useQuery<Category[]>({
     queryKey: MENU_QUERY_KEYS.menu,
     queryFn: async () => {
-      const res = await api.getMenu();
-      return res.data;
+      try {
+        const res = await api.getMenu();
+        if (res?.data && res.data.length > 0) return res.data;
+        return INITIAL_CATEGORIES;
+      } catch {
+        return INITIAL_CATEGORIES;
+      }
     },
+    initialData: INITIAL_CATEGORIES,
     staleTime: 1000 * 60 * 2, // 2 minutes
     refetchOnWindowFocus: true,
   });
