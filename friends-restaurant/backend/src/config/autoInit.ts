@@ -3,33 +3,29 @@ import { prisma } from './database.js';
 
 export async function ensureDatabaseReady() {
   try {
-    // Ensure DATABASE_URL is set
-    const dbUrl = process.env.DATABASE_URL || 'file:./dev.db';
-    process.env.DATABASE_URL = dbUrl;
+    const dbUrl = process.env.DATABASE_URL;
+    if (!dbUrl) {
+      console.warn('⚠️ DATABASE_URL is not defined in environment variables.');
+      return;
+    }
 
-    console.log(`🔄 Checking database schema at ${dbUrl}...`);
+    console.log('🔄 Synchronizing PostgreSQL database schema with Prisma...');
     execSync('npx prisma db push --skip-generate', {
       stdio: 'inherit',
-      env: {
-        ...process.env,
-        DATABASE_URL: dbUrl,
-      },
+      env: process.env,
     });
 
     // Check if database has been seeded
     const adminCount = await prisma.admin.count().catch(() => 0);
     if (adminCount === 0) {
-      console.log('🌱 First boot detected: running automated menu & admin seeding...');
+      console.log('🌱 First boot: running automated menu & admin seeding on PostgreSQL...');
       execSync('npx tsx prisma/seed.ts', {
         stdio: 'inherit',
-        env: {
-          ...process.env,
-          DATABASE_URL: dbUrl,
-        },
+        env: process.env,
       });
-      console.log('🎉 Database automatically initialized and seeded successfully!');
+      console.log('🎉 PostgreSQL database initialized and seeded successfully!');
     } else {
-      console.log(`✅ Database ready (${adminCount} admin account(s) active).`);
+      console.log(`✅ PostgreSQL database ready (${adminCount} admin account(s) active). All custom dishes and prices preserved.`);
     }
   } catch (err: any) {
     console.warn('⚠️ Automated database setup notice:', err?.message || err);
