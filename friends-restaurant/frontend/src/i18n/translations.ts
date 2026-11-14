@@ -80,7 +80,7 @@ export const translations: Record<Language, Translations> = {
   },
   ti: {
     home: 'መእተዊ',
-    ourMenu: 'ዝርዝር መግቢ',
+    ourMenu: 'ዝርዝር ምግቢ',
     aboutUs: 'ብዛዕባና',
     atmosphere: 'ከባቢና',
     locationHours: 'ቦታን ሰዓታትን',
@@ -89,30 +89,30 @@ export const translations: Record<Language, Translations> = {
     copyPassword: 'ፓስዎርድ ቅዳሕ',
     passwordCopied: 'ተቀዲሑ!',
     close: 'ዕጾ',
-    exploreMenu: 'ዝርዝር መግቢ ርአ',
+    exploreMenu: 'ዝርዝር ምግቢ ርአ',
     visitGarden: 'ናብ ገነትና ምጹ',
-    food: 'መግቢ',
+    food: 'ምግቢ',
     drinks: 'መስተታት',
-    allFood: 'ኩሉ መግቢ',
+    allFood: 'ኩሉ ምግቢ',
     allDrinks: 'ኩሉ መስተታት',
     searchPlaceholderFood: 'ፓስታ፣ ሩዝ፣ ሰላጣ፣ ሾርባ፣ ፒዛ ድለይ...',
     searchPlaceholderDrinks: 'ለስላሳ፣ ሞሂቶ፣ ቢራ፣ ጁስ ድለይ...',
     clearSearch: 'ድለይ ሰርዝ',
-    dishes: 'ዓይነታት መግቢ',
+    dishes: 'ዓይነታት ምግቢ',
     items: 'ዓይነታት',
     address: 'አድራሻና',
-    diningHours: 'ናይ መግቢ ሰዓታት',
+    diningHours: 'ናይ ምግቢ ሰዓታት',
     kitchenCloses: 'ክሽነ ሰዓት 4:30 ናይ ለይቲ ይዕጾ',
     contactSocial: 'ርክብን ማሕበራዊ ሚድያን',
     backToTop: 'ናብ ላዕሊ ተመለስ',
     chefSpecial: 'ናይ ሼፍ ፍሉይ',
-    houseSpecial: 'ፍሉይ መግቢ',
+    houseSpecial: 'ፍሉይ ምግቢ',
     dailyOpen: 'ቅ.ቀ • መዓልታዊ ክፉት',
-    artisanDishes: 'ዝተመረጹ መግብታትን መስተታትን',
+    artisanDishes: 'ዝተመረጹ ምግብታትን መስተታትን',
     freshToOrder: '100% ሓድሽ ዝስራሕ',
     philosophyEyebrow: 'ፍልስፍናና',
     atmosphereEyebrow: 'ከባቢናን መኣድናን • ናይ ብሓቂ ዝተሳእለ',
-    noDishesFound: 'ዝተረኽበ መግቢ ወይ መስተ የለን።',
+    noDishesFound: 'ዝተረኽበ ምግቢ ወይ መስተ የለን።',
     trySearching: 'ኩሉ ዝብል ምረጽ ወይ ድለይ ቀይር።',
     showAll: 'ኩሉ ኣርእይ',
   },
@@ -169,7 +169,7 @@ export const translateCategory = (name: string, lang: Language): string => {
     if (upper.includes('SOUP')) return 'ሾርባ';
     if (upper.includes('BURGER')) return 'በርገር';
     if (upper.includes('PIZZA')) return 'ፒዛ';
-    if (upper.includes('TIBS')) return 'ጥብሲ ፍሉይ መግቢ';
+    if (upper.includes('TIBS')) return 'ጥብሲ ፍሉይ ምግቢ';
     if (upper.includes('MOJITO')) return 'ሞሂቶን ሞክቴልን';
     if (upper.includes('ALCOHOL') || upper.includes('BEER')) return 'ድራፍት ቢራን መስተን';
     if (upper.includes('JUICE')) return 'ፍሩሽ ጁስ';
