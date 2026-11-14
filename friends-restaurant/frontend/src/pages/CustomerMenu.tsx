@@ -19,16 +19,19 @@ import { MerebaLogo } from '../components/common/MerebaLogo';
 import { FriendsDoodleRibbon } from '../components/customer/FriendsDoodleRibbon';
 import { api } from '../api/client';
 import { Language, translations } from '../i18n/translations';
+import { INITIAL_CATEGORIES } from '../data/initialMenu';
 
 export const CustomerMenu: React.FC = () => {
   const { data: categories = [], isLoading, error, refetch } = useMenu();
   const { data: settings } = useSiteSettings();
 
-  // Language state
+  // Language state with safe fallback
   const [currentLang, setCurrentLang] = useState<Language>(() => {
-    return (localStorage.getItem('friends_language') as Language) || 'en';
+    const saved = localStorage.getItem('friends_language') as Language;
+    if (saved === 'en' || saved === 'ti' || saved === 'am') return saved;
+    return 'en';
   });
-  const t = translations[currentLang];
+  const t = translations[currentLang] || translations.en;
 
   // Primary Department: FOOD vs DRINKS
   const [activeParent, setActiveParent] = useState<'FOOD' | 'DRINKS'>('FOOD');
@@ -75,13 +78,19 @@ export const CustomerMenu: React.FC = () => {
     setTimeout(() => setCopiedWifi(false), 2500);
   };
 
+  // Safe categories fallback prevents black screen if data is loading or malformed
+  const safeCategories = useMemo(() => {
+    if (Array.isArray(categories) && categories.length > 0) return categories;
+    return INITIAL_CATEGORIES;
+  }, [categories]);
+
   // Partition categories and items by FOOD vs DRINKS
   const { foodCategories, drinkCategories, totalFoodCount, totalDrinkCount } = useMemo(() => {
-    const foods = categories.filter((c) => (c.parentCategory || 'FOOD') === 'FOOD');
-    const drinks = categories.filter((c) => c.parentCategory === 'DRINKS');
+    const foods = safeCategories.filter((c) => (c?.parentCategory || 'FOOD') === 'FOOD');
+    const drinks = safeCategories.filter((c) => c?.parentCategory === 'DRINKS');
 
-    const foodCount = foods.reduce((sum, cat) => sum + (cat.items?.length || 0), 0);
-    const drinkCount = drinks.reduce((sum, cat) => sum + (cat.items?.length || 0), 0);
+    const foodCount = foods.reduce((sum, cat) => sum + (cat?.items?.length || 0), 0);
+    const drinkCount = drinks.reduce((sum, cat) => sum + (cat?.items?.length || 0), 0);
 
     return {
       foodCategories: foods,
@@ -89,11 +98,34 @@ export const CustomerMenu: React.FC = () => {
       totalFoodCount: foodCount,
       totalDrinkCount: drinkCount,
     };
-  }, [categories]);
+  }, [safeCategories]);
+
+  // Smooth scroll handler so selecting a category keeps user at the dishes, never dumped at footer
+  const handleSelectCategory = (catId: string) => {
+    setActiveCategory(catId);
+    const tabsElement = document.getElementById('category-tabs-section');
+    if (tabsElement) {
+      const yOffset = -90; // account for sticky header
+      const y = tabsElement.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    }
+  };
+
+  const handleSelectParent = (parent: 'FOOD' | 'DRINKS') => {
+    setActiveParent(parent);
+    setActiveCategory('all');
+    const tabsElement = document.getElementById('category-tabs-section');
+    if (tabsElement) {
+      const yOffset = -90;
+      const y = tabsElement.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    }
+  };
 
   // Episode naming mapper for Friends themed category headers
-  const getEpisodeTitle = (catSlugOrName: string) => {
-    const upper = catSlugOrName.toUpperCase();
+  const getEpisodeTitle = (catSlugOrName?: string) => {
+    if (!catSlugOrName) return 'THE ONE WITH THE MENU';
+    const upper = String(catSlugOrName).toUpperCase();
     if (upper.includes('PASTA')) return 'THE ONE WITH THE PASTA';
     if (upper.includes('RICE')) return 'THE ONE WITH SAVORY GRAINS';
     if (upper.includes('SALAD')) return 'THE ONE WITH FRESH GREENS';
@@ -112,25 +144,26 @@ export const CustomerMenu: React.FC = () => {
   // Compile items for active parent and active subcategory
   const displayedItems = useMemo(() => {
     const currentCategories = activeParent === 'FOOD' ? foodCategories : drinkCategories;
-    const q = searchQuery.toLowerCase().trim();
+    const q = (searchQuery || '').toLowerCase().trim();
 
     let itemsToFilter: MenuItem[] = [];
 
     if (activeCategory === 'all') {
-      itemsToFilter = currentCategories.flatMap((c) => (c.items ? [...c.items] : []));
+      itemsToFilter = (currentCategories || []).flatMap((c) => (c?.items && Array.isArray(c.items) ? [...c.items] : []));
     } else {
-      const selectedCat = currentCategories.find((c) => c.id === activeCategory);
-      itemsToFilter = selectedCat?.items ? [...selectedCat.items] : [];
+      const selectedCat = (currentCategories || []).find((c) => c && c.id === activeCategory);
+      itemsToFilter = selectedCat?.items && Array.isArray(selectedCat.items) ? [...selectedCat.items] : [];
     }
 
     if (!q) return itemsToFilter;
 
     // Filter by search query
     return itemsToFilter.filter((item) => {
-      const matchName = item.name.toLowerCase().includes(q);
+      if (!item) return false;
+      const matchName = item.name?.toLowerCase().includes(q) || false;
       const matchDesc = item.description?.toLowerCase().includes(q) || false;
       const matchTags = item.tags?.toLowerCase().includes(q) || false;
-      const matchCat = item.category?.name.toLowerCase().includes(q) || false;
+      const matchCat = item.category?.name?.toLowerCase().includes(q) || false;
       return matchName || matchDesc || matchTags || matchCat;
     });
   }, [activeParent, foodCategories, drinkCategories, activeCategory, searchQuery]);
@@ -334,19 +367,18 @@ export const CustomerMenu: React.FC = () => {
               </div>
 
               {/* Two-tier Food vs Drinks + Subcategories */}
-              <CategoryTabs
-                categories={categories}
-                activeParent={activeParent}
-                onSelectParent={(parent) => {
-                  setActiveParent(parent);
-                  setActiveCategory('all');
-                }}
-                activeCategory={activeCategory}
-                onSelectCategory={setActiveCategory}
-                totalFoodCount={totalFoodCount}
-                totalDrinkCount={totalDrinkCount}
-                currentLang={currentLang}
-              />
+              <div id="category-tabs-section" className="w-full scroll-mt-28">
+                <CategoryTabs
+                  categories={safeCategories}
+                  activeParent={activeParent}
+                  onSelectParent={handleSelectParent}
+                  activeCategory={activeCategory}
+                  onSelectCategory={handleSelectCategory}
+                  totalFoodCount={totalFoodCount}
+                  totalDrinkCount={totalDrinkCount}
+                  currentLang={currentLang}
+                />
+              </div>
             </div>
           </div>
 
@@ -421,7 +453,7 @@ export const CustomerMenu: React.FC = () => {
 
           {/* 3-COLUMN LUXURY MENU CARDS GRID */}
           {!isLoading && !error && displayedItems.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 min-h-[55vh]">
               {displayedItems.map((item, index) => (
                 <MenuCard
                   key={item.id}
