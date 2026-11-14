@@ -4,8 +4,8 @@
   "private": true,
   "description": "Mereba Friends Garden - Commercial QR Menu & Admin Suite for Azure",
   "scripts": {
-    "build:frontend": "cd friends-restaurant/frontend && npm install && npm run build",
-    "build:backend": "cd friends-restaurant/backend && npm install && npx prisma generate && npm run build",
+    "build:frontend": "cd friends-restaurant/frontend && npm install --include=dev && npm run build",
+    "build:backend": "cd friends-restaurant/backend && npm install --include=dev && npx prisma generate && npm run build",
     "build": "npm run build:frontend && npm run build:backend",
     "start": "cd friends-restaurant/backend && node dist/app.js"
   },
