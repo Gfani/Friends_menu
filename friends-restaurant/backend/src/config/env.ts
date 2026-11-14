@@ -3,6 +3,10 @@ import path from 'path';
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
+if (!process.env.DATABASE_URL) {
+  process.env.DATABASE_URL = 'file:./dev.db';
+}
+
 export const env = {
   PORT: parseInt(process.env.PORT || '5000', 10),
   HOST: process.env.HOST || '0.0.0.0',
