@@ -11,21 +11,36 @@ export const MENU_QUERY_KEYS = {
   serviceRequests: ['service-requests'] as const,
 };
 
-// 1. Fetch full menu for customer QR view (Instant Live Sync)
+const getLiveMenuCache = (): Category[] | undefined => {
+  if (typeof window === 'undefined') return undefined;
+  try {
+    const saved = localStorage.getItem('friends_live_menu_cache');
+    if (saved) return JSON.parse(saved);
+  } catch {}
+  return undefined;
+};
+
+// 1. Fetch full menu for customer QR view (Instant Live Sync, Zero Flash)
 export function useMenu() {
   return useQuery<Category[]>({
     queryKey: MENU_QUERY_KEYS.menu,
     queryFn: async () => {
       try {
         const res = await api.getMenu();
-        if (res?.data && res.data.length > 0) return res.data;
+        if (res?.data && res.data.length > 0) {
+          try {
+            localStorage.setItem('friends_live_menu_cache', JSON.stringify(res.data));
+          } catch {}
+          return res.data;
+        }
         return INITIAL_CATEGORIES;
       } catch {
-        return INITIAL_CATEGORIES;
+        const cached = getLiveMenuCache();
+        return cached || INITIAL_CATEGORIES;
       }
     },
-    placeholderData: (prev) => prev || INITIAL_CATEGORIES,
-    staleTime: 0, // Always live
+    placeholderData: (prev) => prev || getLiveMenuCache(),
+    staleTime: 0,
     refetchInterval: 3000, // Poll every 3 seconds for instant real-time menu updates
     refetchOnWindowFocus: true,
   });
