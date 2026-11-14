@@ -11,7 +11,7 @@ export const MENU_QUERY_KEYS = {
   serviceRequests: ['service-requests'] as const,
 };
 
-// 1. Fetch full menu for customer QR view
+// 1. Fetch full menu for customer QR view (Instant Live Sync)
 export function useMenu() {
   return useQuery<Category[]>({
     queryKey: MENU_QUERY_KEYS.menu,
@@ -24,8 +24,9 @@ export function useMenu() {
         return INITIAL_CATEGORIES;
       }
     },
-    initialData: INITIAL_CATEGORIES,
-    staleTime: 1000 * 60 * 2, // 2 minutes
+    placeholderData: (prev) => prev || INITIAL_CATEGORIES,
+    staleTime: 0, // Always live
+    refetchInterval: 3000, // Poll every 3 seconds for instant real-time menu updates
     refetchOnWindowFocus: true,
   });
 }
@@ -38,7 +39,8 @@ export function useCategories(type?: string) {
       const res = await api.getCategories(type);
       return res.data;
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
+    refetchInterval: 3000,
   });
 }
 
@@ -50,6 +52,8 @@ export function useItems(search?: string, categoryId?: string) {
       const res = await api.getItems(search, categoryId);
       return res.data;
     },
+    staleTime: 0,
+    refetchInterval: 3000,
   });
 }
 
@@ -169,7 +173,9 @@ export function useSiteSettings() {
       const res = await api.getSettings();
       return res.data;
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
+    refetchInterval: 5000,
+    refetchOnWindowFocus: true,
   });
 }
 

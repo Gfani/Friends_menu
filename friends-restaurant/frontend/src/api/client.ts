@@ -1,6 +1,7 @@
 import { MenuItem, Category, AdminUser, SiteSettings } from '../types/menu';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+// In production, always use relative paths (same origin). In development, fallback to proxy or env.
+const API_BASE = import.meta.env.PROD ? '' : (import.meta.env.VITE_API_URL || '');
 
 class ApiClient {
   private getAuthToken(): string | null {

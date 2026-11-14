@@ -35,3 +35,4 @@ export async function ensureDatabaseReady() {
     console.warn('⚠️ Automated database setup notice:', err?.message || err);
   }
 }
+
