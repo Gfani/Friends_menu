@@ -10,26 +10,36 @@ This guide provides step-by-step instructions for deploying the system into live
 ## 📋 Architectural Overview
 
 The application is engineered as a unified, high-performance web service:
-* **Backend**: Node.js + Fastify (v4) + Prisma ORM with SQLite database (`dev.db`).
+* **Backend**: Node.js + Fastify (v4) + Prisma ORM with **Render PostgreSQL 16** database.
 * **Frontend**: React 18 + Vite + Tailwind CSS + PWA Service Worker (pre-built into `frontend/dist`).
 * **Unified Serving**: The Fastify backend directly serves the pre-compiled frontend SPA, customer uploaded photos (`/uploads/`), and REST API on a single port (`PORT=5000` or assigned by host).
+* **Live Sync**: 3-second polling interval ensures price edits and sold-out dish toggles appear across all customer devices automatically.
 
 ---
 
-## 🌐 Option 1: Cloud Deployment on Render.com (Recommended & Quickest)
+## 🌐 Option 1: Cloud Deployment on Render.com (Recommended & Permanent)
 
-Render provides free or low-cost ($7/mo) hosting with automatic SSL (`https://`), GitHub auto-deploys, and persistent disk support for the SQLite database and photo uploads.
+Render provides free hosting with automatic SSL (`https://`), GitHub auto-deploys, and persistent PostgreSQL database support.
 
-### Step 1: Create a Render Web Service
-1. Go to [render.com](https://render.com) and sign in with your GitHub account.
-2. Click **New +** &rarr; **Web Service**.
-3. Select your repository: `Gfani/Friends_menu`.
-4. Configure service settings:
+### Step 1: Create a Free PostgreSQL Database on Render
+1. In Render dashboard &rarr; click **New +** &rarr; **PostgreSQL**.
+2. Settings:
+   * **Name**: `friends-db`
+   * **Database**: `friends_db`
+   * **Region**: Frankfurt (EU Central)
+   * **Instance Type**: `Free` ($0/mo)
+3. Click **Create Database**.
+4. Once created, scroll down to **Connections** and copy the **Internal Database URL** (`postgres://friends_db_user:...`).
+
+### Step 2: Create a Render Web Service
+1. Click **New +** &rarr; **Web Service**.
+2. Select your repository: `Gfani/Friends_menu`.
+3. Configure service settings:
    * **Name**: `friends-garden-menu`
-   * **Region**: Frankfurt (Germany) or closest to East Africa
+   * **Region**: Frankfurt (EU Central)
    * **Branch**: `main`
    * **Root Directory**: `friends-restaurant`
-   * **Runtime**: `Node`
+   * **Language**: `Node`
    * **Build Command**:
      ```bash
      cd frontend && npm install && npm run build && cd ../backend && npm install && npx prisma generate && npm run build
@@ -38,25 +48,19 @@ Render provides free or low-cost ($7/mo) hosting with automatic SSL (`https://`)
      ```bash
      cd backend && node dist/app.js
      ```
+   * **Instance Type**: `Free` ($0/mo)
 
-### Step 2: Configure Environment Variables in Render
-In the **Environment** tab, add:
-| Key | Recommended Value |
+### Step 3: Configure Environment Variables in Render
+In the **Environment** tab of your Web Service, add:
+| Key | Value |
 | :--- | :--- |
 | `NODE_ENV` | `production` |
-| `PORT` | `5000` (Render will override automatically) |
-| `JWT_SECRET` | *(Enter a secure random string, e.g. `mereba-friends-secret-2026`)* |
-| `DATABASE_URL` | `"file:./dev.db"` (or path to persistent disk, e.g. `"file:/var/data/dev.db"`) |
-| `UPLOAD_DIR` | `./uploads` (or path to persistent disk, e.g. `/var/data/uploads`) |
+| `PORT` | `5000` |
+| `JWT_SECRET` | `mereba-friends-secret-2026` |
+| `DATABASE_URL` | *(Paste your copied Render Internal Database URL)* |
+| `UPLOAD_DIR` | `./uploads` |
 
-### Step 3: Attach Persistent Disk (For Production Photos & Database)
-1. On Render dashboard &rarr; **Disks** &rarr; **Add Disk**.
-2. Mount path: `/var/data`, Size: `1 GB`.
-3. Update `DATABASE_URL="file:/var/data/dev.db"` and `UPLOAD_DIR="/var/data/uploads"`.
-4. Seed the initial menu once via Render Shell:
-   ```bash
-   cd backend && npx prisma db push && npx tsx prisma/seed.ts
-   ```
+*(On startup, the server automatically initializes tables in PostgreSQL and seeds the initial 29 dishes and `admin` / `admin123` account with zero manual commands needed).*
 
 ---
 

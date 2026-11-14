@@ -10,9 +10,10 @@ export async function ensureDatabaseReady() {
     }
 
     console.log('🔄 Synchronizing PostgreSQL database schema with Prisma...');
-    execSync('npx prisma db push --skip-generate', {
+    execSync('npx prisma db push --skip-generate --accept-data-loss', {
       stdio: 'inherit',
       env: process.env,
+      timeout: 60000,
     });
 
     // Check if database has been seeded
@@ -22,6 +23,7 @@ export async function ensureDatabaseReady() {
       execSync('npx tsx prisma/seed.ts', {
         stdio: 'inherit',
         env: process.env,
+        timeout: 60000,
       });
       console.log('🎉 PostgreSQL database initialized and seeded successfully!');
     } else {

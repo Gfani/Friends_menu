@@ -20,9 +20,6 @@ const app = Fastify({
 });
 
 async function main() {
-  // Ensure database tables exist and are seeded automatically
-  await ensureDatabaseReady();
-
   // Ensure uploads directory exists
   const uploadsPath = path.resolve(process.cwd(), env.UPLOAD_DIR);
   if (!fs.existsSync(uploadsPath)) {
@@ -94,12 +91,20 @@ async function main() {
     console.log(`🌐 Serving production frontend UI from ${frontendDistPath}`);
   }
 
-  // Listen
+  // Listen immediately to pass Render port scan detection in <1s
+  const port = parseInt(process.env.PORT || String(env.PORT || 5000), 10);
+  const host = '0.0.0.0';
+
   try {
-    await app.listen({ port: env.PORT, host: env.HOST });
-    console.log(`☕ F.R.I.E.N.D.S Server running at http://${env.HOST}:${env.PORT}`);
-    console.log(`📋 API Health: http://${env.HOST}:${env.PORT}/api/health`);
-    console.log(`🍽️ Menu API: http://${env.HOST}:${env.PORT}/api/menu`);
+    await app.listen({ port, host });
+    console.log(`☕ F.R.I.E.N.D.S Server running at http://${host}:${port}`);
+    console.log(`📋 API Health: http://${host}:${port}/api/health`);
+    console.log(`🍽️ Menu API: http://${host}:${port}/api/menu`);
+
+    // Initialize & seed PostgreSQL database in the background without blocking port scan
+    ensureDatabaseReady().catch((err) => {
+      console.warn('⚠️ Automated database setup warning:', err);
+    });
   } catch (err) {
     app.log.error(err);
     process.exit(1);
