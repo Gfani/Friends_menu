@@ -218,7 +218,7 @@ export const CustomerMenu: React.FC = () => {
 
           {/* Official Restaurant Master Emblem - Authentic High-Res Logo */}
           <div className="relative flex flex-col items-center justify-center mb-6 text-center w-full max-w-xs mx-auto">
-            <MerebaLogo variant="full" className="w-28 sm:w-36 md:w-40 max-w-[160px]" />
+            <MerebaLogo variant="full" className="w-36 sm:w-44 md:w-48 max-w-[200px]" />
           </div>
 
           {/* THE ONE [Red] [Blue] [Yellow] WITH THE FOOD - Brand Dots */}

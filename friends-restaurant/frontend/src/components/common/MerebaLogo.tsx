@@ -31,13 +31,13 @@ export const MerebaLogo: React.FC<MerebaLogoProps> = ({
   const getAssetSrc = () => {
     switch (variant) {
       case 'wide':
-        return isLightMode ? '/assets/friends-logo-wide.png' : '/assets/friends-logo-wide-white.png';
+        return isLightMode ? '/assets/friends-logo-wide-black.png' : '/assets/friends-logo-wide-white.png';
       case 'couch':
         return isLightMode ? '/assets/friends-logo-couch-black.png' : '/assets/friends-logo-couch.png';
       case 'full':
       default:
-        // Use the official high-res uploaded logo
-        return isLightMode ? '/assets/friends-official-logo.png' : '/assets/friends-logo-white.png';
+        // Authentic official high-res logo with 100% identical dimensions (695x874) and transparent background
+        return isLightMode ? '/assets/friends-official-logo.png' : '/assets/friends-official-logo-white.png';
     }
   };
 
@@ -69,7 +69,7 @@ export const MerebaLogo: React.FC<MerebaLogoProps> = ({
         alt={alt}
         className={`relative z-10 transition-all duration-300 ${
           isLightMode
-            ? 'drop-shadow-sm'
+            ? ''
             : 'drop-shadow-[0_12px_40px_rgba(0,0,0,0.85)] drop-shadow-[0_0_24px_rgba(255,189,24,0.22)]'
         } ${getDefaultClasses()} ${className}`}
         loading="eager"
