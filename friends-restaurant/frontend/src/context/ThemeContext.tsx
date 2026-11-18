@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { safeStorage } from '../utils/safeStorage';
 
 export type Theme = 'dark' | 'light';
 
@@ -13,12 +14,8 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<Theme>(() => {
-    try {
-      const saved = localStorage.getItem('friends_theme');
-      if (saved === 'light' || saved === 'dark') return saved;
-    } catch {
-      // Ignore localStorage read errors
-    }
+    const saved = safeStorage.getItem('friends_theme');
+    if (saved === 'light' || saved === 'dark') return saved;
     return 'dark'; // Default brand theme
   });
 
@@ -38,11 +35,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       document.body.style.color = '#FFFFFF';
     }
 
-    try {
-      localStorage.setItem('friends_theme', theme);
-    } catch {
-      // Ignore localStorage write errors
-    }
+    safeStorage.setItem('friends_theme', theme);
 
     // Update meta theme-color for mobile address bars
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');

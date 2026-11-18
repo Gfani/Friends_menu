@@ -17,6 +17,7 @@ import { MerebaLogo } from '../common/MerebaLogo';
 import { useSiteSettings } from '../../hooks/useMenu';
 import { Language, translations } from '../../i18n/translations';
 import { useTheme } from '../../context/ThemeContext';
+import { safeStorage } from '../../utils/safeStorage';
 
 interface MenuHeaderProps {
   currentLang?: Language;
@@ -35,7 +36,7 @@ export const MenuHeader: React.FC<MenuHeaderProps> = ({
   const { isLightMode, toggleTheme } = useTheme();
 
   const [tableNumber, setTableNumber] = useState<string | null>(() => {
-    return urlTable || localStorage.getItem('friends_table_number') || null;
+    return urlTable || safeStorage.getItem('friends_table_number') || null;
   });
 
   const [isWifiModalOpen, setIsWifiModalOpen] = useState(false);
@@ -45,7 +46,7 @@ export const MenuHeader: React.FC<MenuHeaderProps> = ({
   useEffect(() => {
     if (urlTable) {
       setTableNumber(urlTable);
-      localStorage.setItem('friends_table_number', urlTable);
+      safeStorage.setItem('friends_table_number', urlTable);
     }
   }, [urlTable]);
 
@@ -62,22 +63,30 @@ export const MenuHeader: React.FC<MenuHeaderProps> = ({
     if (onLanguageChange) {
       onLanguageChange(lang);
     }
-    localStorage.setItem('friends_language', lang);
+    safeStorage.setItem('friends_language', lang);
   };
 
   return (
     <>
       {/* FIXED NAVIGATION BAR */}
-      <header className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl transition-colors duration-300 ${
+      <header className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl transition-colors duration-500 ease-in-out ${
         isLightMode
           ? 'bg-white/95 border-b border-[#E5E7EB] text-zinc-900 shadow-sm'
           : 'bg-[#050505]/90 border-b border-[#222222] text-white shadow-[0_12px_32px_rgba(0,0,0,0.8)]'
       }`}>
         <div className="h-20 max-w-[1320px] mx-auto px-4 lg:px-8 flex items-center justify-between gap-4">
-          {/* Official Logo Lockup */}
+          {/* Official Logo Lockup - Matches Surface Logo 100% */}
           <div className="flex items-center gap-3">
-            <a href="#" className="flex items-center group" title={settings?.restaurantName || 'Mereba Friends Garden'}>
-              <MerebaLogo variant="wide" glow={false} className="group-hover:scale-105 transition-transform" />
+            <a href="#" className="flex items-center gap-2.5 group" title={settings?.restaurantName || 'Mereba Friends Garden'}>
+              <MerebaLogo variant="nav" glow={false} className="group-hover:scale-105 transition-transform" />
+              <div className="hidden sm:flex flex-col text-left leading-none">
+                <span className={`font-headline font-black text-xs sm:text-sm tracking-wider uppercase transition-colors duration-500 ${isLightMode ? 'text-zinc-900' : 'text-white'}`}>
+                  MEREBA FRIENDS
+                </span>
+                <span className="text-[9px] sm:text-[10px] tracking-widest text-[#FFBD18] font-bold mt-0.5">
+                  GARDEN &amp; BISTRO
+                </span>
+              </div>
             </a>
           </div>
 

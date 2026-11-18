@@ -21,6 +21,7 @@ import { api } from '../api/client';
 import { Language, translations } from '../i18n/translations';
 import { INITIAL_CATEGORIES } from '../data/initialMenu';
 import { useTheme } from '../context/ThemeContext';
+import { safeStorage } from '../utils/safeStorage';
 
 export const CustomerMenu: React.FC = () => {
   const { isLightMode } = useTheme();
@@ -29,7 +30,7 @@ export const CustomerMenu: React.FC = () => {
 
   // Language state with safe fallback
   const [currentLang, setCurrentLang] = useState<Language>(() => {
-    const saved = localStorage.getItem('friends_language') as Language;
+    const saved = safeStorage.getItem('friends_language') as Language;
     if (saved === 'en' || saved === 'ti' || saved === 'am') return saved;
     return 'en';
   });
@@ -161,7 +162,7 @@ export const CustomerMenu: React.FC = () => {
 
   return (
     <div
-      className={`min-h-screen antialiased selection:bg-[#FFBD18] selection:text-black transition-colors duration-300 ${
+      className={`min-h-screen antialiased selection:bg-[#FFBD18] selection:text-black transition-colors duration-500 ease-in-out ${
         isLightMode ? 'text-zinc-800' : 'text-[#A1A1AA]'
       }`}
       style={{
