@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTheme } from '../../context/ThemeContext';
 
 export interface MerebaLogoProps {
   /**
@@ -19,15 +20,24 @@ export const MerebaLogo: React.FC<MerebaLogoProps> = ({
   glow = true,
   alt = "F·R·I·E·N·D·S - Mereba Friends Garden (መረባ ፍሬንድስ)",
 }) => {
+  let isLightMode = false;
+  try {
+    const themeContext = useTheme();
+    isLightMode = themeContext.isLightMode;
+  } catch {
+    // Graceful fallback if rendered outside ThemeProvider
+  }
+
   const getAssetSrc = () => {
     switch (variant) {
       case 'wide':
-        return '/assets/friends-logo-wide-white.png';
+        return isLightMode ? '/assets/friends-logo-wide.png' : '/assets/friends-logo-wide-white.png';
       case 'couch':
-        return '/assets/friends-logo-couch.png';
+        return isLightMode ? '/assets/friends-logo-couch-black.png' : '/assets/friends-logo-couch.png';
       case 'full':
       default:
-        return '/assets/friends-logo-white.png';
+        // Use the official high-res uploaded logo
+        return isLightMode ? '/assets/friends-official-logo.png' : '/assets/friends-logo-white.png';
     }
   };
 
@@ -46,7 +56,7 @@ export const MerebaLogo: React.FC<MerebaLogoProps> = ({
   return (
     <div className="relative inline-flex flex-col items-center justify-center select-none">
       {/* Subtle warm cinematic backlight glow for dark luxury theme */}
-      {glow && (
+      {glow && !isLightMode && (
         <div
           className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,189,24,0.18)_0%,rgba(243,38,54,0.06)_45%,transparent_70%)] blur-2xl pointer-events-none scale-125"
           aria-hidden="true"
@@ -57,7 +67,11 @@ export const MerebaLogo: React.FC<MerebaLogoProps> = ({
       <img
         src={getAssetSrc()}
         alt={alt}
-        className={`relative z-10 transition-transform duration-300 drop-shadow-[0_12px_40px_rgba(0,0,0,0.85)] drop-shadow-[0_0_24px_rgba(255,189,24,0.22)] ${getDefaultClasses()} ${className}`}
+        className={`relative z-10 transition-all duration-300 ${
+          isLightMode
+            ? 'drop-shadow-sm'
+            : 'drop-shadow-[0_12px_40px_rgba(0,0,0,0.85)] drop-shadow-[0_0_24px_rgba(255,189,24,0.22)]'
+        } ${getDefaultClasses()} ${className}`}
         loading="eager"
       />
     </div>

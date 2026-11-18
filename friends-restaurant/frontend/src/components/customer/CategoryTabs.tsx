@@ -2,6 +2,7 @@ import React from 'react';
 import { Utensils, Wine } from 'lucide-react';
 import { Category } from '../../types/menu';
 import { Language, translations, translateCategory } from '../../i18n/translations';
+import { useTheme } from '../../context/ThemeContext';
 
 interface CategoryTabsProps {
   categories: Category[];
@@ -25,6 +26,11 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
   currentLang = 'en',
 }) => {
   const t = translations[currentLang];
+  let isLightMode = false;
+  try {
+    const themeContext = useTheme();
+    isLightMode = themeContext.isLightMode;
+  } catch {}
 
   // Filter subcategories for the active parent department
   const currentSubCategories = categories.filter((cat) => {
@@ -35,17 +41,24 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
   return (
     <div className="w-full flex flex-col items-center gap-3.5">
       {/* 1. Primary Department Switcher: FOOD vs DRINKS */}
-      <div className="inline-flex items-center p-1.5 rounded-full bg-[#121212] border border-[#262626] shadow-[0_4px_20px_rgba(0,0,0,0.7)]">
+      <div className={`inline-flex items-center p-1.5 rounded-full border transition-colors ${
+        isLightMode
+          ? 'bg-[#F1F3F5] border-zinc-300 shadow-sm'
+          : 'bg-[#121212] border-[#262626] shadow-[0_4px_20px_rgba(0,0,0,0.7)]'
+      }`}>
         <button
           type="button"
           onClick={() => {
             onSelectParent('FOOD');
             onSelectCategory('all');
           }}
-          className={`flex items-center gap-2 px-6 sm:px-8 py-2.5 rounded-full font-headline text-xs sm:text-sm font-extrabold uppercase tracking-widest transition-all duration-300 cursor-pointer ${activeParent === 'FOOD'
-            ? 'bg-[#FFBD18] text-black shadow-[0_0_20px_rgba(255,189,24,0.4)] scale-102'
-            : 'text-[#A1A1AA] hover:text-white hover:bg-white/5'
-            }`}
+          className={`flex items-center gap-2 px-6 sm:px-8 py-2.5 rounded-full font-headline text-xs sm:text-sm font-extrabold uppercase tracking-widest transition-all duration-300 cursor-pointer ${
+            activeParent === 'FOOD'
+              ? 'bg-[#FFBD18] text-black shadow-md scale-102'
+              : isLightMode
+                ? 'text-zinc-600 hover:text-black hover:bg-zinc-200'
+                : 'text-[#A1A1AA] hover:text-white hover:bg-white/5'
+          }`}
         >
           <Utensils className="w-4 h-4" />
           <span>{t.food} ({totalFoodCount})</span>
@@ -57,10 +70,13 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
             onSelectParent('DRINKS');
             onSelectCategory('all');
           }}
-          className={`flex items-center gap-2 px-6 sm:px-8 py-2.5 rounded-full font-headline text-xs sm:text-sm font-extrabold uppercase tracking-widest transition-all duration-300 cursor-pointer ${activeParent === 'DRINKS'
-            ? 'bg-[#FFBD18] text-black shadow-[0_0_20px_rgba(255,189,24,0.4)] scale-102'
-            : 'text-[#A1A1AA] hover:text-white hover:bg-white/5'
-            }`}
+          className={`flex items-center gap-2 px-6 sm:px-8 py-2.5 rounded-full font-headline text-xs sm:text-sm font-extrabold uppercase tracking-widest transition-all duration-300 cursor-pointer ${
+            activeParent === 'DRINKS'
+              ? 'bg-[#FFBD18] text-black shadow-md scale-102'
+              : isLightMode
+                ? 'text-zinc-600 hover:text-black hover:bg-zinc-200'
+                : 'text-[#A1A1AA] hover:text-white hover:bg-white/5'
+          }`}
         >
           <Wine className="w-4 h-4" />
           <span>{t.drinks} ({totalDrinkCount})</span>
@@ -73,10 +89,15 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
         <button
           onClick={() => onSelectCategory('all')}
           type="button"
-          className={`px-4 sm:px-5 py-2 rounded-full font-headline text-xs uppercase tracking-wider font-bold transition-all duration-200 shrink-0 cursor-pointer ${activeCategory === 'all'
-            ? 'bg-white text-black shadow-[0_0_12px_rgba(255,255,255,0.25)]'
-            : 'bg-[#141414] text-[#A1A1AA] hover:text-white hover:bg-[#1f1f1f] border border-[#222222]'
-            }`}
+          className={`px-4 sm:px-5 py-2 rounded-full font-headline text-xs uppercase tracking-wider font-bold transition-all duration-200 shrink-0 cursor-pointer ${
+            activeCategory === 'all'
+              ? isLightMode
+                ? 'bg-black text-white shadow-sm'
+                : 'bg-white text-black shadow-[0_0_12px_rgba(255,255,255,0.25)]'
+              : isLightMode
+                ? 'bg-white text-zinc-700 hover:text-black hover:bg-zinc-100 border border-zinc-200 shadow-xs'
+                : 'bg-[#141414] text-[#A1A1AA] hover:text-white hover:bg-[#1f1f1f] border border-[#222222]'
+          }`}
         >
           <span>{activeParent === 'FOOD' ? t.allFood : t.allDrinks}</span>
         </button>
@@ -91,10 +112,15 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
               key={category.id}
               onClick={() => onSelectCategory(category.id)}
               type="button"
-              className={`px-4 sm:px-5 py-2 rounded-full font-headline text-xs uppercase tracking-wider font-bold transition-all duration-200 shrink-0 cursor-pointer ${isActive
-                ? 'bg-white text-black shadow-[0_0_12px_rgba(255,255,255,0.25)]'
-                : 'bg-[#141414] text-[#A1A1AA] hover:text-white hover:bg-[#1f1f1f] border border-[#222222]'
-                }`}
+              className={`px-4 sm:px-5 py-2 rounded-full font-headline text-xs uppercase tracking-wider font-bold transition-all duration-200 shrink-0 cursor-pointer ${
+                isActive
+                  ? isLightMode
+                    ? 'bg-black text-white shadow-sm'
+                    : 'bg-white text-black shadow-[0_0_12px_rgba(255,255,255,0.25)]'
+                  : isLightMode
+                    ? 'bg-white text-zinc-700 hover:text-black hover:bg-zinc-100 border border-zinc-200 shadow-xs'
+                    : 'bg-[#141414] text-[#A1A1AA] hover:text-white hover:bg-[#1f1f1f] border border-[#222222]'
+              }`}
             >
               <span>{translatedName}</span>
             </button>

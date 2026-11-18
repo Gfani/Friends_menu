@@ -20,8 +20,10 @@ import { FriendsDoodleRibbon } from '../components/customer/FriendsDoodleRibbon'
 import { api } from '../api/client';
 import { Language, translations } from '../i18n/translations';
 import { INITIAL_CATEGORIES } from '../data/initialMenu';
+import { useTheme } from '../context/ThemeContext';
 
 export const CustomerMenu: React.FC = () => {
+  const { isLightMode } = useTheme();
   const { data: categories = [], isLoading, error, refetch } = useMenu();
   const { data: settings } = useSiteSettings();
 
@@ -63,10 +65,11 @@ export const CustomerMenu: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Dynamic theme values from CMS settings
+  // Dynamic theme values from CMS settings & Light/Dark Invert Mode
   const accentColor = settings?.accentColor || '#FFBD18';
-  const bgColor = settings?.backgroundColor || '#050505';
-  const cardColor = settings?.cardColor || '#121212';
+  const bgColor = isLightMode ? '#FFFFFF' : (settings?.backgroundColor || '#050505');
+  const cardColor = isLightMode ? '#FFFFFF' : (settings?.cardColor || '#121212');
+  const sectionBgColor = isLightMode ? '#F8F9FA' : (settings?.backgroundColor || '#050505');
   const fontFamily = settings?.fontFamily || 'Inter, sans-serif';
 
   const wifiSsid = settings?.wifiSsid || 'Mereba_Friends_Garden_5G';
@@ -158,7 +161,9 @@ export const CustomerMenu: React.FC = () => {
 
   return (
     <div
-      className="min-h-screen text-[#A1A1AA] antialiased selection:bg-[#FFBD18] selection:text-black transition-colors duration-300"
+      className={`min-h-screen antialiased selection:bg-[#FFBD18] selection:text-black transition-colors duration-300 ${
+        isLightMode ? 'text-zinc-800' : 'text-[#A1A1AA]'
+      }`}
       style={{
         backgroundColor: bgColor,
         fontFamily,
@@ -175,40 +180,52 @@ export const CustomerMenu: React.FC = () => {
       >
         {/* Cinematic Backdrop Image */}
         <div
-          className="absolute inset-0 w-full h-full bg-cover bg-center opacity-30"
+          className={`absolute inset-0 w-full h-full bg-cover bg-center ${isLightMode ? 'opacity-15' : 'opacity-30'}`}
           style={{
             backgroundImage: `url('/assets/real/friends-vibe-couch.jpg')`,
           }}
         >
-          {/* Vignette and Dark Tint Overlays */}
+          {/* Vignette and Tint Overlays */}
           <div
             className="absolute inset-0 bg-gradient-to-t"
             style={{
-              backgroundImage: `linear-gradient(to top, ${bgColor}, ${bgColor}D9, ${bgColor}F2)`,
+              backgroundImage: isLightMode
+                ? `linear-gradient(to top, #FFFFFF, rgba(255,255,255,0.85), rgba(255,255,255,0.95))`
+                : `linear-gradient(to top, ${bgColor}, ${bgColor}D9, ${bgColor}F2)`,
             }}
           />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(5,5,5,0.95)_100%)]" />
+          <div className={`absolute inset-0 ${
+            isLightMode
+              ? 'bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(255,255,255,0.95)_100%)]'
+              : 'bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(5,5,5,0.95)_100%)]'
+          }`} />
         </div>
 
         <div className="relative z-10 max-w-[1320px] mx-auto px-4 lg:px-8 text-center flex flex-col items-center">
-          {/* Hallmark Heritage Badge (Clean Luxury) */}
+          {/* Hallmark Heritage Badge */}
           <div
-            className="inline-flex items-center px-4 py-1.5 rounded-full border border-[#222222] mb-6 shadow-sm"
-            style={{ backgroundColor: cardColor }}
+            className={`inline-flex items-center px-4 py-1.5 rounded-full border mb-6 shadow-sm ${
+              isLightMode ? 'border-zinc-300 bg-zinc-100' : 'border-[#222222]'
+            }`}
+            style={{ backgroundColor: isLightMode ? undefined : cardColor }}
           >
-            <span className="font-headline text-[11px] uppercase tracking-[0.25em] text-[#A1A1AA] font-bold">
+            <span className={`font-headline text-[11px] uppercase tracking-[0.25em] font-bold ${
+              isLightMode ? 'text-zinc-700' : 'text-[#A1A1AA]'
+            }`}>
               {settings?.tagline || 'BISTRO • GARDEN • CASUAL LUXURY'}
             </span>
           </div>
 
-          {/* Official Restaurant Master Emblem - Compact & Detailed */}
+          {/* Official Restaurant Master Emblem - Authentic High-Res Logo */}
           <div className="relative flex flex-col items-center justify-center mb-6 text-center w-full max-w-xs mx-auto">
             <MerebaLogo variant="full" className="w-28 sm:w-36 md:w-40 max-w-[160px]" />
           </div>
 
-          {/* THE ONE [Red] [Blue] [Yellow] WITH THE FOOD - Brand Dots Isolated Here */}
+          {/* THE ONE [Red] [Blue] [Yellow] WITH THE FOOD - Brand Dots */}
           <div className="flex flex-col items-center mb-6">
-            <h1 className="flex flex-col items-center text-center font-headline font-black uppercase text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+            <h1 className={`flex flex-col items-center text-center font-headline font-black uppercase ${
+              isLightMode ? 'text-zinc-900 drop-shadow-sm' : 'text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]'
+            }`}>
               {/* Line 1: THE ONE [Red dot] [Blue dot] [Yellow dot] WITH */}
               <span className="flex items-center justify-center gap-2 sm:gap-3 text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-[0.18em] sm:tracking-[0.24em] leading-tight">
                 <span>{settings?.heroTitle1 || 'THE ONE'}</span>
@@ -221,7 +238,9 @@ export const CustomerMenu: React.FC = () => {
               </span>
 
               {/* Line 2: THE FOOD / THE FLAVORS */}
-              <span className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[0.22em] sm:tracking-[0.28em] mt-1 sm:mt-2 leading-none text-white">
+              <span className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[0.22em] sm:tracking-[0.28em] mt-1 sm:mt-2 leading-none ${
+                isLightMode ? 'text-zinc-900' : 'text-white'
+              }`}>
                 {settings?.heroTitle2 || 'THE FOOD'}
               </span>
             </h1>
@@ -247,12 +266,14 @@ export const CustomerMenu: React.FC = () => {
             </div>
           </div>
 
-          <p className="font-body text-sm sm:text-base text-[#A1A1AA] max-w-2xl mx-auto mb-8 tracking-wide leading-relaxed">
+          <p className={`font-body text-sm sm:text-base max-w-2xl mx-auto mb-8 tracking-wide leading-relaxed ${
+            isLightMode ? 'text-zinc-600' : 'text-[#A1A1AA]'
+          }`}>
             {settings?.heroDescription ||
               'Good food, great company, and timeless memories. Browse our hand-rolled pastas, hearty pilafs, fresh garden bowls, and slow-simmered broths.'}
           </p>
 
-          {/* Primary CTA (Gold strictly restricted to primary action) */}
+          {/* Primary CTA */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md">
             <a
               href="#menu-section"
@@ -263,32 +284,50 @@ export const CustomerMenu: React.FC = () => {
             </a>
             <a
               href="#location-section"
-              className="w-full sm:w-auto inline-flex items-center justify-center font-headline text-xs uppercase tracking-widest px-8 py-3.5 rounded-full text-white hover:bg-[#1a1a1a] border border-[#222222] hover:border-[#333333] transition-all font-semibold"
-              style={{ backgroundColor: cardColor }}
+              className={`w-full sm:w-auto inline-flex items-center justify-center font-headline text-xs uppercase tracking-widest px-8 py-3.5 rounded-full border transition-all font-semibold ${
+                isLightMode
+                  ? 'bg-zinc-100 hover:bg-zinc-200 border-zinc-300 text-zinc-900 shadow-sm'
+                  : 'text-white hover:bg-[#1a1a1a] border-[#222222] hover:border-[#333333]'
+              }`}
+              style={{ backgroundColor: isLightMode ? undefined : cardColor }}
             >
               {t.visitGarden}
             </a>
           </div>
 
-          {/* Clean Stat Counters (Unified Luxury Typography: Crisp White Numbers + Gray Labels) */}
-          <div className="grid grid-cols-3 gap-6 max-w-xl mx-auto mt-14 pt-8 border-t border-[#222222] text-center w-full">
+          {/* Clean Stat Counters */}
+          <div className={`grid grid-cols-3 gap-6 max-w-xl mx-auto mt-14 pt-8 border-t text-center w-full ${
+            isLightMode ? 'border-zinc-200' : 'border-[#222222]'
+          }`}>
             <div>
-              <p className="font-headline text-2xl sm:text-3xl text-white font-extrabold tracking-tight">11:00</p>
-              <p className="font-headline text-[10px] sm:text-[11px] text-[#A1A1AA] uppercase tracking-widest mt-1 font-semibold">
+              <p className={`font-headline text-2xl sm:text-3xl font-extrabold tracking-tight ${
+                isLightMode ? 'text-zinc-900' : 'text-white'
+              }`}>11:00</p>
+              <p className={`font-headline text-[10px] sm:text-[11px] uppercase tracking-widest mt-1 font-semibold ${
+                isLightMode ? 'text-zinc-500' : 'text-[#A1A1AA]'
+              }`}>
                 {t.dailyOpen}
               </p>
             </div>
-            <div className="border-x border-[#222222]">
-              <p className="font-headline text-2xl sm:text-3xl text-white font-extrabold tracking-tight">
+            <div className={isLightMode ? 'border-x border-zinc-200' : 'border-x border-[#222222]'}>
+              <p className={`font-headline text-2xl sm:text-3xl font-extrabold tracking-tight ${
+                isLightMode ? 'text-zinc-900' : 'text-white'
+              }`}>
                 {totalFoodCount + totalDrinkCount}+
               </p>
-              <p className="font-headline text-[10px] sm:text-[11px] text-[#A1A1AA] uppercase tracking-widest mt-1 font-semibold">
+              <p className={`font-headline text-[10px] sm:text-[11px] uppercase tracking-widest mt-1 font-semibold ${
+                isLightMode ? 'text-zinc-500' : 'text-[#A1A1AA]'
+              }`}>
                 {t.artisanDishes}
               </p>
             </div>
             <div>
-              <p className="font-headline text-2xl sm:text-3xl text-white font-extrabold tracking-tight">100%</p>
-              <p className="font-headline text-[10px] sm:text-[11px] text-[#A1A1AA] uppercase tracking-widest mt-1 font-semibold">
+              <p className={`font-headline text-2xl sm:text-3xl font-extrabold tracking-tight ${
+                isLightMode ? 'text-zinc-900' : 'text-white'
+              }`}>100%</p>
+              <p className={`font-headline text-[10px] sm:text-[11px] uppercase tracking-widest mt-1 font-semibold ${
+                isLightMode ? 'text-zinc-500' : 'text-[#A1A1AA]'
+              }`}>
                 {t.freshToOrder}
               </p>
             </div>
@@ -297,17 +336,21 @@ export const CustomerMenu: React.FC = () => {
       </section>
 
       {/* Subtle Divider */}
-      <div className="w-16 h-[1px] bg-[#222222] mx-auto my-4" />
+      <div className={`w-16 h-[1px] mx-auto my-4 ${isLightMode ? 'bg-zinc-200' : 'bg-[#222222]'}`} />
 
       {/* 3. DIGITAL MENU SECTION */}
       <section id="menu-section" className="w-full py-12 sm:py-16 relative" style={{ backgroundColor: bgColor }}>
         <div className="max-w-[1320px] mx-auto px-4 lg:px-8">
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-8">
-            <div className="inline-flex items-center gap-2 font-headline text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-semibold">
+            <div className={`inline-flex items-center gap-2 font-headline text-xs uppercase tracking-[0.2em] mb-2 font-semibold ${
+              isLightMode ? 'text-zinc-500' : 'text-[#A1A1AA]'
+            }`}>
               <span>{settings?.restaurantName || 'Mereba Friends Garden'} &bull; Artisanal Kitchen</span>
             </div>
-            <h2 className="font-headline text-2xl sm:text-4xl text-white tracking-wider uppercase font-extrabold">
+            <h2 className={`font-headline text-2xl sm:text-4xl tracking-wider uppercase font-extrabold ${
+              isLightMode ? 'text-zinc-900' : 'text-white'
+            }`}>
               {activeCategory === 'all'
                 ? activeParent === 'FOOD'
                   ? 'THE ONE WITH THE FOOD'
@@ -316,20 +359,28 @@ export const CustomerMenu: React.FC = () => {
                     categories.find((c) => c.id === activeCategory)?.name || activeCategory
                   )}
             </h2>
-            <p className="font-body text-xs sm:text-sm text-[#A1A1AA] mt-2">
+            <p className={`font-body text-xs sm:text-sm mt-2 ${
+              isLightMode ? 'text-zinc-600' : 'text-[#A1A1AA]'
+            }`}>
               Explore our chef-curated selections. Tap any card to view photography and ingredients.
             </p>
           </div>
 
           {/* STICKY FILTER & SEARCH BAR WITH FOOD & DRINKS SWITCHER */}
           <div
-            className="sticky top-20 z-40 backdrop-blur-xl py-4 -mx-4 px-4 sm:-mx-8 sm:px-8 border-y border-[#222222] shadow-[0_12px_28px_rgba(0,0,0,0.8)] mb-10 transition-all"
-            style={{ backgroundColor: `${bgColor}F2` }}
+            className={`sticky top-20 z-40 backdrop-blur-xl py-4 -mx-4 px-4 sm:-mx-8 sm:px-8 border-y mb-10 transition-all ${
+              isLightMode
+                ? 'bg-white/95 border-zinc-200 shadow-sm'
+                : 'border-[#222222] shadow-[0_12px_28px_rgba(0,0,0,0.8)]'
+            }`}
+            style={{ backgroundColor: isLightMode ? 'rgba(255, 255, 255, 0.95)' : `${bgColor}F2` }}
           >
             <div className="max-w-2xl mx-auto space-y-4">
               {/* Search Bar */}
               <div className="relative">
-                <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#71717A] text-[20px] pointer-events-none">
+                <span className={`material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[20px] pointer-events-none ${
+                  isLightMode ? 'text-zinc-400' : 'text-[#71717A]'
+                }`}>
                   search
                 </span>
                 <input
@@ -337,16 +388,21 @@ export const CustomerMenu: React.FC = () => {
                   placeholder={activeParent === 'FOOD' ? t.searchPlaceholderFood : t.searchPlaceholderDrinks}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-10 py-2.5 sm:py-3 rounded-xl text-white text-sm placeholder:text-[#71717A] border border-[#222222] focus:outline-none transition-colors shadow-inner font-body"
+                  className={`w-full pl-11 pr-10 py-2.5 sm:py-3 rounded-xl text-sm border focus:outline-none transition-colors shadow-inner font-body ${
+                    isLightMode
+                      ? 'bg-white text-zinc-900 placeholder:text-zinc-400 border-zinc-300 focus:border-zinc-500'
+                      : 'text-white placeholder:text-[#71717A] border-[#222222]'
+                  }`}
                   style={{
-                    backgroundColor: cardColor,
-                    borderColor: '#222222',
+                    backgroundColor: isLightMode ? undefined : cardColor,
                   }}
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#71717A] hover:text-white transition-colors"
+                    className={`absolute right-3.5 top-1/2 -translate-y-1/2 transition-colors ${
+                      isLightMode ? 'text-zinc-400 hover:text-black' : 'text-[#71717A] hover:text-white'
+                    }`}
                     title={t.clearSearch}
                   >
                     <X className="w-4 h-4" />
@@ -372,9 +428,11 @@ export const CustomerMenu: React.FC = () => {
 
           {/* Search Result Feedback */}
           {searchQuery.trim() !== '' && (
-            <div className="flex items-center justify-between text-xs text-[#A1A1AA] pb-4 px-1 max-w-xl mx-auto">
+            <div className={`flex items-center justify-between text-xs pb-4 px-1 max-w-xl mx-auto ${
+              isLightMode ? 'text-zinc-600' : 'text-[#A1A1AA]'
+            }`}>
               <span>
-                Found <strong className="text-white">{displayedItems.length}</strong> {displayedItems.length === 1 ? 'item' : 'items'} matching &ldquo;{searchQuery}&rdquo;
+                Found <strong className={isLightMode ? 'text-zinc-900' : 'text-white'}>{displayedItems.length}</strong> {displayedItems.length === 1 ? 'item' : 'items'} matching &ldquo;{searchQuery}&rdquo;
               </span>
               <button
                 onClick={() => setSearchQuery('')}
@@ -459,46 +517,66 @@ export const CustomerMenu: React.FC = () => {
       {/* 4. ABOUT US & NARRATIVE STORYTELLING */}
       <section
         id="about-section"
-        className="w-full py-20 sm:py-24 relative overflow-hidden border-t border-[#222222]"
-        style={{ backgroundColor: bgColor }}
+        className={`w-full py-20 sm:py-24 relative overflow-hidden border-t transition-colors ${
+          isLightMode ? 'border-zinc-200' : 'border-[#222222]'
+        }`}
+        style={{ backgroundColor: sectionBgColor }}
       >
         <div className="max-w-[1320px] mx-auto px-4 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Column */}
             <div className="lg:col-span-5 flex flex-col items-start">
-              <div className="inline-flex items-center gap-2 font-headline text-xs text-[#A1A1AA] tracking-[0.2em] uppercase mb-2 font-semibold">
+              <div className={`inline-flex items-center gap-2 font-headline text-xs tracking-[0.2em] uppercase mb-2 font-semibold ${
+                isLightMode ? 'text-zinc-500' : 'text-[#A1A1AA]'
+              }`}>
                 Our Philosophy
               </div>
-              <h2 className="font-headline text-2xl sm:text-4xl text-white uppercase font-extrabold leading-tight mb-4 tracking-wide whitespace-pre-line">
+              <h2 className={`font-headline text-2xl sm:text-4xl uppercase font-extrabold leading-tight mb-4 tracking-wide whitespace-pre-line ${
+                isLightMode ? 'text-zinc-900' : 'text-white'
+              }`}>
                 {settings?.philosophyTitle || 'MORE THAN FOOD.\nIT’S ABOUT FRIENDSHIP.'}
               </h2>
-              <p className="font-body text-sm sm:text-base text-[#A1A1AA] leading-relaxed mb-6">
+              <p className={`font-body text-sm sm:text-base leading-relaxed mb-6 ${
+                isLightMode ? 'text-zinc-600' : 'text-[#A1A1AA]'
+              }`}>
                 {settings?.philosophyDescription ||
                   'Central Perk meets modern boutique lounge. Designed as a sanctuary for heartfelt conversations, spontaneous laughter, and unforgettable comfort food in our garden.'}
               </p>
 
               <div
-                className="p-5 rounded-2xl border border-[#222222] w-full mb-6"
-                style={{ backgroundColor: cardColor }}
+                className={`p-5 rounded-2xl border w-full mb-6 ${
+                  isLightMode ? 'bg-white border-zinc-200 shadow-sm' : 'border-[#222222]'
+                }`}
+                style={{ backgroundColor: isLightMode ? undefined : cardColor }}
               >
-                <p className="font-headline text-base text-white italic font-semibold">
+                <p className={`font-headline text-base italic font-semibold ${
+                  isLightMode ? 'text-zinc-900' : 'text-white'
+                }`}>
                   &ldquo;{settings?.manifestoQuote || 'Because Joey doesn’t share food, but we definitely think you should.'}&rdquo;
                 </p>
-                <p className="font-headline text-[11px] text-[#A1A1AA] uppercase tracking-wider mt-2 font-bold">
+                <p className={`font-headline text-[11px] uppercase tracking-wider mt-2 font-bold ${
+                  isLightMode ? 'text-zinc-500' : 'text-[#A1A1AA]'
+                }`}>
                   &mdash; The Kitchen Manifesto
                 </p>
               </div>
 
               {/* Velvet Nook Lounge */}
               <div className="flex items-center gap-4 pt-1">
-                <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#222222] flex items-center justify-center text-white">
+                <div className={`w-12 h-12 rounded-xl border flex items-center justify-center ${
+                  isLightMode ? 'bg-zinc-100 border-zinc-200 text-zinc-900' : 'bg-[#181818] border-[#222222] text-white'
+                }`}>
                   <span className="material-symbols-outlined text-[24px]">chair</span>
                 </div>
                 <div>
-                  <p className="font-headline text-xs uppercase tracking-wider text-white font-bold">
+                  <p className={`font-headline text-xs uppercase tracking-wider font-bold ${
+                    isLightMode ? 'text-zinc-900' : 'text-white'
+                  }`}>
                     The Velvet Nook Lounge
                   </p>
-                  <p className="font-body text-xs text-[#A1A1AA]">
+                  <p className={`font-body text-xs ${
+                    isLightMode ? 'text-zinc-600' : 'text-[#A1A1AA]'
+                  }`}>
                     Intimate booths &amp; acoustic jazz evenings
                   </p>
                 </div>
@@ -508,51 +586,81 @@ export const CustomerMenu: React.FC = () => {
             {/* Right Column: 3 Feature Cards Bento */}
             <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div
-                className="sm:col-span-2 p-6 rounded-2xl border border-[#222222] hover:border-[#333333] transition-all flex flex-col md:flex-row items-start md:items-center gap-5"
-                style={{ backgroundColor: cardColor }}
+                className={`sm:col-span-2 p-6 rounded-2xl border transition-all flex flex-col md:flex-row items-start md:items-center gap-5 ${
+                  isLightMode
+                    ? 'bg-white border-zinc-200 hover:border-zinc-300 shadow-sm'
+                    : 'border-[#222222] hover:border-[#333333]'
+                }`}
+                style={{ backgroundColor: isLightMode ? undefined : cardColor }}
               >
-                <div className="w-14 h-14 rounded-xl bg-[#181818] border border-[#222222] flex-shrink-0 flex items-center justify-center text-white">
+                <div className={`w-14 h-14 rounded-xl border flex-shrink-0 flex items-center justify-center ${
+                  isLightMode ? 'bg-zinc-100 border-zinc-200 text-zinc-900' : 'bg-[#181818] border-[#222222] text-white'
+                }`}>
                   <span className="material-symbols-outlined text-[30px]">dinner_dining</span>
                 </div>
                 <div>
-                  <h3 className="font-headline text-lg text-white mb-1 font-bold">
+                  <h3 className={`font-headline text-lg mb-1 font-bold ${
+                    isLightMode ? 'text-zinc-900' : 'text-white'
+                  }`}>
                     The Central Table
                   </h3>
-                  <p className="font-body text-xs text-[#A1A1AA] leading-relaxed">
+                  <p className={`font-body text-xs leading-relaxed ${
+                    isLightMode ? 'text-zinc-600' : 'text-[#A1A1AA]'
+                  }`}>
                     Community seating and private candlelight setups modeled after comfortable Greenwich Village gathering spots.
                   </p>
                 </div>
               </div>
 
               <div
-                className="p-6 rounded-2xl border border-[#222222] hover:border-[#333333] transition-all flex flex-col justify-between"
-                style={{ backgroundColor: cardColor }}
+                className={`p-6 rounded-2xl border transition-all flex flex-col justify-between ${
+                  isLightMode
+                    ? 'bg-white border-zinc-200 hover:border-zinc-300 shadow-sm'
+                    : 'border-[#222222] hover:border-[#333333]'
+                }`}
+                style={{ backgroundColor: isLightMode ? undefined : cardColor }}
               >
-                <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#222222] flex items-center justify-center text-white mb-4">
+                <div className={`w-12 h-12 rounded-xl border flex items-center justify-center mb-4 ${
+                  isLightMode ? 'bg-zinc-100 border-zinc-200 text-zinc-900' : 'bg-[#181818] border-[#222222] text-white'
+                }`}>
                   <span className="material-symbols-outlined text-[26px]">skillet</span>
                 </div>
                 <div>
-                  <h3 className="font-headline text-lg text-white mb-1 font-bold">
+                  <h3 className={`font-headline text-lg mb-1 font-bold ${
+                    isLightMode ? 'text-zinc-900' : 'text-white'
+                  }`}>
                     Handcrafted Flavors
                   </h3>
-                  <p className="font-body text-xs text-[#A1A1AA] leading-relaxed">
+                  <p className={`font-body text-xs leading-relaxed ${
+                    isLightMode ? 'text-zinc-600' : 'text-[#A1A1AA]'
+                  }`}>
                     Authentic slow-cooked pastas, fragrant poultry risottos, sizzling Ethiopian beef tibs, and garden-fresh salads.
                   </p>
                 </div>
               </div>
 
               <div
-                className="p-6 rounded-2xl border border-[#222222] hover:border-[#333333] transition-all flex flex-col justify-between"
-                style={{ backgroundColor: cardColor }}
+                className={`p-6 rounded-2xl border transition-all flex flex-col justify-between ${
+                  isLightMode
+                    ? 'bg-white border-zinc-200 hover:border-zinc-300 shadow-sm'
+                    : 'border-[#222222] hover:border-[#333333]'
+                }`}
+                style={{ backgroundColor: isLightMode ? undefined : cardColor }}
               >
-                <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#222222] flex items-center justify-center text-white mb-4">
+                <div className={`w-12 h-12 rounded-xl border flex items-center justify-center mb-4 ${
+                  isLightMode ? 'bg-zinc-100 border-zinc-200 text-zinc-900' : 'bg-[#181818] border-[#222222] text-white'
+                }`}>
                   <span className="material-symbols-outlined text-[26px]">nightlife</span>
                 </div>
                 <div>
-                  <h3 className="font-headline text-lg text-white mb-1 font-bold">
+                  <h3 className={`font-headline text-lg mb-1 font-bold ${
+                    isLightMode ? 'text-zinc-900' : 'text-white'
+                  }`}>
                     Could This BE Any Cozier?
                   </h3>
-                  <p className="font-body text-xs text-[#A1A1AA] leading-relaxed">
+                  <p className={`font-body text-xs leading-relaxed ${
+                    isLightMode ? 'text-zinc-600' : 'text-[#A1A1AA]'
+                  }`}>
                     Warm Edison lights, draft beers on tap, signature mojito mason jars, and a relaxed garden sanctuary.
                   </p>
                 </div>
@@ -565,20 +673,28 @@ export const CustomerMenu: React.FC = () => {
       {/* 5. EDITORIAL GALLERY SECTION: REAL PHOTOS FROM FRIENDS GARDEN */}
       <section
         id="gallery-section"
-        className="w-full py-20 sm:py-24 border-t border-[#222222]"
+        className={`w-full py-20 sm:py-24 border-t transition-colors ${
+          isLightMode ? 'border-zinc-200' : 'border-[#222222]'
+        }`}
         style={{ backgroundColor: bgColor }}
       >
         <div className="max-w-[1320px] mx-auto px-4 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 font-headline text-xs text-[#A1A1AA] tracking-[0.2em] uppercase mb-2 font-semibold">
+              <div className={`inline-flex items-center gap-2 font-headline text-xs tracking-[0.2em] uppercase mb-2 font-semibold ${
+                isLightMode ? 'text-zinc-500' : 'text-[#A1A1AA]'
+              }`}>
                 Atmosphere &amp; Plates &bull; Real Moments
               </div>
-              <h2 className="font-headline text-2xl sm:text-4xl text-white uppercase font-extrabold tracking-wide">
+              <h2 className={`font-headline text-2xl sm:text-4xl uppercase font-extrabold tracking-wide ${
+                isLightMode ? 'text-zinc-900' : 'text-white'
+              }`}>
                 THE ONE WITH THE REAL GOOD TIMES
               </h2>
             </div>
-            <p className="font-body text-xs text-[#A1A1AA] max-w-md leading-relaxed">
+            <p className={`font-body text-xs max-w-md leading-relaxed ${
+              isLightMode ? 'text-zinc-600' : 'text-[#A1A1AA]'
+            }`}>
               Authentic moments captured directly at Mereba Friends Garden &mdash; heartfelt conversations on the iconic couch, outdoor garden feasts, and handcrafted cocktails.
             </p>
           </div>
@@ -586,7 +702,9 @@ export const CustomerMenu: React.FC = () => {
           {/* Bento Gallery Featuring User's Real Photos */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
             {/* Real Photo 1: Friends Laughing on Couch with Draft Beers */}
-            <div className="md:col-span-7 h-[380px] md:h-[460px] rounded-2xl overflow-hidden relative group border border-[#222222]">
+            <div className={`md:col-span-7 h-[380px] md:h-[460px] rounded-2xl overflow-hidden relative group border ${
+              isLightMode ? 'border-zinc-200 shadow-sm' : 'border-[#222222]'
+            }`}>
               <img
                 src="/assets/real/friends-vibe-couch.jpg"
                 alt="Friends laughing on couch with beer mugs at Friends Garden"
@@ -609,7 +727,9 @@ export const CustomerMenu: React.FC = () => {
             {/* Right Stack: 2 Real Photos */}
             <div className="md:col-span-5 flex flex-col gap-5">
               {/* Real Photo 2: Mojito Mason Jars */}
-              <div className="h-[180px] md:h-[218px] rounded-2xl overflow-hidden relative group border border-[#222222]">
+              <div className={`h-[180px] md:h-[218px] rounded-2xl overflow-hidden relative group border ${
+                isLightMode ? 'border-zinc-200 shadow-sm' : 'border-[#222222]'
+              }`}>
                 <img
                   src="/assets/real/friends-mojito-jars.jpg"
                   alt="Friends Signature Mojito Jars"
@@ -625,7 +745,9 @@ export const CustomerMenu: React.FC = () => {
               </div>
 
               {/* Real Photo 3: Garden Feast Table */}
-              <div className="h-[180px] md:h-[218px] rounded-2xl overflow-hidden relative group border border-[#222222]">
+              <div className={`h-[180px] md:h-[218px] rounded-2xl overflow-hidden relative group border ${
+                isLightMode ? 'border-zinc-200 shadow-sm' : 'border-[#222222]'
+              }`}>
                 <img
                   src="/assets/real/friends-garden-feast.jpg"
                   alt="Outdoor Garden Feast Table at Friends Garden"
@@ -642,7 +764,9 @@ export const CustomerMenu: React.FC = () => {
             </div>
 
             {/* Bottom Row: Tibs & Rice + Folded Pizza Special */}
-            <div className="md:col-span-6 h-[220px] rounded-2xl overflow-hidden relative group border border-[#222222]">
+            <div className={`md:col-span-6 h-[220px] rounded-2xl overflow-hidden relative group border ${
+              isLightMode ? 'border-zinc-200 shadow-sm' : 'border-[#222222]'
+            }`}>
               <img
                 src="/assets/real/friends-tibs-rice.jpg"
                 alt="Ethiopian Sizzling Tibs with Spiced Rice and Injera"
@@ -657,7 +781,9 @@ export const CustomerMenu: React.FC = () => {
               </div>
             </div>
 
-            <div className="md:col-span-6 h-[220px] rounded-2xl overflow-hidden relative group border border-[#222222]">
+            <div className={`md:col-span-6 h-[220px] rounded-2xl overflow-hidden relative group border ${
+              isLightMode ? 'border-zinc-200 shadow-sm' : 'border-[#222222]'
+            }`}>
               <img
                 src="/assets/real/friends-special-pizza.jpg"
                 alt="Friends Special Folded Calzone Pizza Platter"
@@ -678,18 +804,26 @@ export const CustomerMenu: React.FC = () => {
       {/* 6. LOCATION, OPERATING HOURS & GUEST WI-FI */}
       <section
         id="location-section"
-        className="w-full py-20 sm:py-24 relative border-t border-[#222222]"
-        style={{ backgroundColor: bgColor }}
+        className={`w-full py-20 sm:py-24 relative border-t transition-colors ${
+          isLightMode ? 'border-zinc-200' : 'border-[#222222]'
+        }`}
+        style={{ backgroundColor: sectionBgColor }}
       >
         <div className="max-w-[1320px] mx-auto px-4 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 font-headline text-xs text-[#A1A1AA] tracking-[0.2em] uppercase mb-2 font-semibold">
+            <div className={`inline-flex items-center gap-2 font-headline text-xs tracking-[0.2em] uppercase mb-2 font-semibold ${
+              isLightMode ? 'text-zinc-500' : 'text-[#A1A1AA]'
+            }`}>
               <span>{settings?.restaurantName || 'Mereba Friends Garden'}</span>
             </div>
-            <h2 className="font-headline text-2xl sm:text-4xl text-white uppercase font-extrabold tracking-wide">
+            <h2 className={`font-headline text-2xl sm:text-4xl uppercase font-extrabold tracking-wide ${
+              isLightMode ? 'text-zinc-900' : 'text-white'
+            }`}>
               THE ONE WHERE YOU VISIT US
             </h2>
-            <p className="font-body text-xs sm:text-sm text-[#A1A1AA] mt-2 leading-relaxed">
+            <p className={`font-body text-xs sm:text-sm mt-2 leading-relaxed ${
+              isLightMode ? 'text-zinc-600' : 'text-[#A1A1AA]'
+            }`}>
               Walk-ins are welcomed with open arms. Enjoy outdoor garden seating, high-speed Wi-Fi, and intimate dining.
             </p>
           </div>
@@ -697,15 +831,23 @@ export const CustomerMenu: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {/* Location Card */}
             <div
-              className="border border-[#222222] rounded-2xl p-6 text-center space-y-3"
-              style={{ backgroundColor: cardColor }}
+              className={`border rounded-2xl p-6 text-center space-y-3 ${
+                isLightMode ? 'bg-white border-zinc-200 shadow-sm' : 'border-[#222222]'
+              }`}
+              style={{ backgroundColor: isLightMode ? undefined : cardColor }}
             >
-              <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#222222] flex items-center justify-center text-white mx-auto">
+              <div className={`w-12 h-12 rounded-xl border flex items-center justify-center mx-auto ${
+                isLightMode ? 'bg-zinc-100 border-zinc-200 text-zinc-900' : 'bg-[#181818] border-[#222222] text-white'
+              }`}>
                 <span className="material-symbols-outlined text-[24px]">location_on</span>
               </div>
-              <h3 className="font-headline text-base font-bold text-white">Our Address</h3>
-              <p className="font-body text-xs text-[#A1A1AA] leading-relaxed whitespace-pre-line">
-                <strong className="text-white">
+              <h3 className={`font-headline text-base font-bold ${
+                isLightMode ? 'text-zinc-900' : 'text-white'
+              }`}>Our Address</h3>
+              <p className={`font-body text-xs leading-relaxed whitespace-pre-line ${
+                isLightMode ? 'text-zinc-600' : 'text-[#A1A1AA]'
+              }`}>
+                <strong className={isLightMode ? 'text-zinc-900' : 'text-white'}>
                   {[settings?.addressLine1, settings?.addressLine2].filter(Boolean).join('\n') || '17 ቀበሌ፣ ፊትለፊት በሰበርደ\nናይቀደም ገዛ ተጋሩ'}
                 </strong>
               </p>
@@ -713,37 +855,55 @@ export const CustomerMenu: React.FC = () => {
 
             {/* Operating Hours */}
             <div
-              className="border border-[#222222] rounded-2xl p-6 text-center space-y-3"
-              style={{ backgroundColor: cardColor }}
+              className={`border rounded-2xl p-6 text-center space-y-3 ${
+                isLightMode ? 'bg-white border-zinc-200 shadow-sm' : 'border-[#222222]'
+              }`}
+              style={{ backgroundColor: isLightMode ? undefined : cardColor }}
             >
-              <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#222222] flex items-center justify-center text-white mx-auto">
+              <div className={`w-12 h-12 rounded-xl border flex items-center justify-center mx-auto ${
+                isLightMode ? 'bg-zinc-100 border-zinc-200 text-zinc-900' : 'bg-[#181818] border-[#222222] text-white'
+              }`}>
                 <span className="material-symbols-outlined text-[24px]">schedule</span>
               </div>
-              <h3 className="font-headline text-base font-bold text-white">Dining Hours</h3>
-              <p className="font-body text-xs text-[#A1A1AA] leading-relaxed">
-                <strong className="text-white font-headline text-xs font-bold block mb-1">
+              <h3 className={`font-headline text-base font-bold ${
+                isLightMode ? 'text-zinc-900' : 'text-white'
+              }`}>Dining Hours</h3>
+              <p className={`font-body text-xs leading-relaxed ${
+                isLightMode ? 'text-zinc-600' : 'text-[#A1A1AA]'
+              }`}>
+                <strong className={`font-headline text-xs font-bold block mb-1 ${
+                  isLightMode ? 'text-zinc-900' : 'text-white'
+                }`}>
                   {settings?.openingHours || 'Monday – Sunday\n11:00 AM – 11:00 PM'}
                 </strong>
-                <span className="text-[#71717A]">Kitchen closes 10:30 PM</span>
+                <span className={isLightMode ? 'text-zinc-500' : 'text-[#71717A]'}>Kitchen closes 10:30 PM</span>
               </p>
             </div>
 
             {/* Free Guest Wi-Fi Card */}
             <div
-              className="border border-[#222222] rounded-2xl p-6 text-center space-y-3"
-              style={{ backgroundColor: cardColor }}
+              className={`border rounded-2xl p-6 text-center space-y-3 ${
+                isLightMode ? 'bg-white border-zinc-200 shadow-sm' : 'border-[#222222]'
+              }`}
+              style={{ backgroundColor: isLightMode ? undefined : cardColor }}
             >
-              <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#222222] flex items-center justify-center text-[#FFBD18] mx-auto">
+              <div className={`w-12 h-12 rounded-xl border flex items-center justify-center text-[#FFBD18] mx-auto ${
+                isLightMode ? 'bg-amber-50 border-amber-200' : 'bg-[#181818] border-[#222222]'
+              }`}>
                 <Wifi className="w-5 h-5 text-[#FFBD18]" />
               </div>
-              <h3 className="font-headline text-base font-bold text-white">Free Guest Wi-Fi</h3>
-              <p className="font-mono text-xs text-[#A1A1AA] truncate">
+              <h3 className={`font-headline text-base font-bold ${
+                isLightMode ? 'text-zinc-900' : 'text-white'
+              }`}>Free Guest Wi-Fi</h3>
+              <p className={`font-mono text-xs truncate ${
+                isLightMode ? 'text-zinc-600' : 'text-[#A1A1AA]'
+              }`}>
                 {wifiSsid}
               </p>
               <button
                 type="button"
                 onClick={handleCopyWifi}
-                className="w-full py-2 px-3 rounded-lg text-black font-headline text-[11px] uppercase font-bold tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm"
+                className="w-full py-2 px-3 rounded-lg text-black font-headline text-[11px] uppercase font-bold tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm hover:brightness-110"
                 style={{ backgroundColor: accentColor }}
               >
                 {copiedWifi ? (
@@ -762,27 +922,37 @@ export const CustomerMenu: React.FC = () => {
 
             {/* Phone Lines & Socials */}
             <div
-              className="border border-[#222222] rounded-2xl p-6 text-center space-y-3"
-              style={{ backgroundColor: cardColor }}
+              className={`border rounded-2xl p-6 text-center space-y-3 ${
+                isLightMode ? 'bg-white border-zinc-200 shadow-sm' : 'border-[#222222]'
+              }`}
+              style={{ backgroundColor: isLightMode ? undefined : cardColor }}
             >
-              <div className="w-12 h-12 rounded-xl bg-[#181818] border border-[#222222] flex items-center justify-center text-white mx-auto">
+              <div className={`w-12 h-12 rounded-xl border flex items-center justify-center mx-auto ${
+                isLightMode ? 'bg-zinc-100 border-zinc-200 text-zinc-900' : 'bg-[#181818] border-[#222222] text-white'
+              }`}>
                 <span className="material-symbols-outlined text-[24px]">call</span>
               </div>
-              <h3 className="font-headline text-base font-bold text-white">Contact &amp; Social</h3>
+              <h3 className={`font-headline text-base font-bold ${
+                isLightMode ? 'text-zinc-900' : 'text-white'
+              }`}>Contact &amp; Social</h3>
 
               <div className="flex flex-col gap-1.5 text-xs">
                 {/* Direct Dial Phone Links */}
                 <div className="flex items-center justify-center gap-2">
                   <a
                     href={`tel:${settings?.phone1 || '0970700488'}`}
-                    className="inline-flex items-center gap-1 text-white hover:text-[#FFBD18] font-mono font-bold transition-colors py-0.5"
+                    className={`inline-flex items-center gap-1 font-mono font-bold transition-colors py-0.5 ${
+                      isLightMode ? 'text-zinc-900 hover:text-amber-600' : 'text-white hover:text-[#FFBD18]'
+                    }`}
                   >
                     <span>{settings?.phone1 || '0970700488'}</span>
                   </a>
-                  <span className="text-zinc-600">&bull;</span>
+                  <span className={isLightMode ? 'text-zinc-400' : 'text-zinc-600'}>&bull;</span>
                   <a
                     href={`tel:${settings?.phone2 || '0945986349'}`}
-                    className="inline-flex items-center gap-1 text-white hover:text-[#FFBD18] font-mono font-bold transition-colors py-0.5"
+                    className={`inline-flex items-center gap-1 font-mono font-bold transition-colors py-0.5 ${
+                      isLightMode ? 'text-zinc-900 hover:text-amber-600' : 'text-white hover:text-[#FFBD18]'
+                    }`}
                   >
                     <span>{settings?.phone2 || '0945986349'}</span>
                   </a>
@@ -794,30 +964,42 @@ export const CustomerMenu: React.FC = () => {
                     href="https://www.instagram.com/mereba_friends_garden/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center justify-between gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#161616] hover:bg-[#1c1c1c] border border-[#222222] text-[#A1A1AA] hover:text-white transition-all text-[10px]"
+                    className={`group flex items-center justify-between gap-1.5 px-2.5 py-1.5 rounded-lg border transition-all text-[10px] ${
+                      isLightMode
+                        ? 'bg-zinc-100 hover:bg-zinc-200 border-zinc-200 text-zinc-800 hover:text-black'
+                        : 'bg-[#161616] hover:bg-[#1c1c1c] border-[#222222] text-[#A1A1AA] hover:text-white'
+                    }`}
                   >
                     <span className="truncate">IG: {settings?.instagramHandle || '@MEREBA_FRIENDS_GARDEN'}</span>
-                    <ExternalLink className="w-2.5 h-2.5 text-zinc-600 group-hover:text-white shrink-0" />
+                    <ExternalLink className={`w-2.5 h-2.5 shrink-0 ${isLightMode ? 'text-zinc-500 group-hover:text-black' : 'text-zinc-600 group-hover:text-white'}`} />
                   </a>
 
                   <a
                     href="https://www.tiktok.com/@friends_garden"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center justify-between gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#161616] hover:bg-[#1c1c1c] border border-[#222222] text-[#A1A1AA] hover:text-white transition-all text-[10px]"
+                    className={`group flex items-center justify-between gap-1.5 px-2.5 py-1.5 rounded-lg border transition-all text-[10px] ${
+                      isLightMode
+                        ? 'bg-zinc-100 hover:bg-zinc-200 border-zinc-200 text-zinc-800 hover:text-black'
+                        : 'bg-[#161616] hover:bg-[#1c1c1c] border-[#222222] text-[#A1A1AA] hover:text-white'
+                    }`}
                   >
                     <span className="truncate">TikTok: {settings?.tiktokHandle || '@FRIENDS_GARDEN'}</span>
-                    <ExternalLink className="w-2.5 h-2.5 text-zinc-600 group-hover:text-white shrink-0" />
+                    <ExternalLink className={`w-2.5 h-2.5 shrink-0 ${isLightMode ? 'text-zinc-500 group-hover:text-black' : 'text-zinc-600 group-hover:text-white'}`} />
                   </a>
 
                   <a
                     href="https://www.facebook.com/search/top?q=FRIENDS%20GARDEN%20-%20%E1%88%98%E1%88%A8%E1%89%A3%20%E1%87%8D%E1%88%AC%E1%8A%95%E1%8B%95%E1%88%B5"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center justify-between gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#161616] hover:bg-[#1c1c1c] border border-[#222222] text-[#A1A1AA] hover:text-white transition-all text-[10px]"
+                    className={`group flex items-center justify-between gap-1.5 px-2.5 py-1.5 rounded-lg border transition-all text-[10px] ${
+                      isLightMode
+                        ? 'bg-zinc-100 hover:bg-zinc-200 border-zinc-200 text-zinc-800 hover:text-black'
+                        : 'bg-[#161616] hover:bg-[#1c1c1c] border-[#222222] text-[#A1A1AA] hover:text-white'
+                    }`}
                   >
                     <span className="truncate">FB: {settings?.facebookHandle || 'FRIENDS GARDEN - መረባ ፍሬንድስ'}</span>
-                    <ExternalLink className="w-2.5 h-2.5 text-zinc-600 group-hover:text-white shrink-0" />
+                    <ExternalLink className={`w-2.5 h-2.5 shrink-0 ${isLightMode ? 'text-zinc-500 group-hover:text-black' : 'text-zinc-600 group-hover:text-white'}`} />
                   </a>
                 </div>
               </div>
@@ -830,14 +1012,18 @@ export const CustomerMenu: React.FC = () => {
       <FriendsDoodleRibbon />
 
       {/* 8. FOOTER */}
-      <footer className="w-full border-t border-[#222222]" style={{ backgroundColor: bgColor }}>
+      <footer className={`w-full border-t transition-colors ${
+        isLightMode ? 'border-zinc-200' : 'border-[#222222]'
+      }`} style={{ backgroundColor: bgColor }}>
         <div className="max-w-[1320px] mx-auto px-4 lg:px-8 py-16">
           <div className="flex flex-col items-center text-center">
             <div className="mb-6 relative">
               <MerebaLogo variant="full" className="w-40 sm:w-48" />
             </div>
 
-            <p className="font-body text-xs text-[#A1A1AA] max-w-md mb-8">
+            <p className={`font-body text-xs max-w-md mb-8 ${
+              isLightMode ? 'text-zinc-600' : 'text-[#A1A1AA]'
+            }`}>
               Intimate garden dining, artisan kitchen recipes, and timeless nostalgia.
             </p>
 
@@ -847,8 +1033,12 @@ export const CustomerMenu: React.FC = () => {
                 href="https://www.instagram.com/mereba_friends_garden/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full border border-[#222222] hover:border-[#333333] flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all hover:scale-105"
-                style={{ backgroundColor: cardColor }}
+                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all hover:scale-105 ${
+                  isLightMode
+                    ? 'bg-zinc-100 hover:bg-zinc-200 border-zinc-300 text-zinc-800 hover:text-black shadow-sm'
+                    : 'border-[#222222] hover:border-[#333333] text-[#A1A1AA] hover:text-white'
+                }`}
+                style={{ backgroundColor: isLightMode ? undefined : cardColor }}
                 title="Instagram"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -862,8 +1052,12 @@ export const CustomerMenu: React.FC = () => {
                 href="https://www.tiktok.com/@friends_garden"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full border border-[#222222] hover:border-[#333333] flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all hover:scale-105"
-                style={{ backgroundColor: cardColor }}
+                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all hover:scale-105 ${
+                  isLightMode
+                    ? 'bg-zinc-100 hover:bg-zinc-200 border-zinc-300 text-zinc-800 hover:text-black shadow-sm'
+                    : 'border-[#222222] hover:border-[#333333] text-[#A1A1AA] hover:text-white'
+                }`}
+                style={{ backgroundColor: isLightMode ? undefined : cardColor }}
                 title="TikTok"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -875,8 +1069,12 @@ export const CustomerMenu: React.FC = () => {
                 href="https://www.facebook.com/search/top?q=FRIENDS%20GARDEN%20-%20%E1%88%98%E1%88%A8%E1%89%A3%20%E1%87%8D%E1%88%AC%E1%8A%95%E1%8B%95%E1%88%B5"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full border border-[#222222] hover:border-[#333333] flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all hover:scale-105"
-                style={{ backgroundColor: cardColor }}
+                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all hover:scale-105 ${
+                  isLightMode
+                    ? 'bg-zinc-100 hover:bg-zinc-200 border-zinc-300 text-zinc-800 hover:text-black shadow-sm'
+                    : 'border-[#222222] hover:border-[#333333] text-[#A1A1AA] hover:text-white'
+                }`}
+                style={{ backgroundColor: isLightMode ? undefined : cardColor }}
                 title="Facebook"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -886,8 +1084,12 @@ export const CustomerMenu: React.FC = () => {
 
               <a
                 href={`tel:${settings?.phone1 || '0970700488'}`}
-                className="w-10 h-10 rounded-full border border-[#222222] hover:border-[#333333] flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all hover:scale-105"
-                style={{ backgroundColor: cardColor }}
+                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all hover:scale-105 ${
+                  isLightMode
+                    ? 'bg-zinc-100 hover:bg-zinc-200 border-zinc-300 text-zinc-800 hover:text-black shadow-sm'
+                    : 'border-[#222222] hover:border-[#333333] text-[#A1A1AA] hover:text-white'
+                }`}
+                style={{ backgroundColor: isLightMode ? undefined : cardColor }}
                 title="Call"
               >
                 <span className="material-symbols-outlined text-[18px]">call</span>
@@ -895,30 +1097,32 @@ export const CustomerMenu: React.FC = () => {
             </div>
 
             <nav className="flex flex-wrap items-center justify-center gap-7 mb-8 font-headline text-xs uppercase tracking-widest font-semibold">
-              <a href="#hero" className="text-white hover:text-white transition-colors">
+              <a href="#hero" className={`transition-colors ${isLightMode ? 'text-zinc-900 hover:text-black' : 'text-white hover:text-white'}`}>
                 Home
               </a>
-              <a href="#menu-section" className="text-[#A1A1AA] hover:text-white transition-colors">
+              <a href="#menu-section" className={`transition-colors ${isLightMode ? 'text-zinc-600 hover:text-black' : 'text-[#A1A1AA] hover:text-white'}`}>
                 Our Menu
               </a>
-              <a href="#about-section" className="text-[#A1A1AA] hover:text-white transition-colors">
+              <a href="#about-section" className={`transition-colors ${isLightMode ? 'text-zinc-600 hover:text-black' : 'text-[#A1A1AA] hover:text-white'}`}>
                 About Us
               </a>
-              <a href="#gallery-section" className="text-[#A1A1AA] hover:text-white transition-colors">
+              <a href="#gallery-section" className={`transition-colors ${isLightMode ? 'text-zinc-600 hover:text-black' : 'text-[#A1A1AA] hover:text-white'}`}>
                 Atmosphere
               </a>
-              <a href="#location-section" className="text-[#A1A1AA] hover:text-white transition-colors">
+              <a href="#location-section" className={`transition-colors ${isLightMode ? 'text-zinc-600 hover:text-black' : 'text-[#A1A1AA] hover:text-white'}`}>
                 Location &amp; Hours
               </a>
             </nav>
 
-            <div className="pt-6 border-t border-[#222222] w-full flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#71717A] gap-2">
+            <div className={`pt-6 border-t w-full flex flex-col sm:flex-row items-center justify-between text-[11px] gap-2 ${
+              isLightMode ? 'border-zinc-200 text-zinc-500' : 'border-[#222222] text-[#71717A]'
+            }`}>
               <p>Copyright &copy; F.R.I.E.N.D.S {settings?.restaurantName || 'Mereba Friends Garden'}. All rights reserved.</p>
               <div className="flex items-center gap-3">
-                <p className="text-[#52525B]">Casual Luxury Dining &bull; Kebele 17, Mekelle</p>
+                <p className={isLightMode ? 'text-zinc-500' : 'text-[#52525B]'}>Casual Luxury Dining &bull; Kebele 17, Mekelle</p>
                 <button
                   onClick={() => navigate('/admin/login')}
-                  className="text-[#333333] hover:text-[#FFBD18] transition-colors p-1"
+                  className={`transition-colors p-1 ${isLightMode ? 'text-zinc-400 hover:text-black' : 'text-[#333333] hover:text-[#FFBD18]'}`}
                   title="Staff Portal Login"
                   aria-label="Staff Portal Login"
                 >
@@ -936,9 +1140,13 @@ export const CustomerMenu: React.FC = () => {
           onClick={scrollToTop}
           type="button"
           aria-label="Scroll back to top"
-          className="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full backdrop-blur-md border border-[#222222] text-white shadow-[0_10px_25px_rgba(0,0,0,0.8)] hover:scale-105 transition-all duration-300 flex items-center justify-center cursor-pointer animate-in fade-in"
+          className={`fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full backdrop-blur-md border shadow-lg hover:scale-105 transition-all duration-300 flex items-center justify-center cursor-pointer animate-in fade-in ${
+            isLightMode
+              ? 'bg-white/90 text-zinc-900 border-zinc-300 shadow-md hover:bg-white'
+              : 'border-[#222222] text-white shadow-[0_10px_25px_rgba(0,0,0,0.8)]'
+          }`}
           style={{
-            backgroundColor: `${cardColor}E6`,
+            backgroundColor: isLightMode ? 'rgba(255, 255, 255, 0.9)' : `${cardColor}E6`,
           }}
           title="Back to Top"
         >
