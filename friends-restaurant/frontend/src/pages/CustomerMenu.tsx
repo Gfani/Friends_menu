@@ -229,7 +229,7 @@ export const CustomerMenu: React.FC = () => {
             }`}>
               {/* Line 1: THE ONE [Red dot] [Blue dot] [Yellow dot] WITH */}
               <span className="flex items-center justify-center gap-2 sm:gap-3 text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-[0.18em] sm:tracking-[0.24em] leading-tight">
-                <span>{settings?.heroTitle1 || 'THE ONE'}</span>
+                <span>{(settings?.heroTitle1 || 'THE ONE').replace(/\s+WITH$/i, '').trim() || 'THE ONE'}</span>
                 <span className="inline-flex items-center gap-1.5 sm:gap-2 px-1">
                   <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#F32636]" />
                   <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#16B9E8]" />

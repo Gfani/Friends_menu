@@ -222,12 +222,6 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
               </span>
             )}
           </div>
-
-          <span className={`font-sans text-[10px] uppercase tracking-[0.14em] font-medium ${
-            isLightMode ? 'text-zinc-500' : 'text-[#71717A]'
-          }`}>
-            Mereba Bistro
-          </span>
         </div>
       </div>
     </div>
